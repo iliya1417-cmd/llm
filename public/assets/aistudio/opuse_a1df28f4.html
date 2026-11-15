@@ -1,0 +1,2397 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>داشبورد مشاوره‌ای و تحلیل مطالعه هفتگی</title>
+  <script>try { if (localStorage.getItem('study_theme') === 'dark') document.documentElement.classList.add('dark'); } catch (e) {}</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+  <style>
+    :root { --acc1: #10b981; --acc2: #6366f1; }
+    body { font-family: 'Vazirmatn', Tahoma, sans-serif; }
+    body.app-bg {
+      background:
+        radial-gradient(900px 500px at 100% -10%, rgba(16,185,129,.13), transparent 60%),
+        radial-gradient(800px 500px at -10% 10%, rgba(99,102,241,.12), transparent 60%),
+        #f1f5f9;
+      background-attachment: fixed;
+    }
+    ::selection { background: rgba(16,185,129,.25); }
+    * { scrollbar-width: thin; scrollbar-color: #cbd5e1 transparent; }
+    @media print { .no-print { display: none !important; } body { background: #fff !important; } .hero { background: #0f172a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+
+    /* کارت‌ها */
+    .rounded-2xl.border, .rounded-xl.border.shadow-sm { box-shadow: 0 1px 2px rgba(15,23,42,.04), 0 10px 30px -18px rgba(15,23,42,.25); }
+    main > div, main > section, #wkBody > div { animation: rise .35s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+    main h2.text-sm::before { content: ''; display: inline-block; width: 4px; height: 14px; border-radius: 4px; background: linear-gradient(var(--acc1), var(--acc2)); margin-left: 8px; vertical-align: -2px; }
+    .bg-emerald-600 { background-image: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 6px 16px -8px rgba(5,150,105,.7); }
+    .bg-emerald-600:hover { filter: brightness(1.06); }
+    button { transition: transform .12s, background-color .15s, color .15s, border-color .15s; }
+    button:active { transform: scale(.97); }
+    input:not([type=checkbox]), select, textarea { transition: border-color .15s, box-shadow .15s; }
+    input:not([type=checkbox]):focus, select:focus, textarea:focus { border-color: #10b981 !important; box-shadow: 0 0 0 3px rgba(16,185,129,.15); outline: none; }
+
+    /* هدر */
+    .hero { background: linear-gradient(120deg, #0f172a 0%, #134e4a 55%, #312e81 120%); position: relative; overflow: hidden; }
+    .hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(400px 200px at 15% 120%, rgba(16,185,129,.35), transparent 70%), radial-gradient(300px 180px at 90% -30%, rgba(129,140,248,.35), transparent 70%); pointer-events: none; }
+    .hero > * { position: relative; z-index: 1; }
+    .tab-on  { background: #fff; color: #0f172a; box-shadow: 0 6px 18px -8px rgba(0,0,0,.5); }
+    .tab-off { background: rgba(255,255,255,.08); color: #e2e8f0; border: 1px solid rgba(255,255,255,.12); }
+    .tab-off:hover { background: rgba(255,255,255,.16); }
+    .stat-tile { position: relative; overflow: hidden; color: #fff; border: 0 !important; }
+    .stat-tile::after { content: ''; position: absolute; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,.12); left: -30px; top: -50px; }
+    .stat-tile > * { position: relative; z-index: 1; }
+
+    /* ورودی ساعت:دقیقه */
+    .hm-in { width: 100%; min-width: 0; background: #fff; border: 1px solid #e2e8f0; border-radius: .6rem; padding: .45rem .3rem; font-size: .8rem; text-align: center; outline: none; }
+    .hm-in::placeholder { color: #94a3b8; }
+    .icon-btn { font-size: 11px; line-height: 1; padding: 4px 6px; border-radius: 6px; color: #94a3b8; }
+    .icon-btn:hover { background: #f1f5f9; color: #334155; }
+    input[type="time"] { direction: ltr; }
+    .toast { transition: opacity .3s, transform .3s; }
+
+    /* ===== حالت تاریک ===== */
+    html.dark body.app-bg { background: radial-gradient(900px 500px at 100% -10%, rgba(16,185,129,.12), transparent 60%), radial-gradient(800px 500px at -10% 10%, rgba(99,102,241,.14), transparent 60%), #020617; background-attachment: fixed; color: #e2e8f0; }
+    html.dark .bg-white:not(.hero *):not(.stat-tile *), html.dark main [class*=" bg-white/"] { background-color: #0f172a !important; }
+    html.dark [class^="bg-slate-50"], html.dark [class*=" bg-slate-50"], html.dark .bg-slate-100 { background-color: #1e293b !important; }
+    html.dark .bg-slate-200 { background-color: #334155 !important; }
+    html.dark .text-slate-900, html.dark .text-slate-800 { color: #f1f5f9 !important; }
+    html.dark .text-slate-700 { color: #e2e8f0 !important; }
+    html.dark .text-slate-600 { color: #cbd5e1 !important; }
+    html.dark .text-slate-500 { color: #94a3b8 !important; }
+    html.dark :where(*), html.dark :where(*)::before { border-color: #1e293b; }
+    html.dark .border-slate-200, html.dark .border-slate-100, html.dark .border-slate-300, html.dark .divide-slate-100 > * { border-color: #1e293b !important; }
+    html.dark [class*="border-emerald"] { border-color: rgba(16,185,129,.45) !important; }
+    html.dark [class*="border-rose"] { border-color: rgba(244,63,94,.4) !important; }
+    html.dark [class*="border-amber"] { border-color: rgba(245,158,11,.4) !important; }
+    html.dark [class^="bg-emerald-50"], html.dark [class*=" bg-emerald-50"] { background-color: rgba(16,185,129,.12) !important; }
+    html.dark .bg-emerald-100, html.dark [class*=" bg-emerald-100/"] { background-color: rgba(16,185,129,.18) !important; }
+    html.dark [class^="bg-amber-50"], html.dark [class*=" bg-amber-50"] { background-color: rgba(245,158,11,.12) !important; }
+    html.dark .bg-amber-100 { background-color: rgba(245,158,11,.22) !important; }
+    html.dark [class^="bg-rose-50"], html.dark [class*=" bg-rose-50"] { background-color: rgba(244,63,94,.12) !important; }
+    html.dark .bg-rose-100 { background-color: rgba(244,63,94,.22) !important; }
+    html.dark [class^="bg-blue-50"], html.dark [class*=" bg-blue-50"], html.dark [class^="bg-indigo-50"], html.dark [class*=" bg-indigo-50"], html.dark [class^="bg-violet-50"], html.dark [class*=" bg-violet-50"], html.dark [class^="bg-sky-50"], html.dark [class*=" bg-sky-50"] { background-color: rgba(99,102,241,.14) !important; }
+    html.dark .text-emerald-800, html.dark .text-emerald-700 { color: #6ee7b7 !important; }
+    html.dark .text-blue-700, html.dark .text-blue-600 { color: #93c5fd !important; }
+    html.dark .text-rose-700, html.dark .text-rose-600 { color: #fda4af !important; }
+    html.dark .text-amber-700, html.dark .text-amber-600 { color: #fcd34d !important; }
+    html.dark .text-violet-600, html.dark .text-indigo-600 { color: #c4b5fd !important; }
+    html.dark .text-sky-700 { color: #7dd3fc !important; }
+    html.dark input:not([type=checkbox]), html.dark select, html.dark textarea, html.dark .hm-in { background-color: #0b1220 !important; color: #e2e8f0; border-color: #334155 !important; }
+    html.dark option { background: #0f172a; }
+    html.dark [class*="hover:bg-slate"]:hover, html.dark .icon-btn:hover { background-color: #1e293b !important; color: #f1f5f9; }
+    html.dark [class*="hover:bg-emerald-50"]:hover { background-color: rgba(16,185,129,.16) !important; }
+    html.dark .rounded-2xl.border, html.dark .rounded-xl.border.shadow-sm { box-shadow: 0 10px 30px -18px rgba(0,0,0,.8); }
+    html.dark .hero { background: linear-gradient(120deg, #020617 0%, #064e3b 60%, #1e1b4b 120%); }
+    html.dark * { scrollbar-color: #334155 transparent; }
+  </style>
+</head>
+<body class="app-bg text-slate-800 p-3 md:p-6 min-h-screen">
+
+  <div class="max-w-6xl mx-auto space-y-4">
+
+    <!-- نوار هدر -->
+    <header class="hero p-4 md:p-6 rounded-3xl shadow-lg text-white">
+      <div class="flex flex-wrap justify-between items-start gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 md:w-12 md:h-12 rounded-2xl bg-gradient-to-br from-emerald-400 to-indigo-500 flex items-center justify-center text-2xl shadow-lg shrink-0">🎯</div>
+          <div>
+            <h1 class="text-lg md:text-2xl font-black tracking-tight">داشبورد مطالعه و برنامه کنکور</h1>
+            <div id="todayShamsiBadge" class="text-xs text-emerald-200/90 font-semibold mt-0.5">امروز: ...</div>
+          </div>
+        </div>
+        <button onclick="toggleTheme()" id="themeBtn" class="no-print w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-base" title="حالت روشن / تاریک">🌙</button>
+      </div>
+      <nav class="flex flex-wrap gap-2 mt-4 no-print">
+        <button onclick="switchTab('daily')" id="tabDailyBtn" class="tab-btn">✏️ ثبت روزانه</button>
+        <button onclick="switchTab('weekly')" id="tabWeeklyBtn" class="tab-btn">📊 کارنامه هفته</button>
+        <button onclick="switchTab('analysis')" id="tabAnalysisBtn" class="tab-btn">📈 تحلیل و نمودار</button>
+        <button onclick="switchTab('syllabus')" id="tabSyllabusBtn" class="tab-btn">📚 مباحث و مرور<span id="tabReviewBadge" class="hidden absolute -top-1.5 -left-1.5 min-w-[20px] h-5 px-1 rounded-full bg-rose-500 text-white text-[10px] leading-5 text-center shadow"></span></button>
+        <button onclick="switchTab('history')" id="tabHistoryBtn" class="tab-btn">🗂️ همه هفته‌ها</button>
+      </nav>
+    </header>
+
+    <!-- نوار وضعیت: شمارش معکوس / پیشرفت مباحث / مرور امروز -->
+    <div class="grid grid-cols-3 gap-2 md:gap-3">
+      <div class="stat-tile p-3 md:p-4 rounded-2xl border shadow-sm text-center bg-gradient-to-br from-amber-500 to-rose-500">
+        <div class="text-[11px] text-white/85">⏳ تا کنکور</div>
+        <div id="cdDays" class="text-lg md:text-3xl font-black leading-tight mt-0.5">-</div>
+        <button onclick="openExamModal()" class="no-print text-[10px] md:text-[11px] text-white/80 hover:text-white mt-0.5"><span id="cdDate">-</span> ✎</button>
+      </div>
+      <button onclick="switchTab('syllabus')" class="stat-tile p-3 md:p-4 rounded-2xl border shadow-sm text-center bg-gradient-to-br from-emerald-500 to-teal-600 hover:brightness-105">
+        <div class="text-[11px] text-white/85">📚 پیشرفت مباحث</div>
+        <div id="sbProgress" class="text-lg md:text-3xl font-black leading-tight mt-0.5">۰٪</div>
+        <div class="h-1.5 bg-white/25 rounded-full mt-1.5 overflow-hidden"><div id="sbProgressBar" class="h-full bg-white rounded-full transition-all duration-700" style="width:0%"></div></div>
+      </button>
+      <button onclick="switchTab('syllabus')" id="sbReviewCard" class="stat-tile p-3 md:p-4 rounded-2xl border shadow-sm text-center bg-gradient-to-br from-indigo-500 to-violet-600 hover:brightness-105">
+        <div class="text-[11px] text-white/85">🔁 مرور امروز</div>
+        <div id="sbReview" class="text-lg md:text-3xl font-black leading-tight mt-0.5">-</div>
+        <div id="sbReviewSub" class="text-[10px] md:text-[11px] text-white/80 mt-0.5"></div>
+      </button>
+    </div>
+
+    <!-- نوار انتخاب هفته -->
+    <div id="weekNavBar" class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200 flex flex-wrap items-center justify-between gap-2">
+      <button onclick="changeWeek(-1)" class="no-print px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-bold">→ هفته قبل</button>
+      <div class="text-center">
+        <div id="weekLabel" class="text-sm md:text-base font-black text-slate-800">-</div>
+        <div id="weekSubLabel" class="text-[11px] text-slate-500 mt-0.5"></div>
+      </div>
+      <div class="flex gap-2 no-print">
+        <button onclick="goToCurrentWeek()" id="goCurrentBtn" class="px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 text-xs font-bold">هفته جاری</button>
+        <button onclick="changeWeek(1)" class="px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-xs font-bold">هفته بعد ←</button>
+      </div>
+    </div>
+
+    <!-- ===================== بخش اول: ثبت روزانه ===================== -->
+    <main id="dailySection" class="space-y-4">
+
+      <div class="bg-white p-3 rounded-2xl shadow-sm border border-slate-200">
+        <div class="text-xs font-bold text-slate-500 mb-2">انتخاب روز جهت ثبت یا ویرایش:</div>
+        <div class="grid grid-cols-7 gap-1 md:gap-2 pt-2" id="daySelectorBtns"></div>
+      </div>
+
+      <!-- کنترل ۲۴ ساعت -->
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-slate-700">توزیع زمان در شبانه‌روز</span>
+          <span id="timeSumBadge" class="text-xs font-bold px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">ثبت شده: ۰ از ۲۴ ساعت</span>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div class="bg-slate-50/70 border border-slate-200 rounded-xl p-3">
+            <div class="text-xs font-bold text-slate-700 mb-2">🛏️ خواب</div>
+            <div class="flex items-center gap-1.5">
+              <input id="sleepH" type="text" inputmode="numeric" maxlength="2" class="hm-in" placeholder="ساعت" oninput="onFormChange()">
+              <span class="text-slate-400 font-bold">:</span>
+              <input id="sleepM" type="text" inputmode="numeric" maxlength="2" class="hm-in" placeholder="دقیقه" oninput="onFormChange()">
+            </div>
+          </div>
+          <div class="bg-slate-50/70 border border-slate-200 rounded-xl p-3">
+            <div class="text-xs font-bold text-slate-700 mb-2">📱 گوشی و مجازی</div>
+            <div class="flex items-center gap-1.5">
+              <input id="phoneH" type="text" inputmode="numeric" maxlength="2" class="hm-in" placeholder="ساعت" oninput="onFormChange()">
+              <span class="text-slate-400 font-bold">:</span>
+              <input id="phoneM" type="text" inputmode="numeric" maxlength="2" class="hm-in" placeholder="دقیقه" oninput="onFormChange()">
+            </div>
+          </div>
+          <div class="bg-slate-50/70 border border-slate-200 rounded-xl p-3">
+            <div class="text-xs font-bold text-slate-700 mb-2 flex items-center justify-between gap-1">🎬 فیلم آموزشی <span class="text-[9px] font-semibold text-sky-700 bg-sky-50 px-1.5 py-0.5 rounded-md">خودکار</span></div>
+            <div class="flex items-center gap-1.5">
+              <div id="filmAuto" class="hm-in font-bold text-sky-700" title="جمع پارت‌هایی که نوعشان «کلاس / فیلم آموزشی» یا «تست همراه فیلم» است">-</div></div>
+          </div>
+          <div class="bg-slate-50/70 border border-slate-200 rounded-xl p-3">
+            <div class="text-xs font-bold text-slate-700 mb-2">☕ استراحت و تفریح</div>
+            <div class="flex items-center gap-1.5">
+              <input id="restH" type="text" inputmode="numeric" maxlength="2" class="hm-in" placeholder="ساعت" oninput="onFormChange()">
+              <span class="text-slate-400 font-bold">:</span>
+              <input id="restM" type="text" inputmode="numeric" maxlength="2" class="hm-in" placeholder="دقیقه" oninput="onFormChange()">
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div id="dayBar" class="flex h-3 rounded-full overflow-hidden bg-slate-100" dir="rtl"></div>
+          <div id="dayBarLegend" class="flex flex-wrap gap-x-3 gap-y-1 mt-1.5 text-[10px] text-slate-500"></div>
+        </div>
+      </div>
+
+      <!-- جدول مطالعه روز -->
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-3 mb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-bold text-slate-800">پارت‌های مطالعه</span>
+            <span id="todayStudySum" class="text-xs bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-lg border border-emerald-200">جمع مطالعه: ۰ دقیقه</span>
+          </div>
+          <button onclick="addSessionRow(); onFormChange();" class="px-3 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg hover:bg-emerald-700 transition">+ افزودن درس</button>
+        </div>
+
+        <div class="text-[11px] text-slate-500 mb-2 leading-relaxed bg-slate-50 rounded-lg p-2">
+          💡 زمان را به <b>ساعت و دقیقه</b> وارد کن؛ با زدن شروع و پایان، مدت خودکار حساب می‌شود. <b>نوع فعالیت</b> هر ردیف را بزن تا کارنامه «آموزش / تمرین» هر درس را جدا نشان دهد. یک فیلم را هم در جدول و هم در کارت «فیلم آموزشی» بالا وارد نکن. با ▲▼ ترتیب ردیف‌ها را عوض کن.
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs md:text-sm min-w-[900px]">
+            <thead class="bg-slate-50 text-slate-600 border-b">
+              <tr>
+                <th class="p-2 w-28">درس</th>
+                <th class="p-2">مبحث</th>
+                <th class="p-2 w-24 text-center">شروع</th>
+                <th class="p-2 w-24 text-center">پایان</th>
+                <th class="p-2 w-36 text-center">مدت مطالعه</th>
+                <th class="p-2 w-20 text-center">تعداد تست</th>
+                <th class="p-2 w-48">نوع فعالیت</th>
+                <th class="p-2 w-20 text-center"></th>
+              </tr>
+            </thead>
+            <tbody id="sessionsTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+
+        <div class="mt-5 flex flex-wrap justify-between items-center gap-2 pt-3 border-t">
+          <button onclick="clearCurrentDay()" class="text-xs text-rose-500 hover:underline">پاک کردن اطلاعات این روز</button>
+          <div class="flex items-center gap-3">
+            <span id="autoSaveHint" class="text-[11px] text-slate-400">تغییرات خودکار ذخیره می‌شوند</span>
+            <button onclick="saveCurrentDay(false)" class="px-6 py-2.5 bg-emerald-600 text-white rounded-xl font-bold shadow hover:bg-emerald-700 transition text-sm">
+              💾 ذخیره روز <span id="saveDayNameTitle">شنبه</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===================== بخش دوم: کارنامه هفته ===================== -->
+    <main id="weeklySection" class="space-y-4 hidden">
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex flex-wrap justify-between items-center gap-2">
+        <div>
+          <div id="wkTitle" class="text-sm font-bold text-slate-800">کارنامه هفته</div>
+          <div id="wkSub" class="text-[11px] text-slate-400 mt-0.5"></div>
+        </div>
+        <div class="flex gap-2 no-print">
+          <button onclick="deleteWeek()" class="px-3 py-1.5 border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-semibold rounded-lg transition">حذف این هفته</button>
+          <button onclick="window.print()" class="px-3.5 py-1.5 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-slate-700">🖨️ چاپ / PDF</button>
+        </div>
+        <div id="wkHiddenBar" class="hidden w-full no-print text-[11px] text-slate-500 flex flex-wrap items-center gap-1.5 pt-2 border-t"></div>
+      </div>
+
+      <div id="wkEmpty" class="hidden bg-white p-8 rounded-2xl border border-dashed border-slate-300 text-center">
+        <div class="text-3xl mb-2">📭</div>
+        <div class="text-sm font-bold text-slate-700">هنوز برای این هفته چیزی ثبت نشده</div>
+        <div class="text-xs text-slate-400 mt-1">بعد از ثبت اولین روز، کارنامه هفته اینجا ساخته می‌شود.</div>
+        <button onclick="switchTab('daily')" class="no-print mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl">✏️ رفتن به ثبت روزانه</button>
+      </div>
+
+      <div id="wkBody" class="space-y-4">
+        <div data-sec="stats" class="wk-sec relative">
+          <button onclick="wkHide('stats')" class="no-print absolute -top-2 -left-2 z-10 w-5 h-5 rounded-full bg-white border text-[10px] text-slate-400 hover:text-rose-600" title="پنهان کردن">✕</button>
+          <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+            <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm" style="box-shadow: inset 0 3px 0 #10b981, 0 10px 30px -18px rgba(15,23,42,.35)">
+              <div class="text-xs text-slate-500">📖 مطالعه کل</div>
+              <div id="statTotalHours" class="text-lg md:text-xl font-black text-emerald-600 mt-1">-</div>
+              <div id="statDailyStudyAvg" class="text-[11px] text-slate-400 mt-0.5">-</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm" style="box-shadow: inset 0 3px 0 #8b5cf6, 0 10px 30px -18px rgba(15,23,42,.35)">
+              <div class="text-xs text-slate-500">🎬 آموزش و فیلم</div>
+              <div id="statFilm" class="text-lg md:text-xl font-black text-violet-600 mt-1">-</div>
+              <div id="statFilmAvg" class="text-[11px] text-slate-400 mt-0.5">-</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm" style="box-shadow: inset 0 3px 0 #3b82f6, 0 10px 30px -18px rgba(15,23,42,.35)">
+              <div class="text-xs text-slate-500">🧪 تست</div>
+              <div id="statTotalTests" class="text-lg md:text-xl font-black text-blue-600 mt-1">-</div>
+              <div id="statPace" class="text-[11px] text-slate-400 mt-0.5">-</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm" style="box-shadow: inset 0 3px 0 #f43f5e, 0 10px 30px -18px rgba(15,23,42,.35)">
+              <div class="text-xs text-slate-500">📱 گوشی و مجازی</div>
+              <div id="statTotalPhone" class="text-lg md:text-xl font-black text-rose-600 mt-1">-</div>
+              <div id="statDailyPhoneAvg" class="text-[11px] text-slate-400 mt-0.5">-</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm col-span-2 md:col-span-1" style="box-shadow: inset 0 3px 0 #6366f1, 0 10px 30px -18px rgba(15,23,42,.35)">
+              <div class="text-xs text-slate-500">🛏️ میانگین خواب</div>
+              <div id="statAvgSleep" class="text-lg md:text-xl font-black text-indigo-600 mt-1">-</div>
+              <div id="statSleepStatus" class="text-[11px] text-slate-400 mt-0.5">-</div>
+            </div>
+          </div>
+        </div>
+
+        <div data-sec="insights" class="wk-sec bg-gradient-to-br from-slate-900 via-emerald-950 to-indigo-950 text-white p-5 ring-1 ring-white/10 rounded-2xl shadow-sm">
+          <div class="flex items-center gap-2 border-b border-slate-700 pb-2 mb-3">
+            <span class="text-base">🧠</span>
+            <span class="text-sm font-bold text-emerald-400 flex-1">تحلیل هفته</span>
+            <button onclick="wkHide('insights')" class="no-print text-[11px] text-slate-400 hover:text-rose-400" title="پنهان کردن">✕</button>
+          </div>
+          <div id="advisorInsightsList" class="space-y-2 text-xs md:text-sm text-slate-200"></div>
+        </div>
+
+        <div data-sec="days" class="wk-sec bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-2 mb-3">
+            <h2 class="text-sm font-bold text-slate-800">📅 روز به روز</h2>
+            <div class="flex items-center gap-1.5 no-print">
+              <span class="text-[10px] text-slate-400 hidden md:inline">روی هر روز بزنی، صفحه ثبت همان روز باز می‌شود · خواب، گوشی و استراحت همین‌جا ویرایش می‌شوند ✎</span>
+              <button onclick="wkCfgToggle('days')" class="text-[11px] px-2 py-1 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50">⚙️ ستون‌ها</button>
+              <button onclick="wkHide('days')" class="text-[11px] px-1.5 py-1 text-slate-400 hover:text-rose-600" title="پنهان کردن">✕</button>
+            </div>
+          </div>
+          <div id="cfg-days" class="hidden no-print mb-3"></div>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[680px] text-center border-collapse text-xs md:text-sm">
+              <thead id="daysReportHead"></thead>
+              <tbody id="daysReportTable"></tbody>
+              <tfoot id="daysReportFoot"></tfoot>
+            </table>
+          </div>
+        </div>
+
+        <div data-sec="subjects" class="wk-sec bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+          <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-2 mb-3">
+            <h2 class="text-sm font-bold text-slate-800">تفکیک درس‌ها</h2>
+            <div class="flex items-center gap-1.5 no-print">
+              <button onclick="wkCfgToggle('sub')" class="text-[11px] px-2 py-1 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50">⚙️ ستون‌ها و درس‌ها</button>
+              <button onclick="wkHide('subjects')" class="text-[11px] px-1.5 py-1 text-slate-400 hover:text-rose-600" title="پنهان کردن">✕</button>
+            </div>
+          </div>
+          <div id="cfg-sub" class="hidden no-print mb-3"></div>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[760px] text-center border-collapse text-xs md:text-sm">
+              <thead id="subjectReportHead"></thead>
+              <tbody id="subjectReportTable"></tbody>
+            </table>
+          </div>
+          <div class="text-[10px] text-slate-400 mt-2">«آموزش» = درسنامه، کلاس/فیلم و تست همراه فیلم · «تمرین» = تست شخصی، آزمون و مرور. تست‌هایی که در جلسه‌ی آموزشی (فیلم/درسنامه) زدی در ستون «تست همراه فیلم» شمرده می‌شوند.</div>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===================== بخش ۳: تحلیل و نمودار ===================== -->
+    <main id="analysisSection" class="space-y-4 hidden">
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex flex-wrap justify-between items-center gap-2">
+        <div>
+          <div id="anTitle" class="text-sm font-bold text-slate-800">📈 تحلیل و نمودار</div>
+          <div id="anSub" class="text-[11px] text-slate-400 mt-0.5"></div>
+        </div>
+        <button onclick="anCfgToggle()" class="no-print text-[11px] px-2.5 py-1.5 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50">⚙️ بخش‌ها</button>
+        <div id="anCfg" class="hidden w-full no-print"></div>
+        <div id="anHiddenBar" class="hidden w-full no-print text-[11px] text-slate-500 flex flex-wrap items-center gap-1.5 pt-2 border-t"></div>
+      </div>
+      <div id="anEmpty" class="hidden bg-white p-6 rounded-2xl border border-dashed border-slate-300 text-center">
+        <div class="text-2xl mb-1">📭</div>
+        <div class="text-xs font-bold text-slate-700">برای این هفته هنوز چیزی ثبت نشده؛ نمودارهای هفتگی بعد از ثبت اولین روز ساخته می‌شوند.</div>
+      </div>
+      <div id="anBody" class="space-y-4"></div>
+    </main>
+
+
+    <!-- ===================== بخش سوم: همه هفته‌ها ===================== -->
+    <main id="historySection" class="space-y-4 hidden">
+      <div class="bg-white p-3.5 rounded-2xl border border-slate-200 flex flex-wrap justify-between items-center gap-2 no-print">
+        <span class="text-xs md:text-sm font-bold text-slate-700">آرشیو و مقایسه همه هفته‌ها</span>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="exportBackup()" class="px-3 py-1.5 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-slate-700">⬇️ دانلود فایل پشتیبان</button>
+          <label class="px-3 py-1.5 border border-slate-300 text-slate-700 hover:bg-slate-50 text-xs font-bold rounded-lg cursor-pointer">
+            ⬆️ بازیابی از فایل
+            <input type="file" accept=".json,application/json" class="hidden" onchange="importBackup(event)">
+          </label>
+        </div>
+      </div>
+
+      <div class="bg-amber-50 border border-amber-200 text-amber-800 text-[11px] md:text-xs rounded-xl p-3 leading-relaxed no-print">
+        ⚠️ اطلاعات فقط داخل همین مرورگر ذخیره می‌شود. هر چند هفته یک‌بار «دانلود فایل پشتیبان» را بزن تا اگر کش مرورگر پاک شد یا خواستی روی دستگاه دیگری باز کنی، همه هفته‌هایت محفوظ بماند.
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3" id="historyCards"></div>
+
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="text-sm font-bold text-slate-800 mb-3 border-b pb-2">روند مطالعه هفته به هفته</h2>
+        <div id="historyChart" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+        <h2 class="text-sm font-bold text-slate-800 mb-3 border-b pb-2">جدول مقایسه هفته‌ها <span class="text-[11px] font-normal text-slate-500">(روی هر ردیف بزنی، کارنامه همان هفته باز می‌شود)</span></h2>
+        <div class="overflow-x-auto">
+          <table class="w-full text-center border-collapse text-xs md:text-sm">
+            <thead>
+              <tr class="bg-slate-50 border text-slate-600">
+                <th class="p-2 border">هفته</th>
+                <th class="p-2 border">مجموع مطالعه</th>
+                <th class="p-2 border">تغییر نسبت به هفته قبل</th>
+                <th class="p-2 border">میانگین روزانه</th>
+                <th class="p-2 border">تست</th>
+                <th class="p-2 border">گوشی (کل)</th>
+                <th class="p-2 border">میانگین خواب</th>
+                <th class="p-2 border">درس اول هفته</th>
+              </tr>
+            </thead>
+            <tbody id="historyTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- ===================== بخش چهارم: مباحث و مرور ===================== -->
+    <main id="syllabusSection" class="space-y-4 hidden">
+
+      <!-- مرورهای امروز -->
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex justify-between items-center border-b pb-2 mb-3">
+          <h2 class="text-sm font-bold text-slate-800">🔁 مرورهای امروز</h2>
+          <button onclick="toggleGapsEdit()" class="no-print text-[11px] text-slate-400 hover:text-emerald-600">فاصله مرورها: <span id="gapsLabel"></span> روز ✎</button>
+        </div>
+        <div id="gapsEdit" class="hidden mb-3 p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-wrap items-center gap-2">
+          <span class="text-[11px] text-slate-600">روزهای فاصله هر نوبت مرور (با ویرگول جدا کن):</span>
+          <input id="gapsInput" class="flex-1 min-w-[140px] border rounded-lg px-2 py-1 text-xs outline-none" placeholder="۱، ۳، ۷، ۱۴، ۳۰">
+          <button onclick="saveGaps()" class="px-3 py-1 text-[11px] rounded-lg bg-emerald-600 text-white font-bold">ذخیره</button>
+        </div>
+        <div id="reviewList" class="space-y-2"></div>
+        <div class="mt-3 pt-2 border-t no-print">
+          <button id="revPanelBtn" onclick="toggleRevPanel()" class="text-[11px] text-slate-500 hover:text-emerald-600 font-semibold">📋 همه مرورها ▾</button>
+          <div id="revPanel" class="hidden mt-2 max-h-80 overflow-y-auto"></div>
+        </div>
+      </div>
+
+      <!-- انتخاب درس -->
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 space-y-3">
+        <div>
+          <div class="text-xs font-bold text-slate-500 mb-2">اختصاصی <span class="font-normal text-slate-400">(دهم، یازدهم، دوازدهم)</span></div>
+          <div id="subjCardsMain" class="grid grid-cols-2 md:grid-cols-5 gap-2"></div>
+        </div>
+        <div>
+          <div class="text-xs font-bold text-slate-500 mb-2">عمومی <span class="font-normal text-slate-400">(فقط دوازدهم)</span></div>
+          <div id="subjCardsGen" class="grid grid-cols-2 md:grid-cols-4 gap-2"></div>
+        </div>
+      </div>
+
+      <!-- فهرست مباحث درس انتخاب‌شده -->
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-2 mb-3">
+          <h2 id="chTitle" class="text-sm font-bold text-slate-800">-</h2>
+          <button onclick="toggleEditMode()" id="editModeBtn" class="no-print text-[11px] px-2.5 py-1 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50">✏️ ویرایش فهرست</button>
+        </div>
+        <div id="editHint" class="hidden text-[11px] text-slate-500 bg-slate-50 rounded-lg p-2 mb-3 leading-relaxed">
+          ▸ باز کردن زیرمباحث (اضافه، تغییر نام، جابه‌جایی، خط زدن، حذف) · ▲▼ جابه‌جایی · روی نام بزن تا اسمش را عوض کنی · «موعد مرور» برای جلو/عقب انداختن مرور · ↺ شروع دوباره مرورها · ⊘ خط زدن مبحث (مثل حذفیات؛ از درصد پیشرفت هم کنار می‌رود) · 🗑 حذف
+        </div>
+        <div id="chList" class="space-y-4"></div>
+        <div id="chEditBar" class="hidden mt-4 pt-3 border-t flex flex-wrap gap-2 items-center">
+          <select id="newChGrade" class="border rounded-lg p-1.5 text-xs"></select>
+          <input id="newChTitle" type="text" placeholder="نام مبحث جدید..." class="flex-1 min-w-[160px] border rounded-lg p-1.5 text-xs outline-none">
+          <button onclick="addChapter()" class="px-3 py-1.5 bg-emerald-600 text-white text-xs font-bold rounded-lg">افزودن</button>
+          <button onclick="resetSubject()" class="px-3 py-1.5 border border-rose-200 text-rose-600 text-xs rounded-lg">بازگردانی فهرست پیش‌فرض</button>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- پنجره تنظیم تاریخ کنکور -->
+  <div id="examModal" class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4 no-print" onclick="if(event.target===this) closeExamModal()">
+    <div class="bg-white rounded-2xl p-5 w-full max-w-xs space-y-3 shadow-xl">
+      <div class="text-sm font-bold text-slate-800">تاریخ کنکور</div>
+      <div class="text-[11px] text-slate-500 leading-relaxed">تاریخ کنکور ۱۴۰۶ هنوز رسمی اعلام نشده. پیش‌فرض ۱۱ تیر ۱۴۰۶ است؛ وقتی سنجش اعلام کرد، اینجا عوضش کن.</div>
+      <div class="grid grid-cols-3 gap-2" dir="ltr">
+        <input id="exY" type="text" inputmode="numeric" placeholder="سال" class="border rounded-lg p-2 text-sm text-center">
+        <input id="exM" type="text" inputmode="numeric" placeholder="ماه" class="border rounded-lg p-2 text-sm text-center">
+        <input id="exD" type="text" inputmode="numeric" placeholder="روز" class="border rounded-lg p-2 text-sm text-center">
+      </div>
+      <div class="flex gap-2 justify-end">
+        <button onclick="closeExamModal()" class="px-3 py-1.5 text-xs rounded-lg bg-slate-100">انصراف</button>
+        <button onclick="saveExamDate()" class="px-4 py-1.5 text-xs rounded-lg bg-emerald-600 text-white font-bold">ذخیره</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="subjectDatalists"></div>
+
+  <div id="toast" class="toast fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl shadow-lg opacity-0 pointer-events-none no-print"></div>
+
+  <script>
+    // ================== ثابت‌ها ==================
+    const DAYS = ["شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنج‌شنبه", "جمعه"];
+    const SUBJECTS = ["زیست", "زمین‌شناسی", "شیمی", "فیزیک", "ریاضی", "فارسی", "دینی", "زبان", "عربی", "سلامت و بهداشت", "هویت اجتماعی", "آزمون"];
+    const SPECIAL = ["زیست", "شیمی", "فیزیک", "ریاضی", "زمین‌شناسی"];
+    const GENERAL = ["فارسی", "دینی", "زبان", "عربی", "سلامت و بهداشت", "هویت اجتماعی"];
+    // نوع فعالیت هر پارت — learn: آموزش (فیلم/کلاس/درسنامه) | practice: تمرین
+    const TYPES = [
+      { v: 'read',   l: '📖 درسنامه / کتاب',            k: 'learn' },
+      { v: 'class',  l: '🎬 کلاس / فیلم آموزشی',        k: 'learn' },
+      { v: 'video',  l: '🎥 تست همراه فیلم / حل تمرین', k: 'learn' },
+      { v: 'solo',   l: '✍️ تست شخصی',                 k: 'practice' },
+      { v: 'exam',   l: '⏱️ آزمون / تست زمان‌دار',      k: 'practice' },
+      { v: 'review', l: '🔁 مرور / بازیابی',            k: 'practice' }
+    ];
+    // تبدیل مقدارهای نسخه‌های قبل (film / practice) به نوع‌های جدید
+    const typeOf = s => { const v = s.testType; return v === 'film' ? 'class' : v === 'practice' ? 'solo' : TYPES.some(t => t.v === v) ? v : 'solo'; };
+    const kindOf = s => TYPES.find(t => t.v === typeOf(s)).k;
+    const isFilm = s => ['class', 'video'].includes(typeOf(s));   // پارت‌هایی که فیلم دیده‌ای
+    // تست‌های جلسه‌ی آموزشی (درسنامه، فیلم، تست همراه فیلم) = «تست همراه فیلم»؛ آزمون = «تست آزمونی»؛ بقیه = «تست شخصی»
+    const testKind = s => kindOf(s) === 'learn' ? 'video' : typeOf(s) === 'exam' ? 'exam' : 'solo';
+    const TEST_TAG = { video: '🎥 همراه فیلم', solo: '✍️ شخصی', exam: '⏱️ آزمونی' };
+    const STORAGE_KEY = 'study_weeks_v4';
+    const OLD_KEY = 'study_week_data_v3';
+
+    // ---------- فهرست مباحث (طبق کتاب‌های درسی چاپ ۱۴۰۴–۱۴۰۵) ----------
+    const SYL_KEY = 'study_syllabus_v1';
+    const SET_KEY = 'study_settings_v1';
+    const GRADES = ['دهم', 'یازدهم', 'دوازدهم'];
+    const DEFAULT_GAPS = [1, 3, 7, 14, 30]; // روزهای فاصله مرور (قابل تغییر)
+    const DEFAULT_EXAM = [1406, 4, 11];
+    const SYL_META = {
+      'زیست':       { coef: 12, main: true },
+      'شیمی':       { coef: 9,  main: true },
+      'فیزیک':      { coef: 7,  main: true },
+      'ریاضی':      { coef: 7,  main: true },
+      'زمین‌شناسی': { coef: 1,  main: true },
+      'فارسی': {}, 'دینی': {}, 'عربی': {}, 'زبان': {}
+    };
+    const SYL_DEFAULT = {
+      'زیست': {
+        'دهم': ['دنیای زنده', 'گوارش و جذب مواد', 'تبادلات گازی', 'گردش مواد در بدن', 'تنظیم اسمزی و دفع مواد زائد', 'از یاخته تا گیاه', 'جذب و انتقال مواد در گیاهان'],
+        'یازدهم': ['تنظیم عصبی', 'حواس', 'دستگاه حرکتی', 'تنظیم شیمیایی', 'ایمنی', 'تقسیم یاخته', 'تولیدمثل', 'تولیدمثل نهان‌دانگان', 'پاسخ گیاهان به محرک‌ها'],
+        'دوازدهم': ['مولکول‌های اطلاعاتی', 'جریان اطلاعات در یاخته', 'انتقال اطلاعات در نسل‌ها', 'تغییر در اطلاعات وراثتی', 'از ماده به انرژی', 'از انرژی به ماده', 'فناوری‌های نوین زیستی', 'رفتارهای جانوران']
+      },
+      'شیمی': {
+        'دهم': ['کیهان زادگاه عنصرها', 'ردپای گازها در زندگی', 'آب، آهنگ زندگی'],
+        'یازدهم': ['قدر هدایای زمینی را بدانیم', 'در پی غذای سالم', 'پوشاک، نیازی پایان‌ناپذیر'],
+        'دوازدهم': ['مولکول‌ها در خدمت تندرستی', 'آسایش و رفاه در سایه شیمی', 'شیمی، جلوه‌ای از هنر، زیبایی و ماندگاری', 'شیمی، راهی به سوی آینده‌ای روشن‌تر']
+      },
+      'فیزیک': {
+        'دهم': ['فیزیک و اندازه‌گیری', 'ویژگی‌های فیزیکی مواد', 'کار، انرژی و توان', 'دما و گرما'],
+        'یازدهم': ['الکتریسیته ساکن', 'جریان الکتریکی و مدارهای جریان مستقیم', 'مغناطیس و القای الکترومغناطیسی'],
+        'دوازدهم': ['حرکت بر خط راست', 'دینامیک', 'نوسان و امواج', 'آشنایی با فیزیک اتمی و هسته‌ای']
+      },
+      'ریاضی': {
+        'دهم': ['مجموعه، الگو و دنباله', 'مثلثات', 'توان‌های گویا و عبارت‌های جبری', 'معادله‌ها و نامعادله‌ها', 'تابع', 'شمارش، بدون شمردن', 'آمار و احتمال'],
+        'یازدهم': ['هندسه تحلیلی و جبر', 'هندسه', 'تابع', 'مثلثات', 'توابع نمایی و لگاریتمی', 'حد و پیوستگی', 'آمار و احتمال'],
+        'دوازدهم': ['تابع', 'مثلثات', 'حد بی‌نهایت و حد در بی‌نهایت', 'مشتق', 'کاربرد مشتق', 'هندسه', 'احتمال']
+      },
+      'زمین‌شناسی': {
+        'یازدهم': ['آفرینش کیهان و تکوین زمین', 'منابع معدنی و ذخایر انرژی، زیربنای تمدن و توسعه', 'منابع آب و خاک', 'زمین‌شناسی و سازه‌های مهندسی', 'زمین‌شناسی و سلامت', 'پویایی زمین', 'زمین‌شناسی ایران']
+      },
+      'فارسی': {
+        'دوازدهم': ['ستایش: ملکا ذکر تو گویم', 'درس ۱: شکر نعمت', 'درس ۲: مست و هشیار', 'درس ۳: آزادی', 'درس ۵: دماوندیه', 'درس ۶: نی‌نامه', 'درس ۷: در حقیقت عشق', 'درس ۸: از پاریز تا پاریس', 'درس ۹: کویر', 'درس ۱۰: فصل شکوفایی', 'درس ۱۱: آن شب عزیز', 'درس ۱۲: گذر سیاوش از آتش', 'درس ۱۳: خوان هشتم', 'درس ۱۴: سی‌مرغ و سیمرغ', 'درس ۱۶: کباب غاز', 'درس ۱۷: خنده تو', 'درس ۱۸: عشق جاودانی', 'نیایش']
+      },
+      'دینی': {
+        'دوازدهم': ['درس ۱: هستی‌بخش', 'درس ۲: یگانه بی‌همتا', 'درس ۳: توحید و سبک زندگی', 'درس ۴: فقط برای او', 'درس ۵: قدرت پرواز', 'درس ۶: سنت‌های خداوند در زندگی', 'درس ۷: بازگشت', 'درس ۸: زندگی در دنیای امروز و عمل به احکام الهی', 'درس ۹: پایه‌های استوار', 'درس ۱۰: تمدن جدید و مسئولیت ما']
+      },
+      'عربی': {
+        'دوازدهم': ['درس ۱: الدّین و التّدیّن', 'درس ۲: مکّة المکرّمة و المدینة المنوّرة', 'درس ۳: الکتب طعام الفکر', 'درس ۴: الفرزدق']
+      },
+      'زبان': {
+        'دوازدهم': ['Lesson 1: Sense of Appreciation', 'Lesson 2: Look It Up!', 'Lesson 3: Renewable Energy']
+      }
+    };
+
+    const GAPS = () => (settings.gaps && settings.gaps.length ? settings.gaps : DEFAULT_GAPS);
+    let syllabus = null;        // { subjects: { name: [chapter] }, log: [{d, s, t}] }
+    let settings = {};
+    let selectedSubject = 'زیست';
+    let editMode = false;
+
+    let allWeeks = {};          // { "2026-10-10": { "شنبه": {...}, ... } }
+    let currentWeekKey = '';    // کلید هفته‌ای که الان باز است (تاریخ میلادی شنبه)
+    let activeDay = "شنبه";
+    let activeTab = 'daily';
+    let saveTimer = null;
+
+    // ================== ابزارهای تاریخ و عدد ==================
+    const faFmt = new Intl.NumberFormat('fa-IR', { maximumFractionDigits: 1 });
+    const fa = n => faFmt.format(n || 0);
+
+    function esc(v) { return String(v ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+    function toEnDigits(str) {
+      return String(str ?? '')
+        .replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+        .replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+        .replace(/[٫,،]/g, '.').trim();
+    }
+    function num(v) { const n = parseFloat(toEnDigits(v)); return isNaN(n) ? 0 : n; }
+    function int(v) { const n = parseInt(toEnDigits(v), 10); return isNaN(n) ? 0 : n; }
+    // خواندن/نوشتن فیلدهای «ساعت : دقیقه» (ذخیره به صورت ساعت اعشاری)
+    const LIFE = [['sleep', 'sleep'], ['phone', 'phone'], ['rest', 'rest']];
+    function readHM(p) { return (int(document.getElementById(p + 'H').value) * 60 + int(document.getElementById(p + 'M').value)) / 60; }
+    function setHM(p, hours) {
+      const mins = Math.round((hours || 0) * 60);
+      document.getElementById(p + 'H').value = mins ? Math.floor(mins / 60) : '';
+      document.getElementById(p + 'M').value = mins ? mins % 60 : '';
+    }
+
+    // نمایش دقیقه به صورت «۲ ساعت و ۱۵ دقیقه»
+    function fmtMin(totalMin, short = false) {
+      totalMin = Math.round(totalMin || 0);
+      if (totalMin <= 0) return '-';
+      const h = Math.floor(totalMin / 60), m = totalMin % 60;
+      const H = short ? 'س' : 'ساعت', M = short ? 'د' : 'دقیقه';
+      if (h && m) return `${fa(h)} ${H} و ${fa(m)} ${M}`;
+      if (h) return `${fa(h)} ${H}`;
+      return `${fa(m)} ${M}`;
+    }
+
+    function dateFromKey(key) { const [y, m, d] = key.split('-').map(Number); return new Date(y, m - 1, d, 12); }
+    function keyFromDate(dt) {
+      return `${dt.getFullYear()}-${String(dt.getMonth() + 1).padStart(2, '0')}-${String(dt.getDate()).padStart(2, '0')}`;
+    }
+    function addDays(dt, n) { const x = new Date(dt); x.setDate(x.getDate() + n); return x; }
+    // شنبهٔ هفته‌ای که این تاریخ در آن است
+    function weekStartOf(dt) {
+      const x = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 12);
+      const offset = (x.getDay() + 1) % 7; // شنبه=0 ... جمعه=6
+      return addDays(x, -offset);
+    }
+    const todayWeekKey = () => keyFromDate(weekStartOf(new Date()));
+    const shamsi = (dt, opts) => new Intl.DateTimeFormat('fa-IR-u-ca-persian', opts).format(dt);
+    function weekRangeLabel(key) {
+      const s = dateFromKey(key), e = addDays(s, 6);
+      return `${shamsi(s, { day: 'numeric', month: 'long' })} تا ${shamsi(e, { day: 'numeric', month: 'long', year: 'numeric' })}`;
+    }
+    function dayDate(key, i) { return addDays(dateFromKey(key), i); }
+
+    // ================== ذخیره‌سازی ==================
+    function persist() { localStorage.setItem(STORAGE_KEY, JSON.stringify(allWeeks)); }
+    function weekData() { return allWeeks[currentWeekKey] || {}; }
+
+    function loadStorage() {
+      allWeeks = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      // انتقال اطلاعات نسخه قبلی (بدون هفته‌بندی) به آرشیو جدید
+      const old = localStorage.getItem(OLD_KEY);
+      if (old && !localStorage.getItem(STORAGE_KEY + '_migrated')) {
+        try {
+          const oldData = JSON.parse(old);
+          if (Object.keys(oldData).length) {
+            const todayIdx = (new Date().getDay() + 1) % 7;
+            // اگر برای روزهایی بعد از امروز داده وجود دارد، یعنی مربوط به هفته قبل است
+            const hasFuture = DAYS.some((d, i) => i > todayIdx && oldData[d]);
+            const target = hasFuture ? keyFromDate(addDays(dateFromKey(todayWeekKey()), -7)) : todayWeekKey();
+            allWeeks[target] = Object.assign({}, oldData, allWeeks[target] || {});
+            persist();
+          }
+        } catch (e) {}
+        localStorage.setItem(STORAGE_KEY + '_migrated', '1');
+      }
+    }
+
+    // ================== راه‌اندازی ==================
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStorage();
+      loadSyllabus();
+      renderDatalists();
+      renderStatusBar();
+      const now = new Date();
+      if (document.documentElement.classList.contains('dark')) document.getElementById('themeBtn').innerText = '☀️';
+      document.getElementById('todayShamsiBadge').innerText = `امروز: ${shamsi(now, { dateStyle: 'full' })}`;
+      currentWeekKey = todayWeekKey();
+      activeDay = DAYS[(now.getDay() + 1) % 7];
+      renderAll();
+      switchTab('daily');
+    });
+
+    function renderAll() {
+      renderWeekNav();
+      renderDaySelector();
+      loadDayData(activeDay);
+      if (activeTab === 'weekly') renderWeeklyReport();
+      if (activeTab === 'analysis') renderAnalysis();
+      if (activeTab === 'history') renderHistory();
+    }
+
+    function renderWeekNav() {
+      const isCurrent = currentWeekKey === todayWeekKey();
+      document.getElementById('weekLabel').innerText = `هفته ${weekRangeLabel(currentWeekKey)}`;
+      const totalWeeks = Object.keys(allWeeks).filter(k => hasWeekData(allWeeks[k])).length;
+      document.getElementById('weekSubLabel').innerHTML =
+        (isCurrent ? '<span class="text-emerald-600 font-bold">● هفته جاری</span> · ' : '<span class="text-amber-600 font-bold">● هفته آرشیوی</span> · ')
+        + `${fa(totalWeeks)} هفته در آرشیو ثبت شده`;
+      document.getElementById('goCurrentBtn').style.visibility = isCurrent ? 'hidden' : 'visible';
+    }
+
+    function changeWeek(delta) {
+      flushSave();
+      currentWeekKey = keyFromDate(addDays(dateFromKey(currentWeekKey), delta * 7));
+      activeDay = currentWeekKey === todayWeekKey() ? DAYS[(new Date().getDay() + 1) % 7] : "شنبه";
+      renderAll();
+    }
+    function goToCurrentWeek() { flushSave(); currentWeekKey = todayWeekKey(); activeDay = DAYS[(new Date().getDay() + 1) % 7]; renderAll(); }
+    function openWeek(key) { flushSave(); currentWeekKey = key; activeDay = "شنبه"; switchTab('weekly'); renderAll(); }
+
+    function dayHasData(day) {
+      return day && ((day.sessions && day.sessions.length > 0) || day.sleep > 0 || day.phone > 0 || day.rest > 0);
+    }
+    const loggedDays = w => DAYS.filter(d => dayHasData(w?.[d])).length;
+    function hasWeekData(w) { return w && DAYS.some(d => dayHasData(w[d])); }
+
+    function renderDaySelector() {
+      const container = document.getElementById('daySelectorBtns');
+      container.innerHTML = '';
+      const todayKey = keyFromDate(new Date());
+      DAYS.forEach((d, i) => {
+        const dt = dayDate(currentWeekKey, i);
+        const hasData = dayHasData(weekData()[d]);
+        const isSelected = (d === activeDay);
+        const isToday = keyFromDate(dt) === todayKey;
+        const btn = document.createElement('button');
+        btn.onclick = () => selectDay(d);
+        btn.className = `p-1.5 md:p-2 rounded-xl text-[11px] md:text-xs font-bold border transition text-center relative ${
+          isSelected ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
+                     : (isToday ? 'bg-emerald-50 text-emerald-800 border-emerald-300' : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border-slate-200')
+        }`;
+        btn.innerHTML = `
+          ${isToday ? '<span class="absolute -top-2 -left-1.5 bg-amber-400 text-slate-900 text-[10px] font-black px-1.5 py-0.5 rounded-lg shadow-sm">امروز</span>' : ''}
+          <div>${d}</div>
+          <div class="text-[10px] font-medium ${isSelected ? 'text-emerald-100' : 'text-slate-400'}">${shamsi(dt, { day: 'numeric', month: 'short' })}</div>
+          ${hasData ? `<span class="inline-block w-1.5 h-1.5 rounded-full ${isSelected ? '' : 'bg-emerald-500'}" ${isSelected ? 'style="background:#fff"' : ''}></span>` : '<span class="inline-block w-1.5 h-1.5"></span>'}
+        `;
+        container.appendChild(btn);
+      });
+      document.getElementById('saveDayNameTitle').innerText = `${activeDay} ${shamsi(dayDate(currentWeekKey, DAYS.indexOf(activeDay)), { day: 'numeric', month: 'long' })}`;
+    }
+
+    function selectDay(dayName) {
+      flushSave();
+      activeDay = dayName;
+      renderDaySelector();
+      loadDayData(dayName);
+    }
+
+    function toggleTheme() {
+      const d = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('study_theme', d ? 'dark' : 'light');
+      document.getElementById('themeBtn').innerText = d ? '☀️' : '🌙';
+    }
+    function switchTab(tab) {
+      flushSave();
+      activeTab = tab;
+      const map = { daily: 'dailySection', weekly: 'weeklySection', analysis: 'analysisSection', history: 'historySection', syllabus: 'syllabusSection' };
+      const btns = { daily: 'tabDailyBtn', weekly: 'tabWeeklyBtn', analysis: 'tabAnalysisBtn', history: 'tabHistoryBtn', syllabus: 'tabSyllabusBtn' };
+      Object.keys(map).forEach(k => {
+        document.getElementById(map[k]).classList.toggle('hidden', k !== tab);
+        document.getElementById(btns[k]).className = 'tab-btn px-3.5 md:px-4 py-2 rounded-xl text-xs md:text-sm font-bold relative ' + (k === tab ? 'tab-on' : 'tab-off');
+      });
+      document.getElementById('weekNavBar').classList.toggle('hidden', tab === 'history' || tab === 'syllabus');
+      if (tab === 'weekly') renderWeeklyReport();
+      if (tab === 'analysis') renderAnalysis();
+      if (tab === 'history') renderHistory();
+      if (tab === 'syllabus') renderSyllabus();
+    }
+
+    // ================== ردیف‌های مطالعه ==================
+    function sessionMinutes(s) {
+      if (typeof s.minutes === 'number') return s.minutes;
+      return Math.round((s.duration || 0) * 60); // سازگاری با داده‌های نسخه قبل
+    }
+
+    function addSessionRow(data = {}) {
+      const tbody = document.getElementById('sessionsTableBody');
+      const tr = document.createElement('tr');
+      tr.className = "hover:bg-slate-50 transition border-b";
+      const mins = sessionMinutes(data);
+      const h = mins ? Math.floor(mins / 60) : '';
+      const m = mins ? mins % 60 : '';
+      const subjectOptions = SUBJECTS.map(s => `<option value="${s}" ${data.subject === s ? 'selected' : ''}>${s}</option>`).join('');
+      const esc = v => String(v || '').replace(/"/g, '&quot;');
+
+      tr.innerHTML = `
+        <td class="p-2"><select class="session-sub border rounded-lg p-1.5 text-xs w-full" onchange="this.closest('tr').querySelector('.session-topic').setAttribute('list', dlId(this.value)); onFormChange()">${subjectOptions}</select></td>
+        <td class="p-2"><input type="text" list="${dlId(data.subject || SUBJECTS[0])}" class="session-topic border rounded-lg p-1.5 text-xs w-full outline-none" placeholder="مبحث... (از لیست انتخاب کن)" value="${esc(data.topic)}" oninput="onFormChange()"></td>
+        <td class="p-2"><input type="time" class="session-start border rounded-lg p-1 text-xs w-full outline-none" value="${data.start || ''}" onchange="calcFromRange(this)"></td>
+        <td class="p-2"><input type="time" class="session-end border rounded-lg p-1 text-xs w-full outline-none" value="${data.end || ''}" onchange="calcFromRange(this)"></td>
+        <td class="p-2">
+          <div class="flex items-center gap-1">
+            <input type="text" inputmode="numeric" maxlength="2" class="session-h hm-in" placeholder="ساعت" value="${h}" oninput="onFormChange()">
+            <span class="font-bold text-slate-400">:</span>
+            <input type="text" inputmode="numeric" maxlength="2" class="session-m hm-in" placeholder="دقیقه" value="${m}" oninput="onFormChange()">
+          </div>
+        </td>
+        <td class="p-2"><input type="text" inputmode="numeric" class="session-tests border rounded-lg p-1.5 text-xs w-full text-center outline-none" placeholder="۳۰" value="${data.tests || ''}" oninput="onFormChange()"><div class="session-test-tag text-[9px] text-slate-400 text-center mt-0.5 whitespace-nowrap"></div></td>
+        <td class="p-2">
+          <select class="session-test-type border rounded-lg p-1.5 text-xs w-full outline-none" onchange="onFormChange()">
+            ${TYPES.map(a => `<option value="${a.v}" ${(data.testType ? typeOf(data) : 'read') === a.v ? 'selected' : ''}>${a.l}</option>`).join('')}
+          </select>
+        </td>
+        <td class="p-2 text-center whitespace-nowrap">
+          <button onclick="moveRow(this,-1)" class="icon-btn" title="بالا">▲</button><button onclick="moveRow(this,1)" class="icon-btn" title="پایین">▼</button><button onclick="this.closest('tr').remove(); onFormChange();" class="icon-btn hover:!text-rose-600" title="حذف">✕</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    function moveRow(btn, dir) {
+      const tr = btn.closest('tr');
+      const sib = dir < 0 ? tr.previousElementSibling : tr.nextElementSibling;
+      if (!sib) return;
+      dir < 0 ? sib.before(tr) : sib.after(tr);
+      onFormChange();
+    }
+
+    function rowMinutes(r) {
+      let h = int(r.querySelector('.session-h').value);
+      let m = int(r.querySelector('.session-m').value);
+      return Math.max(0, h * 60 + m);
+    }
+
+    // محاسبه خودکار مدت از روی ساعت شروع و پایان
+    function calcFromRange(el) {
+      const r = el.closest('tr');
+      const s = r.querySelector('.session-start').value, e = r.querySelector('.session-end').value;
+      if (s && e) {
+        const [sh, sm] = s.split(':').map(Number), [eh, em] = e.split(':').map(Number);
+        let diff = (eh * 60 + em) - (sh * 60 + sm);
+        if (diff < 0) diff += 24 * 60; // عبور از نیمه‌شب
+        r.querySelector('.session-h').value = Math.floor(diff / 60);
+        r.querySelector('.session-m').value = diff % 60;
+      }
+      onFormChange();
+    }
+
+    function updateTimeMeter() {
+      const sleep = readHM('sleep'), phone = readHM('phone'), rest = readHM('rest');
+
+      let studyMin = 0;
+      let filmMin = 0;
+      document.querySelectorAll('#sessionsTableBody tr').forEach(r => {
+        studyMin += rowMinutes(r);
+        if (isFilm({ testType: r.querySelector('.session-test-type')?.value })) filmMin += rowMinutes(r);
+        const tag = r.querySelector('.session-test-tag'), sel = r.querySelector('.session-test-type');
+        if (tag && sel) tag.textContent = TEST_TAG[testKind({ testType: sel.value })];
+      });
+      document.getElementById('todayStudySum').innerText = `جمع مطالعه: ${studyMin ? fmtMin(studyMin) : '۰ دقیقه'}`;
+
+      document.getElementById('filmAuto').innerText = filmMin ? fmtMin(filmMin, true) : '۰';
+      const sum = sleep + phone + rest + studyMin / 60;   // فیلم جزو پارت‌های مطالعه است و دوباره جمع نمی‌شود
+      const badge = document.getElementById('timeSumBadge');
+      badge.innerText = `ثبت شده: ${fmtMin(sum * 60, true) === '-' ? '۰' : fmtMin(sum * 60, true)} از ۲۴ ساعت`;
+      badge.className = "text-xs font-bold px-2.5 py-1 rounded-full " +
+        (sum > 24 ? "bg-rose-100 text-rose-700" : sum >= 20 ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700");
+      const parts = [['🛏️ خواب', sleep * 60, '#6366f1'], ['📚 مطالعه (بدون فیلم)', studyMin - filmMin, '#10b981'], ['🎬 فیلم', filmMin, '#0ea5e9'], ['📱 گوشی', phone * 60, '#f43f5e'], ['☕ استراحت', rest * 60, '#f59e0b']];
+      const tot = Math.max(1440, sum * 60);
+      document.getElementById('dayBar').innerHTML = parts.filter(x => x[1] > 0).map(x =>
+        `<div title="${x[0]}: ${fmtMin(x[1])}" style="width:${(x[1] / tot * 100).toFixed(2)}%;background:${x[2]}" class="h-full transition-all duration-500"></div>`).join('');
+      document.getElementById('dayBarLegend').innerHTML = parts.map(x =>
+        `<span class="inline-flex items-center gap-1"><i class="inline-block w-2 h-2 rounded-full" style="background:${x[2]}"></i>${x[0]}${x[1] > 0 ? ' ' + fmtMin(x[1], true) : ''}</span>`).join('');
+    }
+
+    // ================== ذخیره / بارگذاری روز ==================
+    function onFormChange() {
+      updateTimeMeter();
+      clearTimeout(saveTimer);
+      document.getElementById('autoSaveHint').innerText = 'در حال ذخیره...';
+      saveTimer = setTimeout(() => saveCurrentDay(true), 600);
+    }
+    function flushSave() { if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; saveCurrentDay(true); } }
+
+    function collectDay() {
+      const sessions = [];
+      document.querySelectorAll('#sessionsTableBody tr').forEach(r => {
+        const minutes = rowMinutes(r);
+        const tests = int(r.querySelector('.session-tests').value);
+        const topic = r.querySelector('.session-topic').value.trim();
+        if (minutes > 0 || tests > 0 || topic) {
+          sessions.push({
+            subject: r.querySelector('.session-sub').value,
+            topic,
+            start: r.querySelector('.session-start').value,
+            end: r.querySelector('.session-end').value,
+            minutes,
+            duration: +(minutes / 60).toFixed(3),
+            tests,
+            testType: r.querySelector('.session-test-type').value
+          });
+        }
+      });
+      return {
+        sleep: readHM('sleep'), phone: readHM('phone'), rest: readHM('rest'),
+        sessions
+      };
+    }
+
+    function saveCurrentDay(silent) {
+      saveTimer = null;
+      const day = collectDay();
+      if (!allWeeks[currentWeekKey]) allWeeks[currentWeekKey] = {};
+      if (dayHasData(day)) allWeeks[currentWeekKey][activeDay] = day;
+      else delete allWeeks[currentWeekKey][activeDay];
+      if (!Object.keys(allWeeks[currentWeekKey]).length) delete allWeeks[currentWeekKey];
+      persist();
+      renderDaySelector();
+      renderWeekNav();
+      const t = new Date().toLocaleTimeString('fa-IR', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('autoSaveHint').innerText = `✓ ذخیره شد (${t})`;
+      if (!silent) showToast(`✅ اطلاعات ${activeDay} ذخیره شد`);
+    }
+
+    function loadDayData(dayName) {
+      const day = weekData()[dayName] || { sessions: [] };
+      LIFE.forEach(([p, k]) => setHM(p, day[k]));
+      const tbody = document.getElementById('sessionsTableBody');
+      tbody.innerHTML = '';
+      if (day.sessions && day.sessions.length) day.sessions.forEach(s => addSessionRow(s));
+      else addSessionRow({ subject: "زیست" });
+      updateTimeMeter();
+      document.getElementById('autoSaveHint').innerText = 'تغییرات خودکار ذخیره می‌شوند';
+    }
+
+    function clearCurrentDay() {
+      if (confirm(`آیا از پاک کردن کامل روز ${activeDay} مطمئن هستید؟`)) {
+        clearTimeout(saveTimer); saveTimer = null;
+        if (allWeeks[currentWeekKey]) {
+          delete allWeeks[currentWeekKey][activeDay];
+          if (!Object.keys(allWeeks[currentWeekKey]).length) delete allWeeks[currentWeekKey];
+        }
+        persist();
+        loadDayData(activeDay);
+        renderDaySelector();
+        renderWeekNav();
+      }
+    }
+
+    function deleteWeek() {
+      if (confirm(`همه اطلاعات هفته ${weekRangeLabel(currentWeekKey)} پاک شود؟ (هفته‌های دیگر دست نمی‌خورند)`)) {
+        clearTimeout(saveTimer); saveTimer = null;
+        delete allWeeks[currentWeekKey];
+        persist();
+        renderAll();
+      }
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.innerText = msg; t.style.opacity = 1;
+      setTimeout(() => t.style.opacity = 0, 1800);
+    }
+
+    // ================== محاسبه آمار یک هفته ==================
+    // نوع هر پارت: film = فیلم آموزشی | practice = تست و تمرین | review = مرور (داده‌های قدیمی هم تبدیل می‌شوند)
+    function computeWeekStats(w) {
+      w = w || {};
+      const st = { studyMin: 0, sessFilm: 0, cardFilm: 0, videoMin: 0, practiceMin: 0, tests: 0, solo: 0, video: 0, exam: 0, phone: 0, sleep: 0, sleepDays: 0, rest: 0,
+                   studyDays: 0, specialMin: 0, generalMin: 0, days: {}, subjects: {} };
+      const blank = () => ({ minutes: 0, film: 0, practice: 0, tests: 0, solo: 0, video: 0, exam: 0 });
+      DAYS.forEach(d => st.days[d] = { sess: 0, sessFilm: 0, cardFilm: 0, practice: 0, tests: 0, sleep: 0, phone: 0, rest: 0 });
+      SUBJECTS.forEach(s => st.subjects[s] = blank());
+      DAYS.forEach(d => {
+        const item = w[d];
+        if (!item) return;
+        const ds = st.days[d];
+        ds.sleep = item.sleep || 0; ds.phone = item.phone || 0; ds.rest = item.rest || 0; ds.cardFilm = 0; // فیلم دیگر جدا وارد نمی‌شود؛ از پارت‌ها حساب می‌شود
+        st.phone += ds.phone; st.sleep += ds.sleep; st.rest += ds.rest; st.cardFilm += ds.cardFilm;
+        if (ds.sleep > 0) st.sleepDays++;
+        (item.sessions || []).forEach(s => {
+          const mins = sessionMinutes(s), tests = s.tests || 0, ty = typeOf(s);
+          ds.sess += mins; ds.tests += tests;
+          if (!st.subjects[s.subject]) st.subjects[s.subject] = blank();
+          const sub = st.subjects[s.subject];
+          sub.minutes += mins; sub.tests += tests;
+          if (isFilm(s)) st.videoMin += mins;
+          if (kindOf(s) === 'learn') { sub.film += mins; ds.sessFilm += mins; } else { sub.practice += mins; ds.practice += mins; }
+          const tk = testKind(s);
+          sub[tk] += tests; st[tk] += tests;
+          if (SPECIAL.includes(s.subject)) st.specialMin += mins;
+          if (GENERAL.includes(s.subject)) st.generalMin += mins;
+        });
+        st.studyMin += ds.sess; st.sessFilm += ds.sessFilm; st.practiceMin += ds.practice; st.tests += ds.tests;
+        if (ds.sess + ds.cardFilm > 0) st.studyDays++;
+      });
+      st.filmMin = st.sessFilm + st.cardFilm;
+      st.totalMin = st.studyMin + st.cardFilm;     // مطالعه کل = پارت‌ها + فیلمِ کارت
+      st.topSubject = Object.entries(st.subjects).sort((a, b) => b[1].minutes - a[1].minutes).find(e => e[1].minutes > 0)?.[0] || '-';
+      return st;
+    }
+
+    // ---------- معیارهای «عددبازی» (فقط برای تحلیل) ----------
+    const NORM = {
+      day: [10, 13.5], week: [70, 95], wake: [70, 75], sleep: [6, 8],
+      film: 40,               // قاعده ۴۰/۶۰: فیلم حداکثر ۴۰٪، تمرین حداقل ۶۰٪
+      general: [10, 15],      // سهم عمومی‌ها در پاییز (مهر و آبان)
+      split: { 'زیست': 100 / 3, 'شیمی': 25, 'ریاضی': 20, 'فیزیک': 20, 'زمین‌شناسی': 3 },
+      impact: { 'زیست': 23.5, 'شیمی': 18.6, 'ریاضی': 13.8, 'فیزیک': 12.85, 'فارسی': 10.2 }
+    };
+    const statusOf = (v, lo, hi) => v < lo ? 'low' : (hi != null && v > hi ? 'high' : 'ok');
+    const dash = '<span class="text-slate-300">-</span>';
+
+    // ---------- تنظیمات جدول‌های کارنامه (ترتیب / پنهان) ----------
+    const WK_DEF = {
+      days: [
+        { k: 'study', l: 'مطالعه' }, { k: 'film', l: 'آموزش و فیلم' }, { k: 'practice', l: 'تمرین و تست' }, { k: 'tests', l: 'تست' },
+        { k: 'sleep', l: 'خواب' }, { k: 'phone', l: 'گوشی' }, { k: 'rest', l: 'استراحت' }
+      ],
+      cols: [
+        { k: 'time', l: 'زمان' }, { k: 'fp', l: 'آموزش / تمرین' }, { k: 'film', l: 'زمان آموزش' }, { k: 'practice', l: 'زمان تمرین' },
+        { k: 'tests', l: 'کل تست' }, { k: 'solo', l: 'تست شخصی' }, { k: 'video', l: 'تست همراه فیلم' }, { k: 'exam', l: 'تست آزمونی' },
+        { k: 'share', l: 'سهم از کل' }, { k: 'target', l: 'سهم اختصاصی / هدف' }
+      ],
+      rows: [...SPECIAL, ...SUBJECTS.filter(s => !SPECIAL.includes(s))].map(s => ({ k: s, l: s }))
+    };
+    const WK_HIDE_DEF = { days: [], cols: ['film', 'practice', 'exam'], rows: [] };
+    const WK_SECS = { stats: 'کارت‌های آمار', insights: 'تحلیل هفته', days: 'روز به روز', subjects: 'تفکیک درس‌ها' };
+    const saveSettings = () => localStorage.setItem(SET_KEY, JSON.stringify(settings));
+    function wkCfg(n) {
+      settings.wk = settings.wk || {};
+      const c = settings.wk[n] = settings.wk[n] || { order: WK_DEF[n].map(x => x.k), hidden: [...WK_HIDE_DEF[n]] };
+      WK_DEF[n].forEach(x => { if (!c.order.includes(x.k)) c.order.push(x.k); });
+      return c;
+    }
+    const wkItems = n => wkCfg(n).order.map(k => WK_DEF[n].find(x => x.k === k)).filter(Boolean);
+    const wkVisible = n => wkItems(n).filter(x => !wkCfg(n).hidden.includes(x.k));
+    function wkMove(n, k, dir) {
+      const o = wkCfg(n).order, i = o.indexOf(k), j = i + dir;
+      if (j < 0 || j >= o.length) return;
+      [o[i], o[j]] = [o[j], o[i]]; saveSettings(); renderWeeklyReport();
+    }
+    function wkToggleItem(n, k) {
+      const h = wkCfg(n).hidden, i = h.indexOf(k);
+      i < 0 ? h.push(k) : h.splice(i, 1); saveSettings(); renderWeeklyReport();
+    }
+    function wkResetCfg(n) { if (settings.wk) delete settings.wk[n]; saveSettings(); renderWeeklyReport(); }
+    const wkOpen = new Set();
+    function wkCfgToggle(id) { wkOpen.has(id) ? wkOpen.delete(id) : wkOpen.add(id); renderWeeklyReport(); }
+    function wkHide(sec) { settings.wk = settings.wk || {}; (settings.wk.hideSec = settings.wk.hideSec || []).push(sec); saveSettings(); renderWeeklyReport(); }
+    function wkShow(sec) { settings.wk = settings.wk || {}; settings.wk.hideSec = (settings.wk.hideSec || []).filter(x => x !== sec); saveSettings(); renderWeeklyReport(); }
+    function cfgList(n, title) {
+      const c = wkCfg(n), items = wkItems(n);
+      return `<div class="flex-1 min-w-[200px]">
+        <div class="flex justify-between items-center mb-1"><span class="text-[11px] font-bold text-slate-600">${title}</span><button onclick="wkResetCfg('${n}')" class="text-[10px] text-slate-400 hover:text-emerald-600">↺ پیش‌فرض</button></div>
+        <div class="space-y-0.5 max-h-64 overflow-y-auto">${items.map((x, i) => `
+          <div class="flex items-center gap-1.5 px-2 py-1 rounded-lg ${c.hidden.includes(x.k) ? 'bg-white text-slate-400' : 'bg-white text-slate-700'} border border-slate-100">
+            <input type="checkbox" class="accent-emerald-600" ${c.hidden.includes(x.k) ? '' : 'checked'} onchange="wkToggleItem('${n}','${x.k}')">
+            <span class="flex-1 text-[11px] ${c.hidden.includes(x.k) ? 'line-through' : ''}">${x.l}</span>
+            <button onclick="wkMove('${n}','${x.k}',-1)" class="icon-btn" ${i === 0 ? 'disabled style="opacity:.3"' : ''}>▲</button>
+            <button onclick="wkMove('${n}','${x.k}',1)" class="icon-btn" ${i === items.length - 1 ? 'disabled style="opacity:.3"' : ''}>▼</button>
+          </div>`).join('')}</div></div>`;
+    }
+
+    // ---------- ویرایش مستقیم خانه‌های جدول روزها ----------
+    const EDITABLE = ['sleep', 'phone', 'rest'];
+    function editCell(td, d, k) {
+      if (td.querySelector('input')) return;
+      flushSave();
+      const day = weekData()[d] || {};
+      let h = k === 'film' ? (day.film || 0) + (day.sessions || []).filter(s => kindOf(s) === 'learn').reduce((a, s) => a + sessionMinutes(s), 0) / 60 : (day[k] || 0);
+      const mm = Math.round(h * 60);
+      td.innerHTML = `<input class="w-16 border border-emerald-500 rounded-md px-1 py-0.5 text-center text-xs outline-none" placeholder="۷:۳۰" value="${mm ? Math.floor(mm / 60) + ':' + String(mm % 60).padStart(2, '0') : ''}">`;
+      const inp = td.querySelector('input');
+      inp.focus(); inp.select();
+      let done = false;
+      const commit = save => { if (done) return; done = true; if (save) commitCell(d, k, inp.value); else renderWeeklyReport(); };
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') commit(true); if (e.key === 'Escape') commit(false); });
+      inp.addEventListener('blur', () => commit(true));
+    }
+    function commitCell(d, k, val) {
+      val = toEnDigits(String(val)).trim();
+      let hours = 0;
+      if (val.includes(':')) { const [a, b] = val.split(':'); hours = int(a) + int(b) / 60; }
+      else hours = num(val);
+      hours = Math.max(0, Math.min(24, hours));
+      if (!allWeeks[currentWeekKey]) allWeeks[currentWeekKey] = {};
+      const w = allWeeks[currentWeekKey];
+      const day = w[d] = w[d] || { sessions: [] };
+      if (k === 'film') {
+        const sf = (day.sessions || []).filter(s => kindOf(s) === 'learn').reduce((a, s) => a + sessionMinutes(s), 0) / 60;
+        day.film = +Math.max(0, hours - sf).toFixed(3);
+      } else day[k] = +hours.toFixed(3);
+      if (!dayHasData(day)) delete w[d];
+      if (!Object.keys(w).length) delete allWeeks[currentWeekKey];
+      persist();
+      if (d === activeDay) loadDayData(d);
+      renderDaySelector(); renderWeeklyReport();
+      showToast(`✓ ${d} به‌روز شد`);
+    }
+
+    // ================== کارنامه هفته ==================
+    function renderWeeklyReport() {
+      const wd = weekData();
+      const st = computeWeekStats(wd);
+      const logged = loggedDays(wd);
+      const ed = Math.max(1, logged);
+      const hasData = logged > 0;
+      const totalH = st.totalMin / 60, studyH = st.studyMin / 60;
+
+      document.getElementById('wkTitle').innerText = `کارنامه هفته ${weekRangeLabel(currentWeekKey)}`;
+      document.getElementById('wkSub').innerText = hasData ? `${fa(logged)} روز از ۷ روز ثبت شده · میانگین‌ها بر اساس روزهای ثبت‌شده است` : '';
+      document.getElementById('wkEmpty').classList.toggle('hidden', hasData);
+      document.getElementById('wkBody').classList.toggle('hidden', !hasData);
+      const hidden = settings.wk?.hideSec || [];
+      document.querySelectorAll('.wk-sec').forEach(el => el.classList.toggle('hidden', hidden.includes(el.dataset.sec)));
+      const bar = document.getElementById('wkHiddenBar');
+      bar.classList.toggle('hidden', !hidden.length || !hasData);
+      bar.innerHTML = 'بخش‌های پنهان: ' + hidden.map(s => `<button onclick="wkShow('${s}')" class="px-2 py-0.5 rounded-full bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700">${WK_SECS[s]} +</button>`).join('');
+      if (!hasData) return;
+
+      // ---------- کارت‌ها ----------
+      const avg = (v, f) => v ? `میانگین روزانه: ${f(v / ed)}` : 'ثبت نشده';
+      const filmShare = st.totalMin ? st.filmMin / st.totalMin * 100 : 0;
+      document.getElementById('statTotalHours').innerText = st.totalMin ? fmtMin(st.totalMin, true) : '۰';
+      document.getElementById('statDailyStudyAvg').innerText = avg(st.totalMin, v => fmtMin(v, true));
+      document.getElementById('statFilm').innerText = st.filmMin ? fmtMin(st.filmMin, true) : '۰';
+      document.getElementById('statFilmAvg').innerText = st.filmMin ? `${st.videoMin ? 'فیلم ' + fmtMin(st.videoMin, true) + ' · ' : ''}آموزش ${fa(Math.round(filmShare))}٪ · تمرین ${fa(100 - Math.round(filmShare))}٪` : 'ثبت نشده';
+      document.getElementById('statTotalTests').innerText = `${fa(st.tests)} تست`;
+      const practiceH = st.practiceMin / 60;
+      const testPace = practiceH > 0 ? +((st.solo + st.exam) / practiceH).toFixed(1) : 0;
+      document.getElementById('statPace').innerText = st.tests ? ((st.solo + st.exam) && practiceH ? `${fa(testPace)} تست در هر ساعت تمرین` : `${fa(st.tests)} تست ثبت‌شده`) : 'تستی ثبت نشده';
+      document.getElementById('statTotalPhone').innerText = st.phone ? fmtMin(st.phone * 60, true) : '۰';
+      document.getElementById('statDailyPhoneAvg').innerText = avg(st.phone, v => fmtMin(v * 60, true));
+      const avgSleep = st.sleepDays ? st.sleep / st.sleepDays : 0;
+      document.getElementById('statAvgSleep').innerText = avgSleep ? fmtMin(avgSleep * 60, true) : '-';
+      document.getElementById('statSleepStatus').innerText = !st.sleepDays ? 'ثبت نشده' : statusOf(avgSleep, ...NORM.sleep) === 'ok' ? 'در بازه سالم ۶ تا ۸ ساعت' : 'خارج از بازه ۶ تا ۸ ساعت';
+
+      // ---------- محاسبات عددبازی ----------
+      const dayAvg = totalH / ed;
+      let wakeSum = 0, wakeAcad = 0;
+      DAYS.forEach(d => { const x = st.days[d]; if (x.sleep > 0) { wakeSum += 24 - x.sleep; wakeAcad += (x.sess + x.cardFilm) / 60; } });
+      const wakeShare = wakeSum ? wakeAcad / wakeSum * 100 : 0;
+      const sgTotal = st.specialMin + st.generalMin;
+      const generalShare = sgTotal ? st.generalMin / sgTotal * 100 : 0;
+      const jm = int(new Intl.DateTimeFormat('en-u-ca-persian', { month: 'numeric' }).format(dateFromKey(currentWeekKey)));
+      const autumn = jm === 7 || jm === 8;
+      const splitRows = Object.entries(NORM.split).map(([s, target]) => {
+        const share = st.specialMin ? (st.subjects[s]?.minutes || 0) / st.specialMin * 100 : 0;
+        const tol = Math.max(3, target * 0.2);
+        return { s, share, target, stt: st.specialMin ? statusOf(share, target - tol, target + tol) : 'none' };
+      });
+
+      // ---------- تحلیل ----------
+      const ins = [];
+      const prevKey = keyFromDate(addDays(dateFromKey(currentWeekKey), -7));
+      if (hasWeekData(allWeeks[prevKey])) {
+        const prev = computeWeekStats(allWeeks[prevKey]);
+        const diff = st.totalMin - prev.totalMin;
+        if (diff > 0) ins.push(`📈 <b>نسبت به هفته قبل:</b> ${fmtMin(diff, true)} مطالعه بیشتر (هفته قبل: ${fmtMin(prev.totalMin, true)}).`);
+        else if (diff < 0) ins.push(`📉 <b>نسبت به هفته قبل:</b> ${fmtMin(-diff, true)} مطالعه کمتر (هفته قبل: ${fmtMin(prev.totalMin, true)})${logged < 7 ? '؛ البته همه روزهای این هفته هنوز ثبت نشده' : ''}.`);
+      }
+      if (totalH > 0) {
+        const tx = `میانگین مطالعه در روز <b>${fmtMin(dayAvg * 60, true)}</b>`;
+        if (dayAvg < NORM.day[0]) ins.push(`⚖️ <b>حد وسع:</b> ${tx}؛ هدف ۱۰ تا ۱۳٫۵ ساعت است و ${fmtMin((NORM.day[0] - dayAvg) * 60, true)} در روز تا حداقل فاصله داری.`);
+        else if (dayAvg > NORM.day[1]) ins.push(`⚠️ <b>حد وسع:</b> ${tx}؛ بالای ۱۳٫۵ ساعت پایدار نیست و به فرسودگی می‌رسد.`);
+        else ins.push(`✅ <b>حد وسع:</b> ${tx}؛ در بازه ۱۰ تا ۱۳٫۵ ساعت است.`);
+        if (logged === 7) {
+          const w = statusOf(totalH, ...NORM.week);
+          ins.push(`${w === 'ok' ? '✅' : '📊'} <b>جمع هفته:</b> ${fmtMin(st.totalMin, true)}${w === 'low' ? '؛ کمتر از ۷۰ ساعت' : w === 'high' ? '؛ بیشتر از ۹۵ ساعت' : '؛ در بازه ۷۰ تا ۹۵ ساعت'}.`);
+        }
+      }
+      if (wakeSum && wakeShare < NORM.wake[0]) ins.push(`⏳ <b>زمان بیداری:</b> ${fa(Math.round(wakeShare))}٪ از ساعات بیداری صرف درس شده (هدف ۷۰ تا ۷۵٪)${st.phone ? `؛ گوشی این هفته ${fmtMin(st.phone * 60, true)} بوده` : ''}.`);
+      if (st.filmMin > 0) {
+        if (filmShare > NORM.film) ins.push(`🎬 <b>آموزش / تمرین:</b> ${fa(Math.round(filmShare))}٪ آموزش (فیلم، کلاس، درسنامه) و ${fa(100 - Math.round(filmShare))}٪ تمرین. طبق قاعده ۴۰/۶۰ آموزش حداکثر ۴۰٪ باشد و بقیه تست و تمرین خودت.`);
+        else ins.push(`✍️ <b>آموزش / تمرین:</b> ${fa(Math.round(filmShare))}٪ آموزش و ${fa(100 - Math.round(filmShare))}٪ تمرین؛ نسبت خوبی است.`);
+        const heavy = SPECIAL.filter(s => { const x = st.subjects[s]; return x && x.minutes >= 60 && x.film / x.minutes > 0.6; });
+        if (heavy.length) ins.push(`🎥 <b>آموزشِ زیاد:</b> در ${heavy.join('، ')} بیشتر وقت به فیلم و آموزش گذشته؛ برای همین درس‌ها تست بیشتری بگذار.`);
+      }
+      if (sgTotal > 0 && autumn) {
+        if (generalShare < NORM.general[0]) ins.push(`📘 <b>دروس عمومی:</b> سهمشان ${fa(Math.round(generalShare))}٪ است؛ در مهر و آبان ۱۰ تا ۱۵٪ مناسب است.`);
+        else if (generalShare > NORM.general[1]) ins.push(`📘 <b>دروس عمومی:</b> سهمشان ${fa(Math.round(generalShare))}٪ شده؛ در پاییز بیش از ۱۵٪ از وقت اختصاصی‌ها کم می‌کند.`);
+      }
+      if (st.generalMin > 0 && !st.subjects['فارسی']?.minutes) ins.push(`👑 <b>فارسی:</b> با ۱۰٫۲٪ اثر، مهم‌ترین درس عمومی است؛ این هفته برایش وقتی ثبت نشده.`);
+      if (st.specialMin > 0) {
+        const top = splitRows.reduce((a, b) => b.share > a.share ? b : a);
+        if (top.share > 50) ins.push(`🚨 <b>تمرکز روی یک درس:</b> ${fa(Math.round(top.share))}٪ زمان اختصاصی فقط صرف ${top.s} شده.`);
+        const low = splitRows.filter(r => r.stt === 'low').map(r => r.s), high = splitRows.filter(r => r.stt === 'high').map(r => r.s);
+        if (low.length || high.length) ins.push(`⚖️ <b>تعادل اختصاصی‌ها:</b> ${low.length ? `کم: ${low.join('، ')}` : ''}${low.length && high.length ? ' · ' : ''}${high.length ? `زیاد: ${high.join('، ')}` : ''} <span class="text-slate-400">(الگو: زیست ⅓، شیمی ¼، ریاضی و فیزیک هرکدام ⅕)</span>`);
+        else ins.push(`✅ <b>تعادل اختصاصی‌ها:</b> تقسیم وقتت نزدیک به الگوی عددبازی است.`);
+      }
+      const phoneAvg = st.phone / ed;
+      if (phoneAvg > 2) ins.push(`📱 <b>گوشی:</b> میانگین روزانه ${fmtMin(phoneAvg * 60, true)}؛ یک ساعت کمتر یعنی ۷ ساعت مطالعه بیشتر در هفته.`);
+      const wStart = currentWeekKey, wEnd = keyFromDate(addDays(dateFromKey(currentWeekKey), 6));
+      const inWeek = d => d && d >= wStart && d <= wEnd;
+      let newCh = 0;
+      Object.values(syllabus.subjects).forEach(list => list.forEach(c => { if (inWeek(c.read)) newCh++; }));
+      const revDone = syllabus.log.filter(l => inWeek(l.d) && (l.type === 'done' || !l.type)).length;
+      if (newCh || revDone) ins.push(`📚 <b>مباحث:</b> ${fa(newCh)} فصل جدید و ${fa(revDone)} مرور در این هفته.`);
+      const overdue = dueReviews().filter(x => x.c.due < todayKey()).length;
+      if (overdue) ins.push(`⏰ <b>مرور عقب‌افتاده:</b> ${fa(overdue)} مبحث؛ اول این‌ها را جمع کن.`);
+      document.getElementById('advisorInsightsList').innerHTML = ins.map(i => `<p class="leading-relaxed">• ${i}</p>`).join('');
+
+      // ---------- جدول روزهای هفته ----------
+      const cfgDays = document.getElementById('cfg-days');
+      cfgDays.classList.toggle('hidden', !wkOpen.has('days'));
+      if (wkOpen.has('days')) cfgDays.innerHTML = `<div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-wrap gap-3">${cfgList('days', 'ستون‌های جدول (تیک = نمایش)')}</div>`;
+      const tKey = todayKey();
+      const RV = {
+        study:    { v: x => x.sess + x.cardFilm, f: v => fmtMin(v, true), cls: 'font-bold text-emerald-700' },
+        film:     { v: x => x.sessFilm + x.cardFilm, f: v => fmtMin(v, true), cls: 'font-semibold text-violet-600' },
+        practice: { v: x => x.practice, f: v => fmtMin(v, true), cls: 'font-semibold text-sky-700' },
+        tests:    { v: x => x.tests, f: v => fa(v), cls: 'font-black text-blue-600' },
+        sleep:    { v: x => x.sleep, f: v => fmtMin(v * 60, true), cls: 'text-slate-600', warn: v => v > 0 && statusOf(v, ...NORM.sleep) !== 'ok' },
+        phone:    { v: x => x.phone, f: v => fmtMin(v * 60, true), cls: 'text-rose-600' },
+        rest:     { v: x => x.rest, f: v => fmtMin(v * 60, true), cls: 'text-slate-500' }
+      };
+      const dcols = wkVisible('days');
+      document.getElementById('daysReportHead').innerHTML = `<tr class="text-slate-500 text-[11px] md:text-xs border-b border-slate-200">
+        <th class="py-2.5 px-2 text-right font-bold">روز</th>${dcols.map(c => `<th class="py-2.5 px-2 font-bold ${c.k === 'study' ? 'w-[30%]' : ''}">${c.l}${EDITABLE.includes(c.k) ? ' <span class="no-print text-[9px] text-slate-300">✎</span>' : ''}</th>`).join('')}</tr>`;
+      const maxStudy = Math.max(NORM.day[1] * 60, ...DAYS.map(d => RV.study.v(st.days[d])));
+      const sums = {};
+      let rowsHtml = '';
+      DAYS.forEach((d, i) => {
+        const x = st.days[d], dt = dayDate(currentWeekKey, i);
+        const isToday = keyFromDate(dt) === tKey;
+        let r = `<td onclick="goToDay('${d}')" class="py-2.5 px-2 text-right whitespace-nowrap cursor-pointer">
+            <b class="text-slate-800 text-[13px] md:text-sm">${d}</b> <span class="text-[10px] text-slate-400">${shamsi(dt, { day: 'numeric', month: 'long' })}</span>
+            ${isToday ? '<span class="mr-1 text-[9px] font-black bg-amber-400 text-slate-900 px-1.5 py-0.5 rounded-md align-middle">امروز</span>' : ''}</td>`;
+        dcols.forEach(c => {
+          const cfg = RV[c.k], v = cfg.v(x);
+          sums[c.k] = (sums[c.k] || 0) + v;
+          const editable = EDITABLE.includes(c.k);
+          const act = editable ? `onclick="editCell(this,'${d}','${c.k}')" title="برای ویرایش بزن"` : `onclick="goToDay('${d}')" title="باز کردن ${d}"`;
+          let inner = v > 0 ? cfg.f(v) : dash;
+          if (c.k === 'study') {
+            const w = v > 0 ? Math.max(3, Math.round(v / maxStudy * 100)) : 0;
+            const okDay = v / 60 >= NORM.day[0];
+            inner = `<div class="flex items-center gap-2">
+                <div class="flex-1 h-2.5 rounded-full bg-slate-100 overflow-hidden flex justify-start"><div class="h-full rounded-full ${okDay ? 'bg-emerald-500' : 'bg-emerald-400'}" style="width:${w}%"></div></div>
+                <span class="w-[78px] text-left text-[11px] md:text-xs font-bold text-emerald-700 whitespace-nowrap">${v > 0 ? cfg.f(v) : dash}</span></div>`;
+          }
+          const warn = cfg.warn && cfg.warn(v);
+          r += `<td ${act} class="py-2.5 px-2 cursor-pointer ${editable ? 'hover:bg-amber-50' : ''} ${c.k === 'study' ? '' : cfg.cls} ${warn ? '!text-amber-600 font-bold' : ''}">${inner}</td>`;
+        });
+        rowsHtml += `<tr class="border-b border-slate-100 transition hover:bg-slate-50 ${isToday ? 'bg-amber-50/70' : ''}">${r}</tr>`;
+      });
+      document.getElementById('daysReportTable').innerHTML = dcols.length ? rowsHtml : `<tr><td class="p-3 text-slate-400 text-xs" colspan="9">همه ستون‌ها پنهان شده‌اند؛ از ⚙️ برگردان.</td></tr>`;
+      // مجموع و میانگین (میانگین بر اساس روزهای ثبت‌شده؛ خواب بر اساس روزهایی که خواب ثبت شده)
+      const avgOf = k => k === 'sleep' ? (st.sleepDays ? sums.sleep / st.sleepDays : 0) : sums[k] / ed;
+      document.getElementById('daysReportFoot').innerHTML = dcols.length ? `
+        <tr class="bg-slate-50 border-t-2 border-slate-200">
+          <td class="pt-3 pb-1 px-2 text-right font-black text-slate-800">مجموع</td>
+          ${dcols.map(c => `<td class="pt-3 pb-1 px-2 text-sm md:text-base font-black ${RV[c.k].cls}">${sums[c.k] > 0 ? RV[c.k].f(sums[c.k]) : dash}</td>`).join('')}</tr>
+        <tr class="bg-slate-50">
+          <td class="pb-3 pt-1 px-2 text-right text-[11px] text-slate-500">میانگین روزانه</td>
+          ${dcols.map(c => { const v = avgOf(c.k); return `<td class="pb-3 pt-1 px-2 text-[11px] text-slate-500">${v > 0 ? (c.k === 'tests' ? fa(Math.round(v)) : RV[c.k].f(v)) : dash}</td>`; }).join('')}</tr>` : '';
+
+      // ---------- تفکیک درس‌ها ----------
+      const cfgSub = document.getElementById('cfg-sub');
+      cfgSub.classList.toggle('hidden', !wkOpen.has('sub'));
+      if (wkOpen.has('sub')) cfgSub.innerHTML = `<div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex flex-wrap gap-3">${cfgList('cols', 'ستون‌ها')}${cfgList('rows', 'درس‌ها')}</div>`;
+      const cols = wkVisible('cols');
+      document.getElementById('subjectReportHead').innerHTML = `<tr class="bg-slate-50 text-slate-600"><th class="p-2 border text-right">درس</th>${cols.map(c => `<th class="p-2 border ${c.k === 'fp' ? 'w-1/4' : ''}">${c.l}</th>`).join('')}</tr>`;
+      const CLR = { ok: 'text-emerald-600', low: 'text-amber-600', high: 'text-rose-600', none: 'text-slate-500' };
+      const n = v => v > 0 ? fa(v) : dash;
+      const tm = v => v > 0 ? fmtMin(v, true) : dash;
+      const fpBar = (film, prac) => {
+        const t = film + prac; if (!t) return dash;
+        const fp = Math.round(film / t * 100);
+        return `<div class="flex h-2.5 rounded-full overflow-hidden bg-slate-100" title="آموزش ${fa(fp)}٪ / تمرین ${fa(100 - fp)}٪"><div class="bg-violet-400" style="width:${fp}%"></div><div class="${100 - fp >= 60 ? 'bg-emerald-500' : 'bg-amber-400'}" style="width:${100 - fp}%"></div></div><div class="text-[10px] text-slate-500 mt-0.5">🎬 ${fa(fp)}٪ · ✍️ ${fa(100 - fp)}٪</div>`;
+      };
+      const cell = (k, s, it) => {
+        const sp = splitRows.find(r => r.s === s);
+        switch (k) {
+          case 'time': return `<td class="p-2 border font-semibold text-emerald-700">${tm(it.minutes)}</td>`;
+          case 'fp': return `<td class="p-2 border">${fpBar(it.film, it.practice)}</td>`;
+          case 'film': return `<td class="p-2 border text-violet-600">${tm(it.film)}</td>`;
+          case 'practice': return `<td class="p-2 border text-sky-700">${tm(it.practice)}</td>`;
+          case 'tests': return `<td class="p-2 border font-bold text-blue-700">${n(it.tests)}</td>`;
+          case 'solo': return `<td class="p-2 border text-slate-600">${n(it.solo)}</td>`;
+          case 'video': return `<td class="p-2 border text-violet-600">${n(it.video)}</td>`;
+          case 'exam': return `<td class="p-2 border text-rose-600">${n(it.exam)}</td>`;
+          case 'share': return `<td class="p-2 border text-slate-600">${st.studyMin && it.minutes ? fa(Math.round(it.minutes / st.studyMin * 100)) + '٪' : dash}</td>`;
+          case 'target': return `<td class="p-2 border whitespace-nowrap">${sp ? `<b class="${CLR[sp.stt]}">${fa(Math.round(sp.share))}٪</b> <span class="text-[10px] text-slate-400">/ ${fa(Math.round(sp.target))}٪</span>` : '<span class="text-slate-200">·</span>'}</td>`;
+        }
+        return '<td class="border"></td>';
+      };
+      let subHtml = '';
+      wkVisible('rows').forEach(r => {
+        const it = st.subjects[r.k] || { minutes: 0, film: 0, practice: 0, tests: 0, solo: 0, video: 0, exam: 0 };
+        subHtml += `<tr class="hover:bg-slate-50 ${it.minutes || it.tests ? '' : 'opacity-50'}"><td class="p-2 border text-right font-bold text-slate-800 whitespace-nowrap">${r.k}</td>${cols.map(c => cell(c.k, r.k, it)).join('')}</tr>`;
+      });
+      const tot = { minutes: st.studyMin, film: st.sessFilm, practice: st.practiceMin, tests: st.tests, solo: st.solo, video: st.video, exam: st.exam };
+      subHtml += `<tr class="bg-slate-100 font-black"><td class="p-2 border text-right text-slate-700">جمع</td>${cols.map(c => c.k === 'share' ? '<td class="p-2 border text-slate-500">۱۰۰٪</td>' : c.k === 'target' ? '<td class="p-2 border"></td>' : cell(c.k, '', tot)).join('')}</tr>`;
+      document.getElementById('subjectReportTable').innerHTML = subHtml;
+    }
+
+    // ================== تحلیل و نمودار ==================
+    const AN_SECS = [
+      { k: 'balance', l: '⚖️ تعادل و عددبازی', week: true },
+      { k: 'daily', l: '📊 نمودار مطالعه روزانه', week: true },
+      { k: 'subjects', l: '🍩 سهم درس‌ها', week: true },
+      { k: 'tests', l: '🧪 تحلیل تست‌ها', week: true },
+      { k: 'life', l: '🛏️ خواب، گوشی و استراحت', week: true },
+      { k: 'consistency', l: '🎯 نظم و ثبات', week: true },
+      { k: 'trend', l: '📈 روند هفته‌ها' },
+      { k: 'heat', l: '🔥 نقشه حرارتی مطالعه' },
+      { k: 'syllabus', l: '📚 پیشرفت مباحث و سرعت' }
+    ];
+    const SUBJ_CLR = { 'زیست': '#10b981', 'شیمی': '#3b82f6', 'فیزیک': '#f59e0b', 'ریاضی': '#8b5cf6', 'زمین‌شناسی': '#a16207',
+      'فارسی': '#ec4899', 'دینی': '#14b8a6', 'زبان': '#6366f1', 'عربی': '#84cc16', 'سلامت و بهداشت': '#06b6d4', 'هویت اجتماعی': '#f97316', 'آزمون': '#ef4444' };
+    function anCfg() {
+      settings.an = settings.an || {};
+      const c = settings.an;
+      c.order = (c.order || []).filter(k => AN_SECS.some(x => x.k === k));
+      AN_SECS.forEach(x => { if (!c.order.includes(x.k)) c.order.push(x.k); });
+      c.hide = c.hide || [];
+      return c;
+    }
+    let anCfgOpen = false;
+    function anCfgToggle() { anCfgOpen = !anCfgOpen; renderAnalysis(); }
+    function anHide(k) { const c = anCfg(); if (!c.hide.includes(k)) c.hide.push(k); saveSettings(); renderAnalysis(); }
+    function anShow(k) { const c = anCfg(); c.hide = c.hide.filter(x => x !== k); saveSettings(); renderAnalysis(); }
+    function anToggle(k) { anCfg().hide.includes(k) ? anShow(k) : anHide(k); }
+    function anMove(k, dir) {
+      const o = anCfg().order, i = o.indexOf(k), j = i + dir;
+      if (j < 0 || j >= o.length) return;
+      [o[i], o[j]] = [o[j], o[i]]; saveSettings(); renderAnalysis();
+    }
+    function anReset() { delete settings.an; saveSettings(); renderAnalysis(); }
+
+    const BADGE = {
+      low: '<span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-700">کم</span>',
+      ok: '<span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-700">متعادل</span>',
+      high: '<span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-rose-100 text-rose-700">زیاد</span>',
+      none: '<span class="text-[10px] px-2.5 py-1 rounded-full bg-slate-100 text-slate-400">-</span>'
+    };
+    const FILL = { low: '#fbbf24', ok: '#10b981', high: '#f43f5e', none: '#cbd5e1' };
+    // نوار عددبازی: نوار سبز کم‌رنگ = بازه استاندارد، رنگ نوار اصلی = وضعیت
+    function normBar(v, max, lo, hi, stt) {
+      const pc = x => Math.max(0, Math.min(100, x / max * 100));
+      const band = lo != null ? `<div class="absolute inset-y-0 bg-emerald-100" style="right:${pc(lo)}%;width:${pc(hi) - pc(lo)}%"></div>` : '';
+      const ticks = lo != null ? `<div class="absolute -inset-y-0.5 w-px bg-emerald-500 z-10" style="right:${pc(lo)}%"></div>${hi < max ? `<div class="absolute -inset-y-0.5 w-px bg-emerald-500 z-10" style="right:${pc(hi)}%"></div>` : ''}` : '';
+      return `<div class="relative h-2.5 rounded-full bg-slate-100">${band}<div class="absolute inset-y-0 right-0 rounded-full transition-all duration-700" style="width:${pc(v)}%;background:${FILL[stt]}"></div>${ticks}</div>`;
+    }
+    function normRow(title, sub, v, max, lo, hi, valTxt, goalTxt, stt) {
+      return `<div class="grid grid-cols-[1fr_auto] md:grid-cols-[190px_1fr_230px_64px] items-center gap-x-4 gap-y-1.5 py-3 border-b border-slate-100 last:border-0">
+          <div><div class="text-xs md:text-sm font-bold text-slate-800">${title}</div><div class="text-[10px] text-slate-400 mt-0.5">${sub}</div></div>
+          <div class="md:order-last text-left md:text-center">${BADGE[stt]}</div>
+          <div class="col-span-2 md:col-span-1">${normBar(v, max, lo, hi, stt)}</div>
+          <div class="col-span-2 md:col-span-1 text-[11px] text-slate-500 md:text-left whitespace-nowrap"><b class="text-sm text-slate-800">${valTxt}</b> ${goalTxt}</div>
+        </div>`;
+    }
+    const pct = v => `${fa(Math.round(v))}٪`;
+    const card = (k, title, note, inner, foot = '') => `
+      <section data-an="${k}" class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-wrap justify-between items-center gap-2 border-b pb-2 mb-3">
+          <h2 class="text-sm md:text-base font-bold text-slate-800">${title}</h2>
+          <div class="flex items-center gap-2"><span class="text-[10px] text-slate-400">${note}</span>
+          <button onclick="anHide('${k}')" class="no-print text-[11px] px-1.5 py-0.5 text-slate-400 hover:text-rose-600" title="پنهان کردن این بخش">✕</button></div>
+        </div>${inner}${foot ? `<div class="mt-3 p-2.5 rounded-xl bg-slate-50 text-[11px] md:text-xs text-slate-600 leading-relaxed">${foot}</div>` : ''}
+      </section>`;
+
+    // محاسبات پایه‌ی یک هفته (مشترک بین بخش‌ها)
+    function weekMetrics(key) {
+      const wd = allWeeks[key] || {};
+      const st = computeWeekStats(wd);
+      const logged = loggedDays(wd), ed = Math.max(1, logged);
+      const totalH = st.totalMin / 60;
+      let wakeSum = 0, wakeAcad = 0;
+      DAYS.forEach(d => { const x = st.days[d]; if (x.sleep > 0) { wakeSum += 24 - x.sleep; wakeAcad += (x.sess + x.cardFilm) / 60; } });
+      const sg = st.specialMin + st.generalMin;
+      return {
+        st, logged, ed, totalH, dayAvg: totalH / ed,
+        wakeShare: wakeSum ? wakeAcad / wakeSum * 100 : null,
+        avgSleep: st.sleepDays ? st.sleep / st.sleepDays : null,
+        practiceShare: st.totalMin ? 100 - st.filmMin / st.totalMin * 100 : null,
+        generalShare: sg ? st.generalMin / sg * 100 : null,
+        phoneAvg: logged ? st.phone / ed : null
+      };
+    }
+
+    // نمودار خطی SVG (شنبه سمت راست)
+    function lineChart(series, maxY, band, fmtY) {
+      const W = 640, H = 210, pl = 34, pr = 8, pt = 14, pb = 30;
+      const xs = i => W - pr - (i + .5) * ((W - pl - pr) / 7);
+      const ys = v => pt + (1 - Math.min(v, maxY) / maxY) * (H - pt - pb);
+      let g = '';
+      for (let t = 0; t <= maxY; t += maxY <= 8 ? 1 : 2) g += `<line x1="${pl}" x2="${W - pr}" y1="${ys(t)}" y2="${ys(t)}" stroke="#e2e8f0" stroke-width="1"/><text x="${pl - 6}" y="${ys(t) + 3}" font-size="9" fill="#94a3b8" text-anchor="end">${fmtY(t)}</text>`;
+      if (band) g += `<rect x="${pl}" width="${W - pl - pr}" y="${ys(band[1])}" height="${ys(band[0]) - ys(band[1])}" fill="${band[2]}" opacity=".12"/>`;
+      DAYS.forEach((d, i) => g += `<text x="${xs(i)}" y="${H - 10}" font-size="10" fill="#64748b" text-anchor="middle">${d}</text>`);
+      series.forEach(se => {
+        const pts = se.vals.map((v, i) => v == null ? null : [xs(i), ys(v)]).filter(Boolean);
+        if (pts.length > 1) g += `<polyline points="${pts.map(p => p.join(',')).join(' ')}" fill="none" stroke="${se.c}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>`;
+        se.vals.forEach((v, i) => { if (v != null) g += `<circle cx="${xs(i)}" cy="${ys(v)}" r="4" fill="#fff" stroke="${se.c}" stroke-width="2"><title>${DAYS[i]} · ${se.l}: ${fmtMin(v * 60, true)}</title></circle>`; });
+      });
+      return `<svg viewBox="0 0 ${W} ${H}" class="w-full h-auto max-h-72" role="img">${g}</svg>
+        <div class="flex flex-wrap gap-3 justify-center text-[11px] text-slate-500 mt-1">${series.map(se => `<span class="inline-flex items-center gap-1"><i class="inline-block w-3 h-1 rounded" style="background:${se.c}"></i>${se.l}</span>`).join('')}${band ? `<span class="inline-flex items-center gap-1"><i class="inline-block w-3 h-2 rounded-sm" style="background:${band[2]};opacity:.3"></i>${band[3]}</span>` : ''}</div>`;
+    }
+
+    function anOpenWeek(k) { flushSave(); currentWeekKey = k; renderAll(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    function renderAnalysis() {
+      const c = anCfg();
+      const m = weekMetrics(currentWeekKey), { st, logged, ed } = m;
+      const hasWeek = logged > 0;
+      const tKey = todayKey();
+      document.getElementById('anTitle').innerText = `📈 تحلیل و نمودار · هفته ${weekRangeLabel(currentWeekKey)}`;
+      document.getElementById('anSub').innerText = hasWeek ? `${fa(logged)} روز از ۷ روز ثبت شده · هر بخش را با ✕ پنهان کن، از ⚙️ برگردان یا جابه‌جا کن` : 'هر بخش را با ✕ پنهان کن، از ⚙️ برگردان یا جابه‌جا کن';
+      document.getElementById('anEmpty').classList.toggle('hidden', hasWeek);
+      // تنظیمات
+      const cfgEl = document.getElementById('anCfg');
+      cfgEl.classList.toggle('hidden', !anCfgOpen);
+      if (anCfgOpen) cfgEl.innerHTML = `<div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+          <div class="flex justify-between items-center mb-1.5"><span class="text-[11px] font-bold text-slate-600">بخش‌های صفحه (تیک = نمایش)</span><button onclick="anReset()" class="text-[10px] text-slate-400 hover:text-emerald-600">↺ پیش‌فرض</button></div>
+          <div class="grid sm:grid-cols-2 gap-1">${c.order.map((k, i) => { const x = AN_SECS.find(s => s.k === k), off = c.hide.includes(k); return `
+            <div class="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-white border border-slate-100">
+              <input type="checkbox" class="accent-emerald-600" ${off ? '' : 'checked'} onchange="anToggle('${k}')">
+              <span class="flex-1 text-[11px] ${off ? 'line-through text-slate-400' : 'text-slate-700'}">${x.l}</span>
+              <button onclick="anMove('${k}',-1)" class="icon-btn" ${i === 0 ? 'disabled style="opacity:.3"' : ''}>▲</button>
+              <button onclick="anMove('${k}',1)" class="icon-btn" ${i === c.order.length - 1 ? 'disabled style="opacity:.3"' : ''}>▼</button>
+            </div>`; }).join('')}</div></div>`;
+      const hb = document.getElementById('anHiddenBar');
+      hb.classList.toggle('hidden', !c.hide.length);
+      hb.innerHTML = 'بخش‌های پنهان: ' + c.hide.map(k => `<button onclick="anShow('${k}')" class="px-2 py-0.5 rounded-full bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700">${AN_SECS.find(x => x.k === k)?.l || k} +</button>`).join('');
+
+      const R = {};
+      // ---------- ۱) تعادل و عددبازی ----------
+      R.balance = () => {
+        const rows = [];
+        const sd = statusOf(m.dayAvg, ...NORM.day);
+        rows.push(normRow('فعالیت درسی روزانه', 'مطالعه + فیلم، میانگین روزهای ثبت‌شده', m.dayAvg, 16, ...NORM.day, fmtMin(m.dayAvg * 60, true), `<span>هدف: ۱۰ تا ۱۳٫۵ ساعت</span>`, sd));
+        const proj = logged < 7 ? m.totalH / ed * 7 : m.totalH;
+        rows.push(normRow('فعالیت درسی هفته', logged < 7 ? `تا الان · با همین روند کل هفته ≈ ${fmtMin(proj * 60, true)}` : 'جمع هفت روز', m.totalH, 110, ...NORM.week, fmtMin(m.totalH * 60, true), 'هدف: ۷۰ تا ۹۵ ساعت', statusOf(proj, ...NORM.week)));
+        rows.push(m.wakeShare != null
+          ? normRow('سهم درس از زمان بیداری', 'روزهایی که خواب ثبت شده', m.wakeShare, 100, ...NORM.wake, pct(m.wakeShare), 'هدف: ۷۰ تا ۷۵٪', statusOf(m.wakeShare, ...NORM.wake))
+          : normRow('سهم درس از زمان بیداری', 'برای محاسبه، خواب را ثبت کن', 0, 100, ...NORM.wake, '-', 'هدف: ۷۰ تا ۷۵٪', 'none'));
+        rows.push(m.avgSleep != null
+          ? normRow('خواب', 'میانگین شبانه‌روز', m.avgSleep, 12, ...NORM.sleep, fmtMin(m.avgSleep * 60, true), 'هدف: ۶ تا ۸ ساعت', statusOf(m.avgSleep, ...NORM.sleep))
+          : normRow('خواب', 'ثبت نشده', 0, 12, ...NORM.sleep, '-', 'هدف: ۶ تا ۸ ساعت', 'none'));
+        rows.push(m.practiceShare != null
+          ? normRow('سهم تمرین و تست', 'تست شخصی، آزمون و مرور در برابر آموزش و فیلم', m.practiceShare, 100, 100 - NORM.film, 100, pct(m.practiceShare), 'هدف: حداقل ۶۰٪', m.practiceShare >= 100 - NORM.film ? 'ok' : 'low')
+          : normRow('سهم تمرین و تست', '', 0, 100, 60, 100, '-', 'هدف: حداقل ۶۰٪', 'none'));
+        rows.push(m.generalShare != null
+          ? normRow('سهم دروس عمومی', 'از کل مطالعه درسی · معیار پاییز', m.generalShare, 50, ...NORM.general, pct(m.generalShare), 'هدف: ۱۰ تا ۱۵٪', statusOf(m.generalShare, ...NORM.general))
+          : normRow('سهم دروس عمومی', 'از کل مطالعه درسی · معیار پاییز', 0, 50, ...NORM.general, '-', 'هدف: ۱۰ تا ۱۵٪', 'none'));
+        rows.push(m.phoneAvg != null
+          ? normRow('گوشی و مجازی', 'میانگین روزانه', m.phoneAvg, 6, 0, 2, (m.phoneAvg ? fmtMin(m.phoneAvg * 60, true) : '۰'), 'حداکثر ۲ ساعت', m.phoneAvg > 2 ? 'high' : 'ok')
+          : '');
+        // تقسیم اختصاصی‌ها
+        let split = '';
+        if (st.specialMin > 0) {
+          split = `<div class="mt-4 mb-1 text-xs font-bold text-slate-600">تقسیم وقت اختصاصی‌ها <span class="font-normal text-[10px] text-slate-400">(الگو: زیست ⅓، شیمی ¼، ریاضی و فیزیک هرکدام ⅕)</span></div>` +
+            Object.entries(NORM.split).map(([s, target]) => {
+              const share = (st.subjects[s]?.minutes || 0) / st.specialMin * 100, tol = Math.max(3, target * 0.2);
+              return normRow(s, `${fmtMin(st.subjects[s]?.minutes || 0, true) === '-' ? '۰' : fmtMin(st.subjects[s]?.minutes || 0, true)} از اختصاصی‌ها`, share, 60, Math.max(0, target - tol), target + tol, pct(share), `هدف: حدود ${pct(target)}`, share === 0 ? 'low' : statusOf(share, target - tol, target + tol));
+            }).join('');
+        }
+        const lows = [], highs = [];
+        if (sd === 'low') lows.push('مطالعه روزانه'); if (sd === 'high') highs.push('مطالعه روزانه');
+        if (m.avgSleep != null && m.avgSleep < 6) lows.push('خواب'); if (m.avgSleep != null && m.avgSleep > 8) highs.push('خواب');
+        if (m.practiceShare != null && m.practiceShare < 60) lows.push('سهم تمرین');
+        if (m.wakeShare != null && m.wakeShare < NORM.wake[0]) lows.push('سهم درس از بیداری');
+        if (m.generalShare != null && m.generalShare < NORM.general[0]) lows.push('دروس عمومی'); if (m.generalShare > NORM.general[1]) highs.push('دروس عمومی');
+        if (logged === 7 && m.totalH < NORM.week[0]) lows.push('جمع هفته');
+        if (m.phoneAvg > 2) highs.push('گوشی');
+        const foot = lows.length || highs.length
+          ? `💡 ${lows.length ? `<b>نیاز به افزایش:</b> ${lows.join('، ')}` : ''}${lows.length && highs.length ? ' · ' : ''}${highs.length ? `<b>نیاز به کاهش:</b> ${highs.join('، ')}` : ''}${sd === 'low' ? ` — برای رسیدن به ۱۰ ساعت، روزی ${fmtMin((NORM.day[0] - m.dayAvg) * 60, true)} بیشتر لازم است.` : ''}`
+          : '✅ همه شاخص‌های اصلی در بازه استاندارد هستند.';
+        return card('balance', '⚖️ تعادل و عددبازی', 'نوار سبز کم‌رنگ = بازه استاندارد', rows.join('') + split, foot);
+      };
+
+      // ---------- ۲) نمودار مطالعه روزانه ----------
+      R.daily = () => {
+        const vals = DAYS.map(d => ({ d, learn: st.days[d].sessFilm, prac: st.days[d].practice, tot: st.days[d].sess }));
+        const maxH = Math.max(14, Math.ceil(Math.max(...vals.map(v => v.tot)) / 60) + 1);
+        const y = h => h / maxH * 100;
+        const bars = vals.map((v, i) => {
+          const isToday = keyFromDate(dayDate(currentWeekKey, i)) === tKey;
+          return `<div onclick="goToDay('${v.d}')" class="flex-1 flex flex-col items-center justify-end h-full cursor-pointer group" title="${v.d}: ${fmtMin(v.tot, true)} (آموزش ${fmtMin(v.learn, true)} · تمرین ${fmtMin(v.prac, true)})">
+              <div class="text-[9px] md:text-[10px] font-bold text-slate-600 mb-0.5 whitespace-nowrap">${v.tot ? `<span class="md:hidden">${fa(Math.round(v.tot / 6) / 10)}</span><span class="hidden md:inline">${fmtMin(v.tot, true)}</span>` : ''}</div>
+              <div class="w-6 md:w-10 flex flex-col justify-end rounded-t-lg overflow-hidden group-hover:opacity-80 transition" style="height:${y(v.tot / 60)}%">
+                <div style="height:${v.tot ? v.learn / v.tot * 100 : 0}%;background:#a78bfa"></div>
+                <div style="height:${v.tot ? v.prac / v.tot * 100 : 0}%;background:#10b981"></div>
+              </div>
+            </div>`;
+        }).join('');
+        const labels = DAYS.map((d, i) => `<div class="flex-1 text-center text-[10px] md:text-[11px] ${keyFromDate(dayDate(currentWeekKey, i)) === tKey ? 'font-black text-amber-600' : 'text-slate-500'}">${d}</div>`).join('');
+        const best = vals.reduce((a, b) => b.tot > a.tot ? b : a);
+        const okDays = vals.filter(v => v.tot / 60 >= NORM.day[0]).length;
+        const inner = `<div class="relative h-56 pt-2">
+            <div class="absolute inset-x-0 bg-emerald-100/60 border-y border-dashed border-emerald-400" style="bottom:${y(NORM.day[0])}%;height:${y(NORM.day[1] - NORM.day[0])}%"></div>
+            <div class="absolute left-0 text-[9px] text-emerald-600 font-bold" style="bottom:${y(NORM.day[1])}%">۱۳٫۵ س</div>
+            <div class="absolute left-0 text-[9px] text-emerald-600 font-bold" style="bottom:${y(NORM.day[0]) - 5}%">۱۰ س</div>
+            <div class="relative flex items-end gap-1 md:gap-3 h-full px-6">${bars}</div>
+          </div>
+          <div class="flex gap-1 md:gap-3 px-6 mt-1 border-t border-slate-200 pt-1">${labels}</div>
+          <div class="flex flex-wrap gap-3 justify-center text-[11px] text-slate-500 mt-2">
+            <span class="inline-flex items-center gap-1"><i class="inline-block w-3 h-3 rounded-sm" style="background:#a78bfa"></i>آموزش و فیلم</span>
+            <span class="inline-flex items-center gap-1"><i class="inline-block w-3 h-3 rounded-sm" style="background:#10b981"></i>تمرین و تست</span>
+            <span class="inline-flex items-center gap-1"><i class="inline-block w-3 h-3 rounded-sm bg-emerald-100 border border-dashed border-emerald-400"></i>بازه حد وسع (۱۰ تا ۱۳٫۵ ساعت)</span>
+          </div>`;
+        const foot = `💡 ${fa(okDays)} روز از ${fa(logged)} روز ثبت‌شده در بازه حد وسع بوده‌ای. پرکارترین روز: <b>${best.d}</b> (${fmtMin(best.tot, true)}).`;
+        return card('daily', '📊 نمودار مطالعه روزانه', 'روی هر ستون بزنی، همان روز باز می‌شود', inner, foot);
+      };
+
+      // ---------- ۳) سهم درس‌ها ----------
+      R.subjects = () => {
+        const list = Object.entries(st.subjects).filter(([, x]) => x.minutes > 0).sort((a, b) => b[1].minutes - a[1].minutes);
+        if (!list.length) return card('subjects', '🍩 سهم درس‌ها', '', '<div class="text-xs text-slate-400 text-center py-4">هنوز پارت مطالعه‌ای ثبت نشده.</div>');
+        let acc = 0;
+        const stops = list.map(([s, x]) => { const a = acc; acc += x.minutes / st.studyMin * 360; return `${SUBJ_CLR[s] || '#94a3b8'} ${a}deg ${acc}deg`; }).join(',');
+        const donut = `<div class="relative w-44 h-44 md:w-52 md:h-52 mx-auto rounded-full shrink-0" style="background:conic-gradient(${stops})">
+            <div class="absolute inset-[22%] rounded-full bg-white flex flex-col items-center justify-center text-center shadow-inner">
+              <div class="text-[10px] text-slate-400">جمع پارت‌ها</div><div class="text-sm md:text-base font-black text-slate-800">${fmtMin(st.studyMin, true)}</div>
+              <div class="text-[10px] text-slate-400">${fa(list.length)} درس</div></div></div>`;
+        const legend = list.map(([s, x]) => {
+          const share = x.minutes / st.studyMin * 100, fp = x.minutes ? Math.round(x.film / x.minutes * 100) : 0;
+          return `<div class="flex items-center gap-2 py-1.5 border-b border-slate-100 last:border-0">
+              <i class="inline-block w-3 h-3 rounded-full shrink-0" style="background:${SUBJ_CLR[s] || '#94a3b8'}"></i>
+              <span class="w-24 text-xs font-bold text-slate-700 truncate">${s}</span>
+              <div class="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden"><div class="h-full rounded-full" style="width:${share}%;background:${SUBJ_CLR[s] || '#94a3b8'}"></div></div>
+              <span class="w-10 text-left text-[11px] font-bold text-slate-600">${pct(share)}</span>
+              <span class="w-20 text-left text-[10px] text-slate-400 whitespace-nowrap">${fmtMin(x.minutes, true)}</span>
+              <span class="hidden sm:inline w-20 text-left text-[10px] text-slate-400" title="سهم آموزش / تمرین">🎬${fa(fp)} · ✍️${fa(100 - fp)}</span>
+            </div>`;
+        }).join('');
+        const top = list[0];
+        const missing = SPECIAL.filter(s => s !== 'زمین‌شناسی' && !st.subjects[s]?.minutes);
+        const foot = `💡 بیشترین وقت: <b>${top[0]}</b> (${pct(top[1].minutes / st.studyMin * 100)}).${missing.length ? ` این هفته برای <b>${missing.join('، ')}</b> هیچ پارتی ثبت نشده.` : ''}`;
+        return card('subjects', '🍩 سهم درس‌ها', 'از کل پارت‌های مطالعه', `<div class="flex flex-col md:flex-row items-center gap-5">${donut}<div class="flex-1 w-full">${legend}</div></div>`, foot);
+      };
+
+      // ---------- ۴) تست‌ها ----------
+      R.tests = () => {
+        if (!st.tests) return card('tests', '🧪 تحلیل تست‌ها', '', '<div class="text-xs text-slate-400 text-center py-4">این هفته تستی ثبت نشده.</div>');
+        const practiceH = st.practiceMin / 60;
+        const pace = practiceH ? (st.solo + st.exam) / practiceH : 0;
+        const kpi = (t, v, s, clr) => `<div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-center"><div class="text-[10px] text-slate-500">${t}</div><div class="text-base md:text-lg font-black ${clr}">${v}</div><div class="text-[10px] text-slate-400">${s}</div></div>`;
+        const types = [['✍️ شخصی', st.solo, '#10b981'], ['🎥 همراه فیلم', st.video, '#a78bfa'], ['⏱️ آزمونی', st.exam, '#f43f5e']];
+        const typeBar = `<div class="flex h-4 rounded-full overflow-hidden bg-slate-100">${types.filter(t => t[1]).map(t => `<div style="width:${t[1] / st.tests * 100}%;background:${t[2]}" title="${t[0]}: ${fa(t[1])}"></div>`).join('')}</div>
+          <div class="flex flex-wrap gap-3 text-[11px] text-slate-500 mt-1.5">${types.map(t => `<span class="inline-flex items-center gap-1"><i class="inline-block w-2.5 h-2.5 rounded-full" style="background:${t[2]}"></i>${t[0]}: <b class="text-slate-700">${fa(t[1])}</b> (${pct(t[1] / st.tests * 100)})</span>`).join('')}</div>`;
+        const subs = Object.entries(st.subjects).filter(([, x]) => x.tests > 0).sort((a, b) => b[1].tests - a[1].tests);
+        const maxT = Math.max(...subs.map(([, x]) => x.tests));
+        const subBars = subs.map(([s, x]) => `<div class="flex items-center gap-2 py-1">
+            <span class="w-24 text-xs font-bold text-slate-700 truncate">${s}</span>
+            <div class="flex-1 h-3 rounded-full bg-slate-100 overflow-hidden"><div class="h-full rounded-full" style="width:${x.tests / maxT * 100}%;background:${SUBJ_CLR[s] || '#3b82f6'}"></div></div>
+            <span class="w-12 text-left text-xs font-black text-blue-600">${fa(x.tests)}</span>
+            <span class="hidden sm:inline w-24 text-left text-[10px] text-slate-400">${x.minutes ? fa(Math.round(x.tests / (x.minutes / 60))) + ' تست/ساعت' : ''}</span></div>`).join('');
+        const maxD = Math.max(1, ...DAYS.map(d => st.days[d].tests));
+        const dayBars = `<div class="flex items-end gap-1 md:gap-3 h-24 px-2">${DAYS.map(d => `<div class="flex-1 flex flex-col items-center justify-end h-full" title="${d}: ${fa(st.days[d].tests)} تست">
+            <div class="text-[9px] font-bold text-blue-600">${st.days[d].tests ? fa(st.days[d].tests) : ''}</div>
+            <div class="w-5 md:w-8 rounded-t-md bg-blue-500/80" style="height:${st.days[d].tests / maxD * 80}%"></div></div>`).join('')}</div>
+          <div class="flex gap-1 md:gap-3 px-2 border-t border-slate-200 pt-1">${DAYS.map(d => `<div class="flex-1 text-center text-[10px] text-slate-500">${d}</div>`).join('')}</div>`;
+        const inner = `<div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-4">
+            ${kpi('کل تست', fa(st.tests), 'این هفته', 'text-blue-600')}
+            ${kpi('میانگین روزانه', fa(Math.round(st.tests / ed)), 'تست در روز', 'text-slate-800')}
+            ${kpi('سرعت تمرین', pace ? fa(Math.round(pace)) : '-', 'تست شخصی و آزمونی در هر ساعت تمرین', 'text-emerald-600')}
+            ${kpi('تست در هر ساعت مطالعه', st.studyMin ? fa(Math.round(st.tests / (st.studyMin / 60))) : '-', 'همه تست‌ها / کل پارت‌ها', 'text-violet-600')}
+          </div>
+          <div class="text-[11px] font-bold text-slate-600 mb-1.5">نوع تست‌ها</div>${typeBar}
+          <div class="grid md:grid-cols-2 gap-5 mt-4">
+            <div><div class="text-[11px] font-bold text-slate-600 mb-1.5">تست به تفکیک درس</div>${subBars}</div>
+            <div><div class="text-[11px] font-bold text-slate-600 mb-1.5">تست در روزهای هفته</div>${dayBars}</div>
+          </div>`;
+        const noTest = SPECIAL.filter(s => s !== 'زمین‌شناسی' && st.subjects[s]?.minutes >= 60 && !st.subjects[s]?.tests);
+        const foot = `💡 ${pct(st.video / st.tests * 100)} تست‌ها همراه فیلم بوده و ${pct((st.solo + st.exam) / st.tests * 100)} شخصی یا آزمونی.${st.video > st.solo + st.exam ? ' تست شخصی (بدون کمک فیلم) را بیشتر کن؛ تست واقعی کنکور همین شکلی است.' : ''}${noTest.length ? ` برای <b>${noTest.join('، ')}</b> وقت گذاشته‌ای ولی تستی ثبت نشده.` : ''}`;
+        return card('tests', '🧪 تحلیل تست‌ها', '', inner, foot);
+      };
+
+      // ---------- ۵) خواب و گوشی ----------
+      R.life = () => {
+        const wd = allWeeks[currentWeekKey] || {};
+        const val = (d, k) => dayHasData(wd[d]) && st.days[d][k] > 0 ? st.days[d][k] : (dayHasData(wd[d]) && k !== 'sleep' ? 0 : null);
+        const series = [
+          { l: 'خواب', c: '#6366f1', vals: DAYS.map(d => val(d, 'sleep')) },
+          { l: 'گوشی و مجازی', c: '#f43f5e', vals: DAYS.map(d => val(d, 'phone')) },
+          { l: 'استراحت و تفریح', c: '#f59e0b', vals: DAYS.map(d => val(d, 'rest')) }
+        ];
+        const maxY = Math.max(10, Math.ceil(Math.max(0, ...series.flatMap(s => s.vals.filter(v => v != null)))));
+        const sl = series[0].vals.filter(v => v != null);
+        const irregular = sl.length > 1 ? Math.max(...sl) - Math.min(...sl) : 0;
+        const tips = [];
+        if (m.avgSleep != null) tips.push(`میانگین خواب ${fmtMin(m.avgSleep * 60, true)}${m.avgSleep < 6 ? ' — کم‌خوابی تمرکز و حافظه را پایین می‌آورد' : m.avgSleep > 8 ? ' — کمی بیشتر از نیاز' : ' — خوب'}.`);
+        if (irregular >= 2) tips.push(`اختلاف بیشترین و کمترین خواب ${fmtMin(irregular * 60, true)} است؛ ساعت خواب منظم‌تر کمک می‌کند.`);
+        if (st.phone) tips.push(`گوشی این هفته جمعاً ${fmtMin(st.phone * 60, true)}${m.phoneAvg > 2 ? `؛ اگر روزی ۱ ساعت کم شود، هفته‌ای ${fmtMin(Math.min(7, logged) * 60, true)} وقت آزاد می‌شود` : ''}.`);
+        return card('life', '🛏️ خواب، گوشی و استراحت', 'نوار رنگی = بازه خواب سالم', lineChart(series, maxY, [6, 8, '#6366f1', 'بازه خواب ۶ تا ۸ ساعت'], t => fa(t)), tips.length ? '💡 ' + tips.join(' ') : '');
+      };
+
+      // ---------- ۶) نظم و ثبات ----------
+      R.consistency = () => {
+        const wd = allWeeks[currentWeekKey] || {};
+        const days = DAYS.filter(d => dayHasData(wd[d])).map(d => ({ d, v: st.days[d].sess }));
+        const vals = days.map(x => x.v), mean = vals.reduce((a, b) => a + b, 0) / Math.max(1, vals.length);
+        const sd = Math.sqrt(vals.reduce((a, b) => a + (b - mean) ** 2, 0) / Math.max(1, vals.length));
+        const cv = mean ? sd / mean * 100 : 0;
+        const best = days.reduce((a, b) => !a || b.v > a.v ? b : a, null), worst = days.reduce((a, b) => !a || b.v < a.v ? b : a, null);
+        // زنجیره روزهای پیاپی با مطالعه (تا امروز یا دیروز)
+        let streak = 0, dt = new Date();
+        const studied = k => { const ws = keyFromDate(weekStartOf(dateFromKey(k))), w = allWeeks[ws]; const d = DAYS[(dateFromKey(k).getDay() + 1) % 7]; return w && w[d] && (w[d].sessions || []).some(s => sessionMinutes(s) > 0); };
+        if (!studied(keyFromDate(dt))) dt = addDays(dt, -1);
+        while (studied(keyFromDate(dt)) && streak < 999) { streak++; dt = addDays(dt, -1); }
+        const okDays = vals.filter(v => v / 60 >= NORM.day[0]).length;
+        const cvLbl = !vals.length ? '-' : cv < 15 ? 'خیلی منظم' : cv < 30 ? 'نسبتاً منظم' : 'پرنوسان';
+        const tile = (ic, t, v, s, clr) => `<div class="p-3 rounded-xl border border-slate-100 bg-slate-50 text-center"><div class="text-lg">${ic}</div><div class="text-[10px] text-slate-500">${t}</div><div class="text-sm md:text-base font-black ${clr} mt-0.5">${v}</div><div class="text-[10px] text-slate-400">${s}</div></div>`;
+        const inner = `<div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+            ${tile('🗓️', 'روزهای ثبت‌شده', `${fa(logged)} از ۷`, logged === 7 ? 'هفته کامل' : 'هر شب ثبت کن', 'text-slate-800')}
+            ${tile('🔥', 'زنجیره مطالعه', `${fa(streak)} روز`, 'روزهای پیاپی تا امروز', streak >= 7 ? 'text-orange-500' : 'text-slate-800')}
+            ${tile('✅', 'روزهای حد وسع', `${fa(okDays)} روز`, 'بالای ۱۰ ساعت', okDays ? 'text-emerald-600' : 'text-amber-600')}
+            ${tile('🏆', 'پرکارترین روز', best ? best.d : '-', best ? fmtMin(best.v, true) : '', 'text-emerald-600')}
+            ${tile('🐢', 'کم‌کارترین روز', worst ? worst.d : '-', worst ? (fmtMin(worst.v, true) === '-' ? '۰' : fmtMin(worst.v, true)) : '', 'text-amber-600')}
+            ${tile('📐', 'ثبات مطالعه', cvLbl, vals.length ? `نوسان ${pct(cv)} حول میانگین` : '', cv < 30 ? 'text-emerald-600' : 'text-rose-600')}
+          </div>`;
+        const foot = vals.length > 1 ? `💡 ${cv >= 30 ? `فاصله پرکارترین و کم‌کارترین روزت ${fmtMin(best.v - worst.v, true)} است. روزهای یکنواخت‌تر (حتی کمی کمتر) از چند روز خیلی زیاد و چند روز خالی بهتر است.` : 'مطالعه‌ات در طول هفته یکنواخت است؛ همین نظم را نگه دار.'}` : '';
+        return card('consistency', '🎯 نظم و ثبات', '', inner, foot);
+      };
+
+      // ---------- ۷) روند هفته‌ها ----------
+      R.trend = () => {
+        const keys = Object.keys(allWeeks).filter(k => hasWeekData(allWeeks[k])).sort().slice(-10);
+        if (keys.length < 2) return card('trend', '📈 روند هفته‌ها', '', '<div class="text-xs text-slate-400 text-center py-4">برای نمودار روند، حداقل ۲ هفته ثبت‌شده لازم است.</div>');
+        const data = keys.map(k => { const mm = weekMetrics(k); return { k, h: mm.totalH, tests: mm.st.tests, avg: mm.dayAvg, logged: mm.logged, cur: k === todayWeekKey() }; });
+        const maxH = Math.max(NORM.week[1] + 10, ...data.map(x => x.h));
+        const y = v => v / maxH * 100;
+        const bars = data.map(x => `<div class="flex-1 flex flex-col items-center justify-end h-full cursor-pointer" onclick="anOpenWeek('${x.k}')" title="${weekRangeLabel(x.k)}: ${fmtMin(x.h * 60, true)} · ${fa(x.tests)} تست">
+            <div class="text-[9px] font-bold text-slate-600 whitespace-nowrap">${fa(Math.round(x.h))}س</div>
+            <div class="w-full max-w-[44px] rounded-t-lg ${x.k === currentWeekKey ? 'bg-emerald-500' : 'bg-emerald-300'} ${x.cur && x.logged < 7 ? 'opacity-60' : ''}" style="height:${y(x.h)}%"></div></div>`).join('');
+        const labels = data.map(x => `<div class="flex-1 text-center text-[9px] md:text-[10px] ${x.k === currentWeekKey ? 'font-black text-emerald-700' : 'text-slate-400'}">${shamsi(dateFromKey(x.k), { day: 'numeric', month: 'numeric' })}${x.cur ? '<br>جاری' : ''}</div>`).join('');
+        const maxT = Math.max(1, ...data.map(x => x.tests));
+        const testLine = `<div class="flex items-end gap-1.5 md:gap-3 h-16 px-1 mt-1">${data.map(x => `<div class="flex-1 flex flex-col items-center justify-end h-full" title="${fa(x.tests)} تست">
+            <div class="text-[9px] md:text-[10px] font-bold text-blue-600">${fa(x.tests)}</div>
+            <div class="w-full max-w-[44px] rounded-t-md ${x.k === currentWeekKey ? 'bg-blue-500' : 'bg-blue-300'}" style="height:${Math.max(4, x.tests / maxT * 70)}%"></div></div>`).join('')}</div>`;
+        const full = data.filter(x => !(x.cur && x.logged < 7));
+        const last = full[full.length - 1], prev = full[full.length - 2];
+        const last4 = full.slice(-4), avg4 = last4.reduce((a, x) => a + x.h, 0) / Math.max(1, last4.length);
+        let foot = `💡 میانگین ${fa(last4.length)} هفته کامل اخیر: <b>${fmtMin(avg4 * 60, true)}</b> در هفته.`;
+        if (last && prev && prev.h) { const ch = (last.h - prev.h) / prev.h * 100; foot += ` آخرین هفته کامل نسبت به هفته قبلش ${ch >= 0 ? `<b class="text-emerald-600">${pct(ch)} بیشتر</b>` : `<b class="text-rose-600">${pct(-ch)} کمتر</b>`} بوده.`; }
+        const firstH = full[0]?.h || 0; if (full.length >= 3 && last.h > firstH) foot += ' روند کلی رو به بالاست 👏';
+        const inner = `<div class="text-[11px] font-bold text-slate-600 mb-1">ساعت مطالعه هر هفته <span class="font-normal text-slate-400">(نوار سبز = بازه ۷۰ تا ۹۵ ساعت)</span></div>
+          <div class="relative h-48">
+            <div class="absolute inset-x-0 bg-emerald-50 border-y border-dashed border-emerald-300" style="bottom:${y(NORM.week[0])}%;height:${y(NORM.week[1] - NORM.week[0])}%"></div>
+            <div class="relative flex items-end gap-1.5 md:gap-3 h-full px-1">${bars}</div>
+          </div>
+          <div class="flex gap-1.5 md:gap-3 px-1 border-t border-slate-200 pt-1">${labels}</div>
+          <div class="text-[11px] font-bold text-slate-600 mt-4">تعداد تست هر هفته</div>${testLine}`;
+        return card('trend', '📈 روند هفته‌ها', `${fa(keys.length)} هفته اخیر · روی هر ستون بزنی آن هفته باز می‌شود`, inner, foot);
+      };
+
+      // ---------- ۸) نقشه حرارتی ----------
+      R.heat = () => {
+        const N = 10, start = addDays(dateFromKey(todayWeekKey()), -7 * (N - 1));
+        const shade = mins => { const h = mins / 60; return h <= 0 ? null : h < 4 ? '#bbf7d0' : h < 7 ? '#6ee7b7' : h < 10 ? '#10b981' : '#047857'; };
+        let cols = '';
+        for (let w = 0; w < N; w++) {
+          const wk = keyFromDate(addDays(start, w * 7)), wdat = allWeeks[wk] || {};
+          cols += `<div class="flex-1 min-w-[16px] max-w-[56px] flex flex-col gap-1">${DAYS.map((d, i) => {
+            const dt = addDays(start, w * 7 + i), k = keyFromDate(dt), future = k > tKey;
+            const mins = (wdat[d]?.sessions || []).reduce((a, s) => a + sessionMinutes(s), 0);
+            const c = shade(mins);
+            return `<div class="w-full h-4 md:h-6 rounded ${c ? '' : future ? 'bg-transparent border border-dashed border-slate-200' : 'bg-slate-100'} ${k === tKey ? 'ring-2 ring-amber-400' : ''}" ${c ? `style="background:${c}"` : ''} title="${shamsi(dt, { weekday: 'long', day: 'numeric', month: 'long' })}: ${mins ? fmtMin(mins, true) : 'بدون مطالعه'}"></div>`;
+          }).join('')}<div class="text-[8px] md:text-[9px] text-slate-400 text-center mt-0.5">${shamsi(addDays(start, w * 7), { day: 'numeric', month: 'numeric' })}</div></div>`;
+        }
+        const inner = `<div class="flex gap-2 overflow-x-auto pb-1">
+            <div class="flex flex-col gap-1 text-[9px] md:text-[10px] text-slate-500">${DAYS.map(d => `<div class="h-4 md:h-6 leading-4 md:leading-6">${d}</div>`).join('')}</div>
+            <div class="flex-1 flex gap-1">${cols}</div></div>
+          <div class="flex items-center gap-1.5 text-[10px] text-slate-500 mt-2">کم
+            <i class="inline-block w-3.5 h-3.5 rounded bg-slate-100"></i>${['#bbf7d0', '#6ee7b7', '#10b981', '#047857'].map(c => `<i class="inline-block w-3.5 h-3.5 rounded" style="background:${c}"></i>`).join('')} زیاد
+            <span class="mr-2 text-slate-400">(۰ · زیر ۴ · ۴–۷ · ۷–۱۰ · بالای ۱۰ ساعت)</span></div>`;
+        return card('heat', '🔥 نقشه حرارتی مطالعه', `${fa(N)} هفته اخیر · هر خانه یک روز`, inner);
+      };
+
+      // ---------- ۹) مباحث ----------
+      R.syllabus = () => {
+        const names = Object.keys(SYL_META);
+        const rows = names.map(n => {
+          const list = (syllabus.subjects[n] || []).filter(c => !c.x); if (!list.length) return '';
+          const N = list.length, read = list.filter(c => c.read).length, test = list.filter(c => c.test).length, mast = list.filter(c => c.read && c.stage >= GAPS().length).length;
+          const bar = (v, clr, l) => `<div class="flex items-center gap-1.5"><div class="flex-1 h-2 rounded-full bg-slate-100 overflow-hidden"><div class="h-full rounded-full" style="width:${v / N * 100}%;background:${clr}"></div></div><span class="w-14 text-left text-[10px] text-slate-500 whitespace-nowrap">${fa(v)}/${fa(N)} ${l}</span></div>`;
+          return `<div class="grid grid-cols-[90px_1fr] md:grid-cols-[110px_1fr_1fr_1fr] items-center gap-x-3 gap-y-1 py-2 border-b border-slate-100 last:border-0">
+              <span class="text-xs font-bold text-slate-700 row-span-3 md:row-span-1">${n}</span>
+              ${bar(read, '#a78bfa', 'آموزش')}${bar(test, '#3b82f6', 'تمرین')}${bar(mast, '#10b981', 'تثبیت')}</div>`;
+        }).join('');
+        // سرعت پیشروی ۴ هفته اخیر
+        const from = addDaysKey(tKey, -28);
+        let readRecent = 0, remain = 0;
+        Object.values(syllabus.subjects).forEach(l => l.forEach(c => { if (c.x) return; if (c.read && c.read >= from) readRecent++; if (!c.read) remain++; }));
+        const perWeek = readRecent / 4;
+        const [ey, em, edd] = settings.exam;
+        const weeksLeft = Math.max(0, daysBetween(tKey, keyFromDate(jalaliToGregorian(ey, em, edd))) / 7);
+        const revWeek = syllabus.log.filter(l => l.d >= currentWeekKey && l.d <= addDaysKey(currentWeekKey, 6) && (l.type === 'done' || !l.type)).length;
+        const overdue = dueReviews().filter(x => x.c.due < tKey).length;
+        let foot = `💡 ${fa(readRecent)} فصل در ۴ هفته اخیر آموزش دیده‌ای (≈ ${fa(Math.round(perWeek * 10) / 10)} فصل در هفته) و ${fa(remain)} فصل مانده. `;
+        if (perWeek > 0) {
+          const need = remain / perWeek;
+          foot += `با همین سرعت حدود <b>${fa(Math.ceil(need))} هفته</b> دیگر تمام می‌شود؛ تا کنکور ${fa(Math.floor(weeksLeft))} هفته مانده${need > weeksLeft - 8 ? ' — برای داشتن ۸ هفته جمع‌بندی آخر، باید <b class="text-rose-600">سریع‌تر</b> پیش بروی' : ' — وقت کافی برای جمع‌بندی داری ✅'}.`;
+        } else foot += 'هنوز فصلی تیک «آموزش» نخورده؛ با تیک زدن فصل‌ها در تب مباحث، سرعت پیشروی‌ات محاسبه می‌شود.';
+        foot += ` · مرورهای انجام‌شده این هفته: <b>${fa(revWeek)}</b>${overdue ? ` · <b class="text-rose-600">${fa(overdue)} مرور عقب‌افتاده</b>` : ''}`;
+        return card('syllabus', '📚 پیشرفت مباحث و سرعت', `پیشرفت کل ${fa(overallProgress())}٪`, rows, foot);
+      };
+
+      document.getElementById('anBody').innerHTML = c.order.filter(k => !c.hide.includes(k)).map(k => {
+        const meta = AN_SECS.find(x => x.k === k);
+        if (meta.week && !hasWeek) return '';
+        try { return R[k](); } catch (e) { console.warn(e); return ''; }
+      }).join('');
+    }
+
+    function goToDay(d) { switchTab('daily'); selectDay(d); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+    // ================== همه هفته‌ها ==================
+    function renderHistory() {
+      const keys = Object.keys(allWeeks).filter(k => hasWeekData(allWeeks[k])).sort(); // قدیمی ← جدید
+      const stats = keys.map(k => ({ key: k, st: computeWeekStats(allWeeks[k]) }));
+
+      // کارت‌ها
+      const totalMin = stats.reduce((a, x) => a + x.st.totalMin, 0);
+      const totalTests = stats.reduce((a, x) => a + x.st.tests, 0);
+      const best = stats.reduce((b, x) => (!b || x.st.totalMin > b.st.totalMin) ? x : b, null);
+      const avgWeek = stats.length ? totalMin / stats.length : 0;
+      const card = (title, val, sub, color) => `
+        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center shadow-sm">
+          <div class="text-xs text-slate-500">${title}</div>
+          <div class="text-base md:text-lg font-black ${color} mt-1">${val}</div>
+          <div class="text-[11px] text-slate-400 mt-0.5">${sub}</div>
+        </div>`;
+      document.getElementById('historyCards').innerHTML =
+        card('تعداد هفته‌های ثبت‌شده', `${fa(stats.length)} هفته`, 'از شروع ثبت', 'text-slate-700') +
+        card('مجموع کل مطالعه', totalMin ? fmtMin(totalMin, true) : '۰', `${fa(totalTests)} تست در کل`, 'text-emerald-600') +
+        card('میانگین هر هفته', avgWeek ? fmtMin(avgWeek, true) : '۰', 'مطالعه در هفته', 'text-blue-600') +
+        card('بهترین هفته', best && best.st.totalMin ? fmtMin(best.st.totalMin, true) : '-', best ? weekRangeLabel(best.key) : '-', 'text-amber-600');
+
+      // نمودار
+      const maxMin = Math.max(1, ...stats.map(x => x.st.totalMin));
+      document.getElementById('historyChart').innerHTML = stats.length ? stats.map(x => {
+        const w = Math.round((x.st.totalMin / maxMin) * 100);
+        const isCur = x.key === todayWeekKey();
+        return `
+          <div class="flex items-center gap-2 cursor-pointer group" onclick="openWeek('${x.key}')">
+            <div class="w-32 md:w-44 shrink-0 text-[11px] text-slate-600 group-hover:text-emerald-700">${weekRangeLabel(x.key)}${isCur ? ' <b class="text-emerald-600">(جاری)</b>' : ''}</div>
+            <div class="flex-1 bg-slate-100 rounded-full h-5 overflow-hidden">
+              <div class="h-5 rounded-full ${isCur ? 'bg-emerald-500' : 'bg-emerald-400'} group-hover:bg-emerald-600 transition-all" style="width:${Math.max(w, 2)}%"></div>
+            </div>
+            <div class="w-24 shrink-0 text-[11px] font-bold text-emerald-700">${fmtMin(x.st.totalMin, true)}</div>
+          </div>`;
+      }).join('') : '<div class="text-xs text-slate-400 text-center py-6">هنوز هیچ هفته‌ای ثبت نشده است.</div>';
+
+      // جدول (جدیدترین بالا)
+      let html = '';
+      for (let i = stats.length - 1; i >= 0; i--) {
+        const { key, st } = stats[i];
+        const prevKey = keyFromDate(addDays(dateFromKey(key), -7));
+        const prevEntry = stats.find(x => x.key === prevKey);
+        let change = '<span class="text-slate-400">-</span>';
+        if (prevEntry) {
+          const d = st.totalMin - prevEntry.st.totalMin;
+          change = d > 0 ? `<span class="text-emerald-600 font-bold">▲ ${fmtMin(d, true)}</span>`
+                 : d < 0 ? `<span class="text-rose-600 font-bold">▼ ${fmtMin(-d, true)}</span>`
+                 : '<span class="text-slate-500">بدون تغییر</span>';
+        }
+        const avgSleep = st.sleepDays ? st.sleep / st.sleepDays : 0;
+        const isCur = key === todayWeekKey();
+        html += `
+          <tr class="border hover:bg-emerald-50 cursor-pointer ${isCur ? 'bg-emerald-50/50' : ''}" onclick="openWeek('${key}')">
+            <td class="p-2 border font-bold text-slate-800 text-right">${weekRangeLabel(key)}${isCur ? ' <span class="text-[10px] text-emerald-600">(جاری)</span>' : ''}</td>
+            <td class="p-2 border font-bold text-emerald-700">${fmtMin(st.totalMin, true)}</td>
+            <td class="p-2 border">${change}</td>
+            <td class="p-2 border text-slate-600">${st.totalMin ? fmtMin(st.totalMin / Math.max(1, loggedDays(allWeeks[key])), true) : '-'}</td>
+            <td class="p-2 border text-blue-700 font-bold">${st.tests ? fa(st.tests) : '-'}</td>
+            <td class="p-2 border text-rose-600">${st.phone ? fmtMin(st.phone * 60, true) : '-'}</td>
+            <td class="p-2 border text-indigo-600">${avgSleep ? fmtMin(avgSleep * 60, true) : '-'}</td>
+            <td class="p-2 border text-slate-700">${st.topSubject}</td>
+          </tr>`;
+      }
+      document.getElementById('historyTable').innerHTML = html || '<tr><td colspan="8" class="p-4 text-slate-400 text-xs">هنوز هیچ هفته‌ای ثبت نشده است.</td></tr>';
+    }
+
+    // ================== پشتیبان‌گیری ==================
+    function exportBackup() {
+      flushSave();
+      const blob = new Blob([JSON.stringify({ app: 'study-dashboard', version: 5, exportedAt: new Date().toISOString(), weeks: allWeeks, syllabus, settings }, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `study-backup-${keyFromDate(new Date())}.json`;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    }
+
+    function importBackup(ev) {
+      const file = ev.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(reader.result);
+          const weeks = data.weeks || (data.syllabus ? {} : data);
+          if (typeof weeks !== 'object') throw new Error();
+          const n = Object.keys(weeks).length;
+          if (confirm(`${fa(n)} هفته در فایل پیدا شد${data.syllabus ? ' (به‌همراه وضعیت مباحث و مرورها)' : ''}. اضافه شود؟`)) {
+            Object.assign(allWeeks, weeks);
+            persist();
+            if (data.syllabus && data.syllabus.subjects) { syllabus = data.syllabus; syllabus.log = syllabus.log || []; saveSyllabus(); }
+            if (data.settings && typeof data.settings === 'object') localStorage.setItem(SET_KEY, JSON.stringify(data.settings));
+            loadSyllabus(); // مهاجرت نسخه‌های قدیمی + خواندن تنظیمات
+            renderDatalists(); renderStatusBar();
+            renderAll();
+            showToast('✅ بازیابی انجام شد');
+          }
+        } catch (e) { console.warn(e); alert('فایل معتبر نیست.'); }
+        ev.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    // ================== مباحث، مرور و شمارش معکوس ==================
+    const todayKey = () => keyFromDate(new Date());
+    const addDaysKey = (key, n) => keyFromDate(addDays(dateFromKey(key), n));
+    // زیرمباحث پیش‌فرض (گفتار/بخش‌های کتاب درسی) — کلید: «پایه|فصل»؛ همه قابل ویرایش‌اند
+    const SYL_SUBS = {
+      'زیست': {
+        'دهم|دنیای زنده': ['زیست‌شناسی چیست؟', 'گستره حیات', 'یاخته و بافت در بدن انسان'],
+        'دهم|گوارش و جذب مواد': ['ساختار و عملکرد لوله گوارش', 'جذب مواد و تنظیم فعالیت دستگاه گوارش', 'تنوع گوارش در جانداران'],
+        'دهم|تبادلات گازی': ['سازوکار دستگاه تنفس در انسان', 'تهویه ششی', 'تنوع تبادلات گازی'],
+        'دهم|گردش مواد در بدن': ['قلب', 'رگ‌ها', 'خون', 'تنوع گردش مواد در جانداران'],
+        'دهم|تنظیم اسمزی و دفع مواد زائد': ['هم‌ایستایی و کلیه‌ها', 'تشکیل ادرار و تخلیه آن', 'تنوع دفع و تنظیم اسمزی در جانداران'],
+        'دهم|از یاخته تا گیاه': ['ویژگی‌های یاخته گیاهی', 'سامانه بافتی', 'ساختار گیاهان'],
+        'دهم|جذب و انتقال مواد در گیاهان': ['تغذیه گیاهی', 'جانداران مؤثر در تغذیه گیاهی', 'انتقال مواد در گیاهان'],
+        'یازدهم|تنظیم عصبی': ['یاخته‌های بافت عصبی', 'ساختار دستگاه عصبی'],
+        'یازدهم|حواس': ['گیرنده‌های حسی', 'حواس ویژه', 'گیرنده‌های حسی جانوران'],
+        'یازدهم|دستگاه حرکتی': ['استخوان‌ها و اسکلت', 'ماهیچه و حرکت'],
+        'یازدهم|تنظیم شیمیایی': ['ارتباط شیمیایی', 'غدد درون‌ریز'],
+        'یازدهم|ایمنی': ['نخستین خط دفاعی: ورود ممنوع', 'دومین خط دفاعی: واکنش‌های عمومی اما سریع', 'سومین خط دفاعی: دفاع اختصاصی'],
+        'یازدهم|تقسیم یاخته': ['فام‌تن (کروموزوم)', 'رشتمان (میتوز)', 'کاستمان (میوز) و تولیدمثل جنسی'],
+        'یازدهم|تولیدمثل': ['دستگاه تولیدمثل در مرد', 'دستگاه تولیدمثل در زن', 'رشد و نمو جنین', 'تولیدمثل در جانوران'],
+        'یازدهم|تولیدمثل نهان‌دانگان': ['تولیدمثل غیرجنسی', 'تولیدمثل جنسی', 'از یاخته تخم تا گیاه'],
+        'یازدهم|پاسخ گیاهان به محرک‌ها': ['تنظیم‌کننده‌های رشد در گیاهان', 'پاسخ به محیط'],
+        'دوازدهم|مولکول‌های اطلاعاتی': ['نوکلئیک‌اسیدها', 'همانندسازی دنا', 'پروتئین‌ها'],
+        'دوازدهم|جریان اطلاعات در یاخته': ['رونویسی', 'به سوی پروتئین', 'تنظیم بیان ژن'],
+        'دوازدهم|انتقال اطلاعات در نسل‌ها': ['مفاهیم پایه', 'انواع صفات'],
+        'دوازدهم|تغییر در اطلاعات وراثتی': ['تغییر در ماده وراثتی جانداران', 'تغییر در جمعیت‌ها', 'تغییر در گونه‌ها'],
+        'دوازدهم|از ماده به انرژی': ['تأمین انرژی', 'اکسایش بیشتر', 'زیستن مستقل از اکسیژن'],
+        'دوازدهم|از انرژی به ماده': ['فتوسنتز: تبدیل انرژی نور به انرژی شیمیایی', 'واکنش‌های فتوسنتزی', 'فتوسنتز در شرایط دشوار'],
+        'دوازدهم|فناوری‌های نوین زیستی': ['زیست‌فناوری و مهندسی ژنتیک', 'فناوری مهندسی پروتئین و بافت', 'کاربردهای زیست‌فناوری'],
+        'دوازدهم|رفتارهای جانوران': ['اساس رفتار', 'انتخاب طبیعی و رفتار', 'ارتباط و زندگی گروهی']
+      },
+      'شیمی': {
+        'دهم|کیهان زادگاه عنصرها': ['پیدایش عنصرها', 'ایزوتوپ‌ها و رادیوایزوتوپ‌ها', 'جرم اتمی و مول', 'نور و کشف ساختار اتم', 'آرایش الکترونی و جدول دوره‌ای', 'پیوند یونی و کووالانسی، ساختار لوویس'],
+        'دهم|ردپای گازها در زندگی': ['هواکره و اجزای آن', 'اکسیژن و اکسیدهای فلزی و نافلزی', 'واکنش شیمیایی و موازنه', 'رفتار گازها', 'استوکیومتری واکنش‌ها', 'گازهای گلخانه‌ای و شیمی سبز'],
+        'دهم|آب، آهنگ زندگی': ['آب‌کره و یون‌ها', 'محلول و غلظت (درصد جرمی، ppm، مولار)', 'انحلال‌پذیری', 'قطبیت و نیروهای بین‌مولکولی', 'انحلال گازها و رسانایی محلول‌ها'],
+        'یازدهم|قدر هدایای زمینی را بدانیم': ['روندهای جدول دوره‌ای', 'فلزات واسطه و استخراج فلزات', 'درصد خلوص و بازده واکنش', 'نفت و آلکان‌ها', 'آلکن‌ها و آلکین‌ها', 'هیدروکربن‌های حلقوی و آروماتیک'],
+        'یازدهم|در پی غذای سالم': ['دما، گرما و ظرفیت گرمایی', 'آنتالپی واکنش', 'آنتالپی پیوند و قانون هس', 'گروه‌های عاملی', 'سرعت واکنش و عوامل مؤثر بر آن'],
+        'یازدهم|پوشاک، نیازی پایان‌ناپذیر': ['پلیمرها و پلیمری شدن افزایشی', 'الکل‌ها، اسیدهای آلی و استرها', 'پلی‌استرها و پلی‌آمیدها', 'پلیمرهای ماندگار و زیست‌تخریب‌پذیر'],
+        'دوازدهم|مولکول‌ها در خدمت تندرستی': ['صابون و پاک‌کننده‌ها', 'اسیدها و بازها', 'ثابت یونش و قدرت اسیدی', 'pH و محاسبات آن', 'خنثی شدن و ضداسیدها'],
+        'دوازدهم|آسایش و رفاه در سایه شیمی': ['اکسایش و کاهش', 'سلول گالوانی و پتانسیل الکترود', 'باتری‌ها و سلول سوختی', 'برقکافت و آبکاری', 'خوردگی و حفاظت فلزات'],
+        'دوازدهم|شیمی، جلوه‌ای از هنر، زیبایی و ماندگاری': ['جامدها و شبکه بلوری', 'جامدهای کووالانسی', 'جامدهای یونی', 'جامدهای فلزی', 'جامدهای مولکولی'],
+        'دوازدهم|شیمی، راهی به سوی آینده‌ای روشن‌تر': ['کاتالیزگرها', 'تعادل شیمیایی و ثابت تعادل', 'اصل لوشاتلیه', 'فرایند هابر و تولید صنعتی']
+      },
+      'فیزیک': {
+        'دهم|فیزیک و اندازه‌گیری': ['فیزیک: دانش بنیادی', 'مدل‌سازی در فیزیک', 'اندازه‌گیری و کمیت‌های فیزیکی', 'اندازه‌گیری و دستگاه بین‌المللی یکاها', 'اندازه‌گیری و دقت وسیله‌های اندازه‌گیری', 'چگالی'],
+        'دهم|ویژگی‌های فیزیکی مواد': ['حالت‌های ماده', 'نیروهای بین مولکولی', 'فشار در شاره‌ها', 'شناوری', 'شاره در حرکت و اصل برنولی'],
+        'دهم|کار، انرژی و توان': ['انرژی جنبشی', 'کار انجام‌شده توسط نیروی ثابت', 'کار و انرژی جنبشی', 'کار و انرژی پتانسیل', 'پایستگی انرژی مکانیکی', 'کار و انرژی درونی', 'توان'],
+        'دهم|دما و گرما': ['دما و دماسنجی', 'انبساط گرمایی', 'گرما', 'تغییر حالت‌های ماده', 'روش‌های انتقال گرما'],
+        'یازدهم|الکتریسیته ساکن': ['بار الکتریکی', 'پایستگی و کوانتیده بودن بار', 'قانون کولن', 'میدان الکتریکی', 'میدان الکتریکی حاصل از ذره باردار', 'خطوط میدان الکتریکی', 'انرژی پتانسیل الکتریکی', 'پتانسیل الکتریکی', 'توزیع بار در اجسام رسانا', 'خازن', 'انرژی خازن'],
+        'یازدهم|جریان الکتریکی و مدارهای جریان مستقیم': ['جریان الکتریکی', 'مقاومت الکتریکی و قانون اهم', 'عوامل مؤثر بر مقاومت', 'نیروی محرکه الکتریکی و مدارها', 'توان در مدارهای الکتریکی', 'ترکیب مقاومت‌ها'],
+        'یازدهم|مغناطیس و القای الکترومغناطیسی': ['مغناطیس و قطب‌های مغناطیسی', 'میدان مغناطیسی', 'نیروی مغناطیسی وارد بر ذره باردار متحرک', 'نیروی مغناطیسی وارد بر سیم حامل جریان', 'میدان مغناطیسی حاصل از جریان', 'ویژگی‌های مغناطیسی مواد', 'پدیده القای الکترومغناطیسی', 'قانون فاراده', 'قانون لنز', 'القاگرها', 'جریان متناوب'],
+        'دوازدهم|حرکت بر خط راست': ['شناخت حرکت', 'حرکت با سرعت ثابت', 'حرکت با شتاب ثابت'],
+        'دوازدهم|دینامیک': ['قوانین حرکت نیوتون', 'معرفی برخی از نیروهای خاص', 'تکانه و قانون دوم نیوتون', 'نیروی گرانشی'],
+        'دوازدهم|نوسان و امواج': ['نوسان دوره‌ای', 'حرکت هماهنگ ساده', 'انرژی در حرکت هماهنگ ساده', 'تشدید', 'موج و انواع آن', 'مشخصه‌های موج', 'بازتاب موج', 'شکست موج'],
+        'دوازدهم|آشنایی با فیزیک اتمی و هسته‌ای': ['اثر فوتوالکتریک و فوتون', 'طیف خطی', 'مدل اتم رادرفورد ـ بور', 'لیزر', 'ساختار هسته', 'پرتوزایی طبیعی و نیمه‌عمر']
+      },
+      'ریاضی': {
+        'دهم|مجموعه، الگو و دنباله': ['مجموعه‌های متناهی و نامتناهی', 'متمم یک مجموعه', 'الگو و دنباله', 'دنباله‌های حسابی و هندسی'],
+        'دهم|مثلثات': ['نسبت‌های مثلثاتی', 'دایره مثلثاتی', 'روابط بین نسبت‌های مثلثاتی'],
+        'دهم|توان‌های گویا و عبارت‌های جبری': ['ریشه n‌ام', 'توان‌های گویا', 'عبارت‌های جبری'],
+        'دهم|معادله‌ها و نامعادله‌ها': ['معادله درجه دوم و روش‌های حل آن', 'سهمی', 'تعیین علامت و نامعادله'],
+        'دهم|تابع': ['مفهوم تابع و بازنمایی‌های آن', 'دامنه و برد توابع', 'انواع تابع'],
+        'دهم|شمارش، بدون شمردن': ['شمارش', 'جایگشت', 'ترکیب'],
+        'دهم|آمار و احتمال': ['احتمال یا اندازه‌گیری شانس', 'مقدمه‌ای بر علم آمار، جامعه و نمونه', 'متغیر و انواع آن'],
+        'یازدهم|هندسه تحلیلی و جبر': ['هندسه تحلیلی', 'معادله درجه دوم و تابع درجه ۲', 'معادلات گویا و رادیکالی'],
+        'یازدهم|هندسه': ['ترسیم‌های هندسی', 'استدلال', 'قضیه تالس، تشابه و کاربردها'],
+        'یازدهم|تابع': ['آشنایی با برخی انواع توابع', 'وارون تابع و تابع یک‌به‌یک', 'اعمال روی توابع'],
+        'یازدهم|مثلثات': ['رادیان', 'نسبت‌های مثلثاتی برخی زوایا', 'توابع مثلثاتی'],
+        'یازدهم|توابع نمایی و لگاریتمی': ['تابع نمایی و ویژگی‌های آن', 'تابع لگاریتمی و ویژگی‌های آن', 'ویژگی‌های لگاریتم و حل معادلات'],
+        'یازدهم|حد و پیوستگی': ['فرایندهای حدی', 'محاسبه حد توابع', 'پیوستگی'],
+        'یازدهم|آمار و احتمال': ['احتمال شرطی و پیشامدهای مستقل', 'آمار توصیفی'],
+        'دوازدهم|تابع': ['تبدیل نمودار توابع', 'تابع درجه سوم، توابع یکنوا و بخش‌پذیری'],
+        'دوازدهم|مثلثات': ['تناوب و تانژانت', 'معادلات مثلثاتی'],
+        'دوازدهم|حد بی‌نهایت و حد در بی‌نهایت': ['حدهای نامتناهی', 'حد در بی‌نهایت'],
+        'دوازدهم|مشتق': ['آشنایی با مفهوم مشتق', 'مشتق‌پذیری و پیوستگی', 'آهنگ متوسط تغییر'],
+        'دوازدهم|کاربرد مشتق': ['اکسترمم‌ها و توابع صعودی و نزولی', 'جهت تقعر و نقطه عطف', 'رسم نمودار تابع'],
+        'دوازدهم|هندسه': ['تفکر تجسمی', 'آشنایی با مقاطع مخروطی'],
+        'دوازدهم|احتمال': ['قانون احتمال کل', 'احتمال در آزمایش‌های تکراری']
+      }
+    };
+    const defaultSubs = (s, g, t) => ((SYL_SUBS[s] || {})[g + '|' + t] || []).map(x => ({ id: uid(), t: x, f: false, p: false }));
+    const daysBetween = (a, b) => Math.round((dateFromKey(b) - dateFromKey(a)) / 86400000);
+    const dlId = s => 'dl-' + SUBJECTS.indexOf(s);
+    const uid = () => 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+
+    function buildSubject(name) {
+      const out = [];
+      Object.entries(SYL_DEFAULT[name] || {}).forEach(([g, list]) =>
+        list.forEach(t => out.push({ id: uid(), g, t, read: null, test: false, stage: 0, due: null, subs: defaultSubs(name, g, t) })));
+      return out;
+    }
+
+    function loadSyllabus() {
+      try { syllabus = JSON.parse(localStorage.getItem(SYL_KEY)); } catch (e) { syllabus = null; }
+      if (!syllabus || !syllabus.subjects) syllabus = { subjects: {}, log: [] };
+      syllabus.log = syllabus.log || [];
+      Object.keys(SYL_META).forEach(n => { if (!syllabus.subjects[n]) syllabus.subjects[n] = buildSubject(n); });
+      // نسخه ۲: اضافه شدن زیرمباحث + اصلاح عنوان‌ها طبق چاپ ۱۴۰۵
+      if (!syllabus.v2) {
+        const chem = (syllabus.subjects['شیمی'] || []).find(c => c.g === 'دهم' && c.t === 'کیهان زادگاه الفبای هستی');
+        if (chem) chem.t = 'کیهان زادگاه عنصرها';
+        const ph = syllabus.subjects['فیزیک'] || [];
+        const iK = ph.findIndex(c => c.g === 'دهم' && c.t === 'کار، انرژی و توان'), iV = ph.findIndex(c => c.g === 'دهم' && c.t === 'ویژگی‌های فیزیکی مواد');
+        if (iK >= 0 && iV >= 0 && iK < iV) [ph[iK], ph[iV]] = [ph[iV], ph[iK]];
+        Object.entries(syllabus.subjects).forEach(([n, list]) => list.forEach(c => {
+          if (!c.subs) c.subs = defaultSubs(n, c.g, c.t).map(x => ({ ...x, f: !!c.read, p: !!c.test }));
+        }));
+        syllabus.v2 = true;
+      }
+      try { settings = JSON.parse(localStorage.getItem(SET_KEY)) || {}; } catch (e) { settings = {}; }
+      if (!settings || typeof settings !== 'object') settings = {};
+      if (!Array.isArray(settings.exam) || settings.exam.length !== 3 || settings.exam.some(x => !Number.isFinite(+x))) settings.exam = DEFAULT_EXAM;
+      saveSyllabus();
+    }
+    function saveSyllabus() { localStorage.setItem(SYL_KEY, JSON.stringify(syllabus)); }
+
+    // پیشنهاد مبحث در جدول روزانه
+    function renderDatalists() {
+      document.getElementById('subjectDatalists').innerHTML = SUBJECTS.map(s => {
+        const list = syllabus.subjects[s] || [];
+        return `<datalist id="${dlId(s)}">${list.filter(c => !c.x).map(c => `<option value="${esc(c.t)} (${c.g})"></option>` + (c.subs || []).filter(x => !x.x).map(x => `<option value="${esc(c.t)} › ${esc(x.t)} (${c.g})"></option>`).join('')).join('')}</datalist>`;
+      }).join('');
+    }
+
+    // ---------- شمارش معکوس ----------
+    function jalaliToGregorian(jy, jm, jd) {
+      let gy, gm, gd, days;
+      jy += 1595;
+      days = -355668 + (365 * jy) + (~~(jy / 33) * 8) + ~~(((jy % 33) + 3) / 4) + jd + ((jm < 7) ? (jm - 1) * 31 : ((jm - 7) * 30) + 186);
+      gy = 400 * ~~(days / 146097); days %= 146097;
+      if (days > 36524) { gy += 100 * ~~(--days / 36524); days %= 36524; if (days >= 365) days++; }
+      gy += 4 * ~~(days / 1461); days %= 1461;
+      if (days > 365) { gy += ~~((days - 1) / 365); days = (days - 1) % 365; }
+      gd = days + 1;
+      const sal = [0, 31, ((gy % 4 === 0 && gy % 100 !== 0) || (gy % 400 === 0)) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      for (gm = 0; gm < 13 && gd > sal[gm]; gm++) gd -= sal[gm];
+      return new Date(gy, gm - 1, gd, 12);
+    }
+
+    function renderStatusBar() {
+      // شمارش معکوس
+      const [y, m, d] = settings.exam;
+      const examDt = jalaliToGregorian(y, m, d);
+      const left = daysBetween(todayKey(), keyFromDate(examDt));
+      document.getElementById('cdDays').innerText = left > 0 ? `${fa(left)} روز` : (left === 0 ? 'امروز!' : 'گذشت');
+      document.getElementById('cdDate').innerText = shamsi(examDt, { day: 'numeric', month: 'long', year: 'numeric' }) +
+        (left > 0 ? ` · ${fa(Math.floor(left / 7))} هفته` : '');
+
+      // پیشرفت کل
+      const p = overallProgress();
+      document.getElementById('sbProgress').innerText = `${fa(p)}٪`;
+      document.getElementById('sbProgressBar').style.width = p + '%';
+
+      // مرور امروز
+      const due = dueReviews();
+      const overdue = due.filter(x => x.c.due < todayKey()).length;
+      document.getElementById('sbReview').innerText = due.length ? `${fa(due.length)} مبحث` : '✓';
+      document.getElementById('sbReview').className = 'text-lg md:text-3xl font-black leading-tight mt-0.5';
+      document.getElementById('sbReviewCard').classList.toggle('ring-4', !!overdue); document.getElementById('sbReviewCard').classList.toggle('ring-rose-400/60', !!overdue);
+      document.getElementById('sbReviewSub').innerText = overdue ? `${fa(overdue)} مورد عقب‌افتاده` : (due.length ? 'برای امروز' : 'مروری نمانده');
+      const badge = document.getElementById('tabReviewBadge');
+      badge.classList.toggle('hidden', !due.length);
+      badge.innerText = fa(due.length);
+    }
+
+    function openExamModal() {
+      const [y, m, d] = settings.exam;
+      document.getElementById('exY').value = y; document.getElementById('exM').value = m; document.getElementById('exD').value = d;
+      document.getElementById('examModal').classList.remove('hidden');
+    }
+    function closeExamModal() { document.getElementById('examModal').classList.add('hidden'); }
+    function saveExamDate() {
+      const y = int(document.getElementById('exY').value), m = int(document.getElementById('exM').value), d = int(document.getElementById('exD').value);
+      if (y < 1400 || y > 1420 || m < 1 || m > 12 || d < 1 || d > 31) { alert('تاریخ معتبر نیست. مثال: ۱۴۰۶ / ۴ / ۱۱'); return; }
+      settings.exam = [y, m, d];
+      localStorage.setItem(SET_KEY, JSON.stringify(settings));
+      closeExamModal(); renderStatusBar();
+    }
+
+    // ---------- پیشرفت ----------
+    // امتیاز هر فصل از ۲ (آموزش + تمرین)؛ اگر زیرمبحث دارد، از زیرمباحث هم حساب می‌شود
+    function chPts(c) {
+      const base = (c.read ? 1 : 0) + (c.test ? 1 : 0);
+      const act = (c.subs || []).filter(x => !x.x);
+      if (!act.length) return base;
+      return Math.max(base, act.reduce((a, x) => a + (x.f ? 1 : 0) + (x.p ? 1 : 0), 0) / act.length);
+    }
+    function subjectProgress(name) {
+      const list = (syllabus.subjects[name] || []).filter(c => !c.x);
+      if (!list.length) return { p: 0, read: 0, n: 0, mastered: 0 };
+      let pts = 0, read = 0, mastered = 0;
+      list.forEach(c => { pts += chPts(c); if (c.read) read++; if (c.read && c.stage >= GAPS().length) mastered++; });
+      return { p: Math.round(pts / (list.length * 2) * 100), read, n: list.length, mastered };
+    }
+    function overallProgress() {
+      let pts = 0, total = 0;
+      Object.values(syllabus.subjects).forEach(list => list.forEach(c => { if (c.x) return; total += 2; pts += chPts(c); }));
+      return total ? Math.round(pts / total * 100) : 0;
+    }
+
+    // زمان مطالعه ثبت‌شده برای هر مبحث (از جدول روزانه همه هفته‌ها)
+    function chapterMinutes(subject) {
+      const list = syllabus.subjects[subject] || [];
+      const res = {}, titleCount = {};
+      list.forEach(c => titleCount[c.t] = (titleCount[c.t] || 0) + 1);
+      Object.values(allWeeks).forEach(w => DAYS.forEach(d => (w[d]?.sessions || []).forEach(s => {
+        if (s.subject !== subject || !s.topic) return;
+        let best = null; // طولانی‌ترین عنوان منطبق؛ عنوان‌های تکراری باید پایه هم داشته باشند
+        list.forEach(c => {
+          if (!s.topic.includes(c.t)) return;
+          if (titleCount[c.t] > 1 && !s.topic.includes(c.g)) return;
+          if (!best || c.t.length > best.t.length) best = c;
+        });
+        if (best) res[best.id] = (res[best.id] || 0) + sessionMinutes(s);
+      })));
+      return res;
+    }
+
+    // ---------- مرور ----------
+    function dueReviews() {
+      const t = todayKey(), out = [];
+      Object.entries(syllabus.subjects).forEach(([s, list]) => list.forEach(c => { if (!c.x && !c.nr && c.read && c.due && c.due <= t) out.push({ s, c }); }));
+      const order = syllabus.revOrder || [];
+      const rank = x => { const i = order.indexOf(x.c.id); return i < 0 ? 1e6 : i; };
+      return out.sort((a, b) => rank(a) - rank(b) || a.c.due.localeCompare(b.c.due));
+    }
+    function findCh(id) {
+      for (const [s, list] of Object.entries(syllabus.subjects)) { const c = list.find(x => x.id === id); if (c) return { s, c }; }
+      return null;
+    }
+    function afterSylChange() { saveSyllabus(); renderSyllabus(); renderStatusBar(); }
+
+    // type: done = مرور انجام شد | skip = خط زدن این نوبت مرور
+    function handleReview(id, type) {
+      const f = findCh(id); if (!f) return;
+      const { s, c } = f;
+      syllabus.log.push({ d: todayKey(), s, t: c.t, id, type, prevStage: c.stage, prevDue: c.due });
+      c.stage++;
+      c.due = c.stage >= GAPS().length ? null : addDaysKey(todayKey(), GAPS()[c.stage]);
+      afterSylChange();
+      if (type === 'done') showToast(c.due ? `✓ مرور بعدی: ${relDay(c.due)}` : '🏆 این مبحث تثبیت شد!');
+    }
+    function undoReview(id) {
+      const i = syllabus.log.map(l => l.id === id && l.d === todayKey()).lastIndexOf(true);
+      if (i < 0) return;
+      const l = syllabus.log[i], f = findCh(id);
+      if (f) { f.c.stage = l.prevStage; f.c.due = l.prevDue; if (l.type === 'del') f.c.nr = false; }
+      syllabus.log.splice(i, 1);
+      afterSylChange();
+    }
+    function setDue(id, days) {
+      const f = findCh(id); if (!f || days === '') return;
+      f.c.due = addDaysKey(todayKey(), +days);
+      afterSylChange();
+    }
+    function moveReview(id, dir) {
+      const ids = dueReviews().map(x => x.c.id);
+      const i = ids.indexOf(id), j = i + dir;
+      if (i < 0 || j < 0 || j >= ids.length) return;
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+      syllabus.revOrder = ids;
+      afterSylChange();
+    }
+
+    // حذف یک مبحث از برنامه مرور (فصل «خوانده» می‌ماند، فقط دیگر مرورش نمی‌آید)
+    function removeReview(id) {
+      const f = findCh(id); if (!f) return;
+      const { s, c } = f;
+      syllabus.log.push({ d: todayKey(), s, t: c.t, id, type: 'del', prevStage: c.stage, prevDue: c.due });
+      c.nr = true;
+      syllabus.revOrder = (syllabus.revOrder || []).filter(x => x !== id);
+      afterSylChange();
+      showToast('🗑 از مرورها حذف شد');
+    }
+    function restoreReview(id) {
+      const f = findCh(id); if (!f) return;
+      const c = f.c;
+      c.nr = false;
+      syllabus.log = syllabus.log.filter(l => !(l.id === id && l.type === 'del' && l.d === todayKey()));
+      if (c.read && c.stage < GAPS().length && (!c.due || c.due < todayKey())) c.due = todayKey();
+      afterSylChange();
+      showToast('↶ به مرورها برگشت');
+    }
+    function removeAllReviews(subject) {
+      const list = Object.entries(syllabus.subjects).filter(([n]) => !subject || n === subject).flatMap(([, l]) => l).filter(c => c.read && !c.x && !c.nr && c.due);
+      if (!list.length) return;
+      if (!confirm(`${fa(list.length)} مرور${subject ? ` «${subject}»` : ''} حذف شود؟ (از بخش «حذف‌شده‌ها» قابل برگشت است)`)) return;
+      list.forEach(c => c.nr = true);
+      afterSylChange();
+    }
+    let revPanel = false;
+    function toggleRevPanel() { revPanel = !revPanel; renderSyllabus(); }
+
+    function toggleRead(id) {
+      const f = findCh(id); if (!f) return;
+      const c = f.c;
+      if (c.read) {
+        if (c.stage > 0 && !confirm('با برداشتن تیک، برنامه مرور این مبحث هم از اول شروع می‌شود. ادامه می‌دهی؟')) { renderSyllabus(); return; }
+        c.read = null; c.stage = 0; c.due = null; c.nr = false;
+        (c.subs || []).forEach(s => s.f = false);
+      } else {
+        c.read = todayKey(); c.stage = 0; c.due = addDaysKey(todayKey(), GAPS()[0]); c.nr = false;
+        (c.subs || []).forEach(s => { if (!s.x) s.f = true; });
+      }
+      afterSylChange();
+    }
+    function toggleTest(id) {
+      const f = findCh(id); if (!f) return;
+      f.c.test = !f.c.test;
+      (f.c.subs || []).forEach(s => { if (!s.x) s.p = f.c.test; });
+      afterSylChange();
+    }
+
+    // ---------- زیرمباحث ----------
+    const openCh = new Set();
+    function toggleOpen(id) { openCh.has(id) ? openCh.delete(id) : openCh.add(id); renderSyllabus(); }
+    const findSub = (cid, sid) => { const f = findCh(cid); return f ? { c: f.c, s: (f.c.subs || []).find(x => x.id === sid) } : {}; };
+    function syncFromSubs(c) {
+      const act = (c.subs || []).filter(x => !x.x);
+      if (!act.length) return;
+      if (act.every(x => x.f) && !c.read) {
+        c.read = todayKey(); c.stage = 0; c.due = addDaysKey(todayKey(), GAPS()[0]); c.nr = false;
+        showToast('🎬 آموزش این فصل کامل شد؛ مرورهایش شروع شد');
+      }
+      c.test = act.every(x => x.p);
+    }
+    function toggleSub(cid, sid, key) {
+      const { c, s } = findSub(cid, sid); if (!s) return;
+      s[key] = !s[key];
+      syncFromSubs(c);
+      afterSylChange();
+    }
+    function renameSub(cid, sid, val) {
+      const { s } = findSub(cid, sid); val = val.trim();
+      if (!s || !val) return;
+      s.t = val; renderDatalists(); saveSyllabus();
+    }
+    function moveSub(cid, sid, dir) {
+      const { c } = findSub(cid, sid); if (!c) return;
+      const i = c.subs.findIndex(x => x.id === sid), j = i + dir;
+      if (j < 0 || j >= c.subs.length) return;
+      [c.subs[i], c.subs[j]] = [c.subs[j], c.subs[i]];
+      afterSylChange();
+    }
+    function toggleSubX(cid, sid) { const { c, s } = findSub(cid, sid); if (!s) return; s.x = !s.x; syncFromSubs(c); afterSylChange(); }
+    function deleteSub(cid, sid) {
+      const { c, s } = findSub(cid, sid); if (!s || !confirm(`زیرمبحث «${s.t}» حذف شود؟`)) return;
+      c.subs = c.subs.filter(x => x.id !== sid);
+      renderDatalists(); afterSylChange();
+    }
+    function addSub(cid) {
+      const inp = document.getElementById('ns-' + cid), f = findCh(cid);
+      const t = inp?.value.trim(); if (!t || !f) return;
+      (f.c.subs = f.c.subs || []).push({ id: uid(), t, f: false, p: false });
+      openCh.add(cid); renderDatalists(); afterSylChange();
+      setTimeout(() => document.getElementById('ns-' + cid)?.focus(), 0);
+    }
+
+    // فاصله‌های مرور
+    function toggleGapsEdit() {
+      const box = document.getElementById('gapsEdit');
+      box.classList.toggle('hidden');
+      document.getElementById('gapsInput').value = GAPS().join('، ');
+    }
+    function saveGaps() {
+      const arr = toEnDigits(document.getElementById('gapsInput').value).split(/[^0-9]+/).map(Number).filter(n => n > 0);
+      if (!arr.length) { alert('حداقل یک عدد وارد کن؛ مثلاً: ۱، ۳، ۷، ۱۴، ۳۰'); return; }
+      settings.gaps = arr;
+      localStorage.setItem(SET_KEY, JSON.stringify(settings));
+      document.getElementById('gapsEdit').classList.add('hidden');
+      afterSylChange();
+    }
+
+    // ---------- ویرایش فهرست ----------
+    function toggleEditMode() { editMode = !editMode; renderSyllabus(); }
+    function addChapter() {
+      const t = document.getElementById('newChTitle').value.trim();
+      if (!t) return;
+      syllabus.subjects[selectedSubject].push({ id: uid(), g: document.getElementById('newChGrade').value, t, read: null, test: false, stage: 0, due: null });
+      document.getElementById('newChTitle').value = '';
+      renderDatalists(); afterSylChange();
+    }
+    function deleteChapter(id) {
+      const list = syllabus.subjects[selectedSubject];
+      const c = list.find(x => x.id === id);
+      if (!c || !confirm(`مبحث «${c.t}» حذف شود؟`)) return;
+      syllabus.subjects[selectedSubject] = list.filter(x => x.id !== id);
+      renderDatalists(); afterSylChange();
+    }
+    function renameChapter(id, val) {
+      const f = findCh(id); val = val.trim();
+      if (!f || !val || val === f.c.t) return;
+      f.c.t = val; renderDatalists(); saveSyllabus(); renderStatusBar();
+    }
+    function toggleExclude(id) { const f = findCh(id); if (!f) return; f.c.x = !f.c.x; afterSylChange(); }
+    function resetReview(id) {
+      const f = findCh(id); if (!f || !f.c.read) return;
+      f.c.stage = 0; f.c.nr = false; f.c.due = addDaysKey(todayKey(), GAPS()[0]); afterSylChange();
+    }
+    function moveChapter(id, dir) {
+      const list = syllabus.subjects[selectedSubject];
+      const i = list.findIndex(x => x.id === id); if (i < 0) return;
+      let j = i + dir;
+      while (j >= 0 && j < list.length && list[j].g !== list[i].g) j += dir; // جابه‌جایی داخل همان پایه
+      if (j < 0 || j >= list.length) return;
+      [list[i], list[j]] = [list[j], list[i]];
+      afterSylChange();
+    }
+    function resetSubject() {
+      if (!confirm(`فهرست «${selectedSubject}» به حالت پیش‌فرض برگردد؟ تیک‌ها و مرورهای این درس پاک می‌شوند.`)) return;
+      syllabus.subjects[selectedSubject] = buildSubject(selectedSubject);
+      renderDatalists(); afterSylChange();
+    }
+    function selectSubject(n) { selectedSubject = n; editMode = false; renderSyllabus(); }
+
+    // ---------- نمایش ----------
+    function relDay(key) {
+      const diff = daysBetween(todayKey(), key);
+      if (diff === 0) return 'امروز';
+      if (diff === 1) return 'فردا';
+      if (diff < 0) return `${fa(-diff)} روز عقب`;
+      return `${fa(diff)} روز دیگر`;
+    }
+    const DUE_OPTS = [['0', 'امروز'], ['1', 'فردا'], ['2', '۲ روز بعد'], ['3', '۳ روز بعد'], ['7', 'یک هفته بعد']];
+    const dueSelect = (id, label) => `<select onchange="setDue('${id}', this.value)" class="text-[11px] border rounded-lg px-1.5 py-1 bg-white text-slate-500 outline-none"><option value="">${label}</option>${DUE_OPTS.map(([v, l]) => `<option value="${v}">${l}</option>`).join('')}</select>`;
+
+    function renderSyllabus() {
+      const t = todayKey();
+      document.getElementById('gapsLabel').innerText = GAPS().map(n => fa(n)).join('، ');
+
+      // ---------- مرورهای امروز ----------
+      const due = dueReviews();
+      const handled = [];
+      const seen = new Set();
+      for (let i = syllabus.log.length - 1; i >= 0; i--) {
+        const l = syllabus.log[i];
+        if (l.d !== t || !l.id || seen.has(l.id)) continue;
+        seen.add(l.id); handled.push(l);
+      }
+      const upcoming = Object.values(syllabus.subjects).flat().filter(c => !c.x && !c.nr && c.read && c.due && c.due > t && c.due <= addDaysKey(t, 7)).length;
+      let rh = due.map(({ s, c }, i) => {
+        const late = c.due < t;
+        return `
+          <div class="flex flex-wrap items-center gap-2 p-2.5 rounded-xl border ${late ? 'border-rose-200 bg-rose-50/60' : 'border-slate-200 bg-slate-50/60'}">
+            <div class="flex flex-col no-print"><button onclick="moveReview('${c.id}',-1)" class="icon-btn !py-0.5" ${i === 0 ? 'disabled style="opacity:.3"' : ''}>▲</button><button onclick="moveReview('${c.id}',1)" class="icon-btn !py-0.5" ${i === due.length - 1 ? 'disabled style="opacity:.3"' : ''}>▼</button></div>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-md bg-white border text-slate-600">${s}</span>
+            <span class="text-xs md:text-sm font-semibold text-slate-800 flex-1 min-w-[140px]">${c.t} <span class="text-[11px] font-normal text-slate-400">· ${c.g} · مرور ${fa(c.stage + 1)} از ${fa(GAPS().length)}</span>
+              ${late ? `<span class="text-[11px] font-bold text-rose-600 mr-1">${relDay(c.due)}</span>` : ''}</span>
+            <div class="flex items-center gap-1.5 no-print">
+              ${dueSelect(c.id, 'تعویق…')}
+              <button onclick="removeReview('${c.id}')" title="حذف کامل این مبحث از مرورها" class="text-[11px] px-2 py-1 rounded-lg bg-white border text-slate-400 hover:text-rose-600 hover:border-rose-300">🗑</button>
+              <button onclick="handleReview('${c.id}','skip')" title="خط زدن این نوبت مرور" class="text-[11px] px-2 py-1 rounded-lg bg-white border text-slate-500 hover:bg-slate-100">✕ خط بزن</button>
+              <button onclick="handleReview('${c.id}','done')" class="text-[11px] px-3 py-1 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700">✓ مرور کردم</button>
+            </div>
+          </div>`;
+      }).join('');
+      rh += handled.map(l => `
+          <div class="flex flex-wrap items-center gap-2 px-2.5 py-2 rounded-xl border border-dashed border-slate-200 opacity-70">
+            <span class="text-[11px] px-2 py-0.5 rounded-md bg-slate-100 text-slate-400">${l.s}</span>
+            <span class="text-xs text-slate-400 line-through flex-1">${l.t}</span>
+            <span class="text-[10px] ${l.type === 'done' || !l.type ? 'text-emerald-600 font-bold' : l.type === 'del' ? 'text-rose-500' : 'text-slate-400'}">${l.type === 'skip' ? 'خط خورد' : l.type === 'del' ? '🗑 حذف شد' : '✓ مرور شد'}</span>
+            <button onclick="undoReview('${l.id}')" class="no-print icon-btn" title="برگرداندن">↶ برگردان</button>
+          </div>`).join('');
+      document.getElementById('reviewList').innerHTML = rh || `<div class="text-center text-xs text-slate-500 py-4">✨ برای امروز مروری نداری.${upcoming ? ` <span class="text-slate-400">(${fa(upcoming)} مرور در ۷ روز آینده)</span>` : ''}</div>`;
+
+      // ---------- همه مرورها (مدیریت / حذف) ----------
+      const allRev = [], delRev = [];
+      Object.entries(syllabus.subjects).forEach(([n, l]) => l.forEach(c => {
+        if (!c.read || c.x) return;
+        if (c.nr) delRev.push({ s: n, c }); else if (c.due) allRev.push({ s: n, c });
+      }));
+      allRev.sort((a, b) => a.c.due.localeCompare(b.c.due));
+      const revSubs = [...new Set(allRev.map(x => x.s))];
+      const rowR = ({ s, c }, del) => `
+          <div class="flex flex-wrap items-center gap-2 px-2.5 py-1.5 rounded-lg ${del ? 'opacity-60' : 'hover:bg-slate-50'}">
+            <span class="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-500">${s}</span>
+            <span class="text-xs flex-1 min-w-[120px] ${del ? 'line-through text-slate-400' : 'text-slate-700'}">${esc(c.t)} <span class="text-[10px] text-slate-400">· ${c.g}${del ? '' : ` · مرور ${fa(c.stage + 1)}/${fa(GAPS().length)}`}</span></span>
+            ${del ? `<button onclick="restoreReview('${c.id}')" class="icon-btn" title="برگرداندن به مرورها">↶ برگردان</button>`
+                  : `<span class="text-[10px] ${c.due <= t ? 'text-rose-600 font-bold' : 'text-slate-500'}">${relDay(c.due)}</span>
+                     ${dueSelect(c.id, 'موعد…')}
+                     <button onclick="removeReview('${c.id}')" class="icon-btn hover:!text-rose-600" title="حذف از مرورها">🗑</button>`}
+          </div>`;
+      document.getElementById('revPanelBtn').innerText = `📋 همه مرورها (${fa(allRev.length)})${delRev.length ? ` · ${fa(delRev.length)} حذف‌شده` : ''} ${revPanel ? '▴' : '▾'}`;
+      document.getElementById('revPanel').classList.toggle('hidden', !revPanel);
+      if (revPanel) document.getElementById('revPanel').innerHTML =
+        (allRev.length ? `<div class="flex flex-wrap items-center gap-1.5 mb-1.5 text-[10px] text-slate-500">حذف گروهی:
+            ${revSubs.map(n => `<button onclick="removeAllReviews('${n}')" class="px-1.5 py-0.5 rounded-md border hover:border-rose-300 hover:text-rose-600">${n}</button>`).join('')}
+            <button onclick="removeAllReviews()" class="px-1.5 py-0.5 rounded-md border hover:border-rose-300 hover:text-rose-600">همه</button></div>
+          <div class="divide-y divide-slate-100">${allRev.map(x => rowR(x, false)).join('')}</div>`
+          : '<div class="text-[11px] text-slate-400 py-2 text-center">مروری در برنامه نیست.</div>') +
+        (delRev.length ? `<div class="text-[11px] font-bold text-slate-400 mt-3 mb-1">🗑 حذف‌شده‌ها</div><div class="divide-y divide-slate-100">${delRev.map(x => rowR(x, true)).join('')}</div>` : '');
+
+      // ---------- کارت درس‌ها ----------
+      const card = n => {
+        const pr = subjectProgress(n), sel = n === selectedSubject, meta = SYL_META[n];
+        return `
+          <button onclick="selectSubject('${n}')" class="text-right p-2.5 rounded-xl border transition ${sel ? 'border-emerald-500 bg-emerald-50 ring-1 ring-emerald-500' : 'border-slate-200 hover:bg-slate-50'}">
+            <div class="flex justify-between items-baseline gap-1">
+              <span class="text-xs md:text-sm font-bold text-slate-800">${n}</span>
+              <span class="text-[11px] font-black ${pr.p >= 70 ? 'text-emerald-600' : pr.p >= 30 ? 'text-amber-600' : 'text-slate-400'}">${fa(pr.p)}٪</span>
+            </div>
+            <div class="h-1.5 bg-slate-100 rounded-full mt-1.5 overflow-hidden"><div class="h-full bg-emerald-500 rounded-full" style="width:${pr.p}%"></div></div>
+            <div class="text-[10px] text-slate-400 mt-1">${fa(pr.read)} از ${fa(pr.n)} فصل آموزش${meta.coef ? ` · ضریب ${fa(meta.coef)}` : ''}</div>
+          </button>`;
+      };
+      const names = Object.keys(SYL_META);
+      document.getElementById('subjCardsMain').innerHTML = names.filter(n => SYL_META[n].main).map(card).join('');
+      document.getElementById('subjCardsGen').innerHTML = names.filter(n => !SYL_META[n].main).map(card).join('');
+
+      // ---------- فهرست مباحث ----------
+      const pr = subjectProgress(selectedSubject);
+      document.getElementById('chTitle').innerHTML = `${selectedSubject} <span class="text-[11px] font-normal text-slate-400">· آموزش ${fa(pr.read)} از ${fa(pr.n)} فصل · ${fa(pr.mastered)} تثبیت‌شده</span>`;
+      document.getElementById('editModeBtn').innerText = editMode ? '✓ پایان ویرایش' : '✏️ ویرایش فهرست';
+      document.getElementById('editModeBtn').className = 'no-print text-[11px] px-2.5 py-1 rounded-lg border ' + (editMode ? 'bg-emerald-600 text-white border-emerald-600' : 'border-slate-200 text-slate-500 hover:bg-slate-50');
+      document.getElementById('chEditBar').classList.toggle('hidden', !editMode);
+      document.getElementById('editHint').classList.toggle('hidden', !editMode);
+      const grades = SYL_META[selectedSubject].main ? GRADES : ['دوازدهم'];
+      document.getElementById('newChGrade').innerHTML = grades.map(g => `<option>${g}</option>`).join('');
+
+      const list = syllabus.subjects[selectedSubject] || [];
+      const mins = chapterMinutes(selectedSubject);
+      let html = '';
+      GRADES.forEach(g => {
+        const items = list.filter(c => c.g === g);
+        if (!items.length) return;
+        html += `<div>
+          <div class="text-[11px] font-bold text-slate-400 mb-1.5">پایه ${g}</div>
+          <div class="divide-y divide-slate-100 border border-slate-100 rounded-xl overflow-hidden">`;
+        items.forEach((c, i) => {
+          let status = '';
+          if (c.x) status = '<span class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-400">خط خورده</span>';
+          else if (c.read && c.nr) status = `<button onclick="restoreReview('${c.id}')" class="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-400 hover:text-emerald-600" title="برگرداندن به مرورها">🔕 بدون مرور ↶</button>`;
+          else if (c.read) {
+            if (c.stage >= GAPS().length) status = '<span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">🏆 تثبیت شد</span>';
+            else status = `<span class="text-[10px] px-2 py-0.5 rounded-full ${c.due <= t ? 'bg-rose-100 text-rose-700 font-bold' : 'bg-slate-100 text-slate-600'}">مرور ${fa(c.stage + 1)}/${fa(GAPS().length)} · ${relDay(c.due)}</span>`;
+          }
+          const m = mins[c.id];
+          const subs = c.subs || [], act = subs.filter(x => !x.x);
+          const open = openCh.has(c.id);
+          const fDone = act.filter(x => x.f).length, pDone = act.filter(x => x.p).length;
+          const subBtn = (subs.length || editMode)
+            ? `<button onclick="toggleOpen('${c.id}')" class="no-print shrink-0 text-[10px] px-1.5 py-0.5 rounded-md border ${open ? 'bg-slate-700 text-white border-slate-700' : 'border-slate-200 text-slate-500 hover:bg-slate-50'}" title="زیرمباحث">${open ? '▾' : '▸'} ${subs.length ? `${fa(act.length)} زیرمبحث` : '+'}</button>`
+            : '';
+          const titleHtml = editMode
+            ? `<input value="${esc(c.t)}" onchange="renameChapter('${c.id}', this.value)" class="w-full border border-slate-200 rounded-lg px-2 py-1 text-xs md:text-sm outline-none focus:border-emerald-500">`
+            : `<div class="text-xs md:text-sm ${c.x ? 'line-through text-slate-400' : c.read ? 'text-slate-800 font-semibold' : 'text-slate-600'}">${c.t}</div>`;
+          const controls = editMode
+            ? `<div class="flex items-center gap-0.5 shrink-0">
+                 <button onclick="moveChapter('${c.id}',-1)" class="icon-btn" title="بالا">▲</button>
+                 <button onclick="moveChapter('${c.id}',1)" class="icon-btn" title="پایین">▼</button>
+                 ${c.read && !c.x && !c.nr && c.stage < GAPS().length ? dueSelect(c.id, 'موعد مرور…') : ''}
+                 ${c.read && !c.x ? `<button onclick="resetReview('${c.id}')" class="icon-btn" title="شروع دوباره مرورها">↺</button>` : ''}
+                 <button onclick="toggleExclude('${c.id}')" class="icon-btn" title="${c.x ? 'برگرداندن' : 'خط زدن (مثلاً حذفیات)'}">${c.x ? '↶' : '⊘'}</button>
+                 <button onclick="deleteChapter('${c.id}')" class="icon-btn hover:!text-rose-600" title="حذف">🗑</button>
+               </div>`
+            : `<label class="flex items-center gap-1 text-[11px] text-slate-600 cursor-pointer select-none ${c.x ? 'opacity-40 pointer-events-none' : ''}"><input type="checkbox" class="accent-violet-600 w-4 h-4" ${c.read ? 'checked' : ''} onchange="toggleRead('${c.id}')">آموزش</label>
+               <label class="flex items-center gap-1 text-[11px] text-slate-600 cursor-pointer select-none ${c.x ? 'opacity-40 pointer-events-none' : ''}"><input type="checkbox" class="accent-blue-600 w-4 h-4" ${c.test ? 'checked' : ''} onchange="toggleTest('${c.id}')">تمرین</label>`;
+
+          // زیرمباحث
+          let subHtml = '';
+          if (open) {
+            subHtml = `<div class="mr-7 ml-2 mb-2 border-r-2 border-slate-200 pr-2 space-y-0.5">`;
+            subs.forEach((s, j) => {
+              if (editMode) {
+                subHtml += `<div class="flex items-center gap-1.5 py-0.5">
+                  <input value="${esc(s.t)}" onchange="renameSub('${c.id}','${s.id}', this.value)" class="flex-1 min-w-0 border border-slate-200 rounded-md px-2 py-0.5 text-[11px] md:text-xs outline-none focus:border-emerald-500 ${s.x ? 'line-through text-slate-400' : ''}">
+                  <button onclick="moveSub('${c.id}','${s.id}',-1)" class="icon-btn" ${j === 0 ? 'disabled style="opacity:.3"' : ''}>▲</button>
+                  <button onclick="moveSub('${c.id}','${s.id}',1)" class="icon-btn" ${j === subs.length - 1 ? 'disabled style="opacity:.3"' : ''}>▼</button>
+                  <button onclick="toggleSubX('${c.id}','${s.id}')" class="icon-btn" title="${s.x ? 'برگرداندن' : 'خط زدن'}">${s.x ? '↶' : '⊘'}</button>
+                  <button onclick="deleteSub('${c.id}','${s.id}')" class="icon-btn hover:!text-rose-600" title="حذف">🗑</button>
+                </div>`;
+              } else {
+                subHtml += `<div class="flex items-center gap-2 py-1 ${s.x ? 'opacity-50' : ''}">
+                  <span class="text-[10px] text-slate-300 w-4 shrink-0">${fa(j + 1)}</span>
+                  <span class="flex-1 min-w-0 text-[11px] md:text-xs ${s.x ? 'line-through text-slate-400' : s.f && s.p ? 'text-emerald-700 font-semibold' : 'text-slate-600'}">${s.t}</span>
+                  <label class="flex items-center gap-1 text-[10px] text-slate-500 cursor-pointer select-none ${s.x ? 'pointer-events-none' : ''}"><input type="checkbox" class="accent-violet-600 w-3.5 h-3.5" ${s.f ? 'checked' : ''} onchange="toggleSub('${c.id}','${s.id}','f')">آموزش</label>
+                  <label class="flex items-center gap-1 text-[10px] text-slate-500 cursor-pointer select-none ${s.x ? 'pointer-events-none' : ''}"><input type="checkbox" class="accent-blue-600 w-3.5 h-3.5" ${s.p ? 'checked' : ''} onchange="toggleSub('${c.id}','${s.id}','p')">تمرین</label>
+                </div>`;
+              }
+            });
+            if (!subs.length && !editMode) subHtml += '<div class="text-[11px] text-slate-400 py-1">زیرمبحثی ندارد؛ از «ویرایش فهرست» اضافه کن.</div>';
+            if (editMode) subHtml += `<div class="flex items-center gap-1.5 pt-1">
+                <input id="ns-${c.id}" placeholder="زیرمبحث جدید..." onkeydown="if(event.key==='Enter')addSub('${c.id}')" class="flex-1 min-w-0 border border-dashed border-slate-300 rounded-md px-2 py-0.5 text-[11px] outline-none focus:border-emerald-500">
+                <button onclick="addSub('${c.id}')" class="px-2 py-0.5 text-[11px] rounded-md bg-emerald-600 text-white font-bold">+ افزودن</button>
+              </div>`;
+            subHtml += '</div>';
+          }
+
+          html += `
+            <div class="${c.x ? 'bg-slate-50' : c.read && c.test ? 'bg-emerald-50/40' : ''}">
+              <div class="flex items-center gap-2 px-3 py-2">
+                <span class="text-[10px] text-slate-300 w-4 shrink-0">${fa(i + 1)}</span>
+                <div class="flex-1 min-w-0">
+                  ${titleHtml}
+                  ${!editMode && (m || act.length) ? `<div class="text-[10px] text-slate-400">${act.length ? `آموزش ${fa(fDone)}/${fa(act.length)} · تمرین ${fa(pDone)}/${fa(act.length)}` : ''}${act.length && m ? ' · ' : ''}${m ? `⏱ ${fmtMin(m, true)}` : ''}</div>` : ''}
+                </div>
+                ${!editMode && status ? `<div class="hidden md:block">${status}</div>` : ''}
+                ${subBtn}
+                ${controls}
+              </div>
+              ${!editMode && status ? `<div class="md:hidden px-3 pb-2 -mt-1 mr-6">${status}</div>` : ''}
+              ${subHtml}
+            </div>`;
+        });
+        html += `</div></div>`;
+      });
+      document.getElementById('chList').innerHTML = html || '<div class="text-xs text-slate-400 text-center py-4">مبحثی ثبت نشده است.</div>';
+    }
+  </script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4b9c34fb93e6533',t:'MTc5MjE4MjAxMw=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

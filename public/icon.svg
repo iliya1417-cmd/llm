@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+    <linearGradient id="accent" x1="128" y1="140" x2="384" y2="372" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#d1fae5" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#bg)" />
+  <rect x="112" y="132" width="288" height="248" rx="34" fill="rgba(255,255,255,0.14)" stroke="rgba(255,255,255,0.28)" stroke-width="6" />
+  <path d="M164 316V248C164 239.163 171.163 232 180 232H196C204.837 232 212 239.163 212 248V316C212 324.837 204.837 332 196 332H180C171.163 332 164 324.837 164 316Z" fill="url(#accent)" />
+  <path d="M232 316V208C232 199.163 239.163 192 248 192H264C272.837 192 280 199.163 280 208V316C280 324.837 272.837 332 264 332H248C239.163 332 232 324.837 232 316Z" fill="url(#accent)" />
+  <path d="M300 316V172C300 163.163 307.163 156 316 156H332C340.837 156 348 163.163 348 172V316C348 324.837 340.837 332 332 332H316C307.163 332 300 324.837 300 316Z" fill="#fde68a" />
+</svg>
